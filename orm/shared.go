@@ -4,7 +4,11 @@ import (
 	"reflect"
 )
 
-func GetFields(a any) []string {
+type ICMEntity interface {
+	GetFlags() ICMEntity
+}
+
+func GetFields(a ICMEntity) []string {
 	t := reflect.TypeOf(a)
 	var fields []string = make([]string, t.NumField())
 	for i, field := range reflect.VisibleFields(t) {
@@ -17,7 +21,7 @@ func GetFields(a any) []string {
 	return fields
 }
 
-func NewModel(a any) map[string]int16 {
+func NewModel(a ICMEntity) map[string]int16 {
 	var (
 		key   string
 		model map[string]int16 = make(map[string]int16)
@@ -27,8 +31,4 @@ func NewModel(a any) map[string]int16 {
 		model[key] = 0
 	}
 	return model
-}
-
-type ICMEntity interface {
-	GetFlags() ICMEntity
 }
