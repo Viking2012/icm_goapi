@@ -11,10 +11,43 @@ type sqlTag struct {
 	Options []string
 }
 
-func MarshalToSelect(a ICMEntity, database string, indent bool) []byte {
-	var ret []byte
+func parseTag(tag string) sqlTag {
+	var (
+		field   string
+		opts    string
+		options []string
+	)
+	field, opts, _ = strings.Cut(tag, "|")
+	if opts != "" {
+		options = strings.Split(opts, ",")
+	}
+	return sqlTag{
+		Field:   field,
+		Options: options,
+	}
+}
+
+// MarshalToSelect return a byte array which represent the equivalent SELECT statement
+// which would return a representation of an internal struct (such as Vendor, Bank, etc.)
+// The flatten argument determines if the SELECT statement will either
+//   - true:  returns a simple SELECT statement, which calls for each field, nested or not,
+//     to be returned as an individual column - roughly equivalent to a `SELECT *` statement
+//   - or -
+//   - false: returns a query which takes struct fields which are, themselves,
+//     internal structs (like Flags structs) and converts them into a single return field
+//     through and OBJECT_CONSTRUCT() command
+//
+// sql fields names are taken from the `sql` tags on the struct
+// field names for the generated OBJECT are taken from the `json` tags of the struct
+func MarshalToSelect(a ICMEntity, database string, flatten bool) []byte {
 	buf := bytes.NewBufferString("SELECT\n")
-	var tags []string = extractFields(a, 1, false)
+	var tags []string
+	if flatten {
+		tags = extractFlatFields(a)
+	} else {
+		tags = extractNestedFields(a, 1, false)
+
+	}
 
 	s := strings.Join(tags, ",\n")
 
@@ -23,15 +56,38 @@ func MarshalToSelect(a ICMEntity, database string, indent bool) []byte {
 	buf.WriteString("FROM ")
 	buf.WriteString(database)
 
-	ret = buf.Bytes()
-	if !indent {
-		return bytes.ReplaceAll(bytes.ReplaceAll(ret, []byte("\n"), []byte("")), []byte("\t"), []byte(""))
-	} else {
-		return ret
-	}
+	return buf.Bytes()
 }
 
-func extractFields(a ICMEntity, indentLevel int, asObject bool) []string {
+func extractFlatFields(a ICMEntity) []string {
+	t := reflect.TypeOf(a)
+	var tags []string
+	var indentation = strings.Repeat("\t", 1)
+
+	for i := 0; i < t.NumField(); i++ {
+		field := t.Field(i)
+		if field.Type.Implements(reflect.TypeOf((*ICMEntity)(nil)).Elem()) {
+			for _, tag := range extractFlatFields(a.GetFlags()) {
+				tags = append(tags, tag)
+			}
+		} else {
+			var formattedString strings.Builder = strings.Builder{}
+			formattedString.WriteString(indentation)
+			sqlTag := parseTag(field.Tag.Get("sql"))
+			if sqlTag.Field == "" {
+				break
+			}
+
+			formattedString.WriteString(`"`)
+			formattedString.WriteString(sqlTag.Field)
+			formattedString.WriteString(`"`)
+			tags = append(tags, formattedString.String())
+		}
+	}
+	return tags
+}
+
+func extractNestedFields(a ICMEntity, indentLevel int, asObject bool) []string {
 	t := reflect.TypeOf(a)
 	var tags []string
 	var indentation = strings.Repeat("\t", indentLevel)
@@ -39,14 +95,15 @@ func extractFields(a ICMEntity, indentLevel int, asObject bool) []string {
 	for i := 0; i < t.NumField(); i++ {
 		field := t.Field(i)
 		if field.Type.Implements(reflect.TypeOf((*ICMEntity)(nil)).Elem()) {
-			//tags = append(tags, indentation + "OBJECT_CONSTRUCT(")
-			objectTags := extractFields(a.GetFlags(), indentLevel+1, true)
-			s := indentation + "OBJECT_CONSTRUCT(\n" + strings.Join(objectTags, ",\n") + ") AS " + field.Tag.Get("json")
-			tags = append(tags, strings.TrimRight(s, ",\n"))
-			//for _, f := range extractFields(a.GetFlags(),indentLevel+1, true) {
-			//	tags = append(tags, indentation + f)
-			//}
-			//tags = append(tags, indentation + ") AS " + field.Tag.Get("json"))
+			var objectFieldSring strings.Builder = strings.Builder{}
+			objectTags := extractNestedFields(a.GetFlags(), indentLevel+1, true)
+			objectFieldSring.WriteString(indentation)
+			objectFieldSring.WriteString("OBJECT_CONSTRUCT(\n")
+			objectFieldSring.WriteString(strings.Join(objectTags, ",\n"))
+			objectFieldSring.WriteString(") AS ")
+			objectFieldSring.WriteString(field.Tag.Get("json"))
+			s := strings.TrimRight(objectFieldSring.String(), ",\n")
+			tags = append(tags, s)
 		} else {
 			var formattedString strings.Builder = strings.Builder{}
 			formattedString.WriteString(indentation)
@@ -68,22 +125,5 @@ func extractFields(a ICMEntity, indentLevel int, asObject bool) []string {
 			tags = append(tags, formattedString.String())
 		}
 	}
-	//tags[len(tags) - 1] = strings.TrimRight(tags[len(tags) - 1], ",\n\t")
 	return tags
-}
-
-func parseTag(tag string) sqlTag {
-	var (
-		field   string
-		opts    string
-		options []string
-	)
-	field, opts, _ = strings.Cut(tag, "|")
-	if opts != "" {
-		options = strings.Split(opts, ",")
-	}
-	return sqlTag{
-		Field:   field,
-		Options: options,
-	}
 }
