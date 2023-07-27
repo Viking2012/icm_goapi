@@ -28,3 +28,7 @@ func NewModel(a any) map[string]int16 {
 	}
 	return model
 }
+
+type ICMEntity interface {
+	GetFlags() ICMEntity
+}

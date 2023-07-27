@@ -140,6 +140,10 @@ type Vendor struct {
 	TradingPartnerCompanyID               string    `json:"Company ID of trading partner" sql:"Company ID of trading partner"`
 }
 
+func (v Vendor) GetFlags() ICMEntity {
+	return v.Flags
+}
+
 type VendorFlags struct {
 	Flag2WayMatchPOsOnly                       bool `json:"Flag: 2WayMatchPOsOnly" sql:"Flag: 2WayMatchPOsOnly"`
 	FlagAllVendorInvoicesWithoutPO             bool `json:"Flag: All Vendor Invoices Without PO" sql:"Flag: All Vendor Invoices Without PO"`
@@ -172,4 +176,8 @@ type VendorFlags struct {
 	FlagVendorPOsNotApproved                   bool `json:"Flag: VendorPOsNotApproved" sql:"Flag: VendorPOsNotApproved"`
 	FlagVendorWithoutGUIDActive                bool `json:"Flag: Vendor Without GUID Active" sql:"Flag: Vendor Without GUID, Active"`
 	FlagVendorWithoutGUIDBACode                bool `json:"Flag: Vendor Without GUID BA Code" sql:"Flag: Vendor Without GUID, BA Code"`
+}
+
+func (vf VendorFlags) GetFlags() ICMEntity {
+	return vf
 }
