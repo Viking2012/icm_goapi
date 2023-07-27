@@ -38,7 +38,7 @@ func extractFields(a ICMEntity, indentLevel int, asObject bool) []string {
 
 	for i := 0; i < t.NumField(); i++ {
 		field := t.Field(i)
-		if strings.HasSuffix(field.Type.PkgPath(), "/orm") {
+		if field.Type.Implements(reflect.TypeOf((*ICMEntity)(nil)).Elem()) {
 			//tags = append(tags, indentation + "OBJECT_CONSTRUCT(")
 			objectTags := extractFields(a.GetFlags(), indentLevel+1, true)
 			s := indentation + "OBJECT_CONSTRUCT(\n" + strings.Join(objectTags, ",\n") + ") AS " + field.Tag.Get("json")
