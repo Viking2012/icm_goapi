@@ -100,8 +100,9 @@ func extractNestedFields(a ICMEntity, indentLevel int, asObject bool) []string {
 			objectFieldSring.WriteString(indentation)
 			objectFieldSring.WriteString("OBJECT_CONSTRUCT(\n")
 			objectFieldSring.WriteString(strings.Join(objectTags, ",\n"))
-			objectFieldSring.WriteString(") AS ")
+			objectFieldSring.WriteString(`) AS "`)
 			objectFieldSring.WriteString(field.Tag.Get("json"))
+			objectFieldSring.WriteString(`"`)
 			s := strings.TrimRight(objectFieldSring.String(), ",\n")
 			tags = append(tags, s)
 		} else {
