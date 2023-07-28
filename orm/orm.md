@@ -1,4 +1,4 @@
-<img src="../assets/orm_logo.png" alt="drawing" width="250"/>
+![orm logo](../assets/orm_logo.png)
 
 orm is a package which contains both Go representations of ICM Entities and a library for Marshaling these 
 representations into SQL select statements.
