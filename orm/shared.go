@@ -4,6 +4,9 @@ import (
 	"reflect"
 )
 
+// ICMEntity is an interface used by the sql encoder for any
+// ICM entity type: bank, customer, project, or vendor
+// TODO(ajo): consider changing this interface to an ICMObject
 type ICMEntity interface {
 	GetFlags() ICMEntity
 }
