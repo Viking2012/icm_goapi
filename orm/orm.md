@@ -26,6 +26,8 @@ Within the standard library, the json packages allows for the following [tag opt
 - string: signals that a field is stored as JSON inside a JSON-encoded string. It applies only to fields of string, floating point, integer, or boolean types.
 - ignore field: As a special case, if the field tag is "-", the field is always omitted. Note that a field with name "-" can still be generated using the tag "-,".
 
+
+## SQL Encoding
 Similarly, the `orm` package allows for the creation of `sql:"FieldName"` tags. It is recommended, and required in many 
 cases, that structs with `sql` tags also have `json` tags. For instance, in Marshalling a struct into a corresponding,
 nested SQL SELECT statement, the `json` tags are used as the keys in a call to `OBJECT_CONSTRUCT()`. For instance:
@@ -87,7 +89,7 @@ SELECT
     "OTHER_FIELD"
  FROM SCHEMA
 ```
-## Encoding Options
+### Encoding Options
 Similar to the `encoding/json` package of standard library, the orm encoder also allows for options in `sql` tags. These 
 options should be seperated from the SQL field name with a pipe (`|`). Multiple options can be provided, and should be 
 seperated with a comma.
