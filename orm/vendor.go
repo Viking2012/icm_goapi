@@ -16,7 +16,7 @@ type Vendor struct {
 	Name4          string    `json:"Vendor Name 4" sql:"Vendor Name 4"`
 	GUIDCommonName string    `json:"Vendor GUID Common Name" sql:"Vendor GUID Common Name"`
 	GISLegalName   string    `json:"GIS_PRLEGALNAMELOC" sql:"GIS_PRLEGALNAMELOC"`
-	CustomerID     string    `json:"Customer ID" sql:"Customer ID"`
+	CustomerCode   string    `json:"Customer ID" sql:"Customer ID"`
 	CreatedBy      string    `json:"Vendor Created By" sql:"Vendor Created By"`
 	CreationDate   time.Time `json:"Vendor Creation Date" sql:"Vendor Creation Date"`
 
@@ -35,12 +35,12 @@ type Vendor struct {
 	BlockPosting          string `json:"Central posting block" sql:"Central posting block"`
 	BlockPurchase         string `json:"Central Purchase Block" sql:"Central Purchase Block"`
 	DescriptiveBlockPurch string `json:"PurchBlockDescriptive" sql:"PurchBlockDescriptive"`
-	DeletionFlagCentral   string `json:"Vendor Deletion Flag (Central)" sql:"Vendor Deletion Flag (Central)"`
+	DeletionFlag          string `json:"Vendor Deletion Flag (Central)" sql:"Vendor Deletion Flag (Central)"`
 	BlockFunction         string `json:"Vendor Block Funciton" sql:"Vendor Block Funciton"`
 
 	// BA/Division assignments
 	PrimaryBU            string  `json:"Primary BU" sql:"Primary BU"`
-	PrimaryBuInvoicesUsd float64 `json:"Primary BU Invoices USD" sql:"Primary BU Invoices USD"`
+	PrimaryBUInvoicesUsd float64 `json:"Primary BU Invoices USD" sql:"Primary BU Invoices USD"`
 	PrimaryDivision      string  `json:"Primary Division" sql:"Primary Division"`
 	CompanyCodeID        string  `json:"Company Code ID" sql:"Company Code ID"`
 	Organization         string  `json:"Organization" sql:"Organization"`
@@ -111,7 +111,22 @@ type Vendor struct {
 	DUNSParent   string `json:"GIS_PRPARENTDUNS" sql:"GIS_PRPARENTDUNS"`
 
 	// Flags
-	Flags VendorFlags `json:"FLAGS" sql:"Flags"`
+	Flags                             VendorFlags `json:"flags" sql:"FLAGS"`
+	FlagSCPRiskRating                 string      `json:"Flag: SCP Risk Rating" sql:"Flag: SCP, Risk Rating"`
+	FlagSCPStatus                     string      `json:"Flag: SCP Status" sql:"Flag: SCP, Status"`
+	FlagSplitInvoiceTotalInUSD        float64     `json:"Flag: Split Invoice Total in USD" sql:"Flag: Split Invoice Total in USD"`
+	FlagVendorWithoutGUIDBA           string      `json:"Flag: Vendor Without GUID BA" sql:"Flag: Vendor Without GUID, BA"`
+	FlagVendorWithoutGUIDBACode       string      `json:"Flag: Vendor Without GUID BA Code" sql:"Flag: Vendor Without GUID, BA Code"`
+	FlagVendorWithoutGUIDCompanyCode  string      `json:"Flag: Vendor Without GUID Company Code" sql:"Flag: Vendor Without GUID, Company Code"`
+	FlagVendorWithoutGUIDDivision     string      `json:"Flag: Vendor Without GUID Division" sql:"Flag: Vendor Without GUID, Division"`
+	FlagVendorWithoutGUIDDivisionCode string      `json:"Flag: Vendor Without GUID Division Code" sql:"Flag: Vendor Without GUID, Division Code"`
+	FlagVendorWithoutGUIDRegion       string      `json:"Flag: Vendor Without GUID Region" sql:"Flag: Vendor Without GUID, Region"`
+	DescriptiveBenford                string      `json:"BenfordDescriptive" sql:"BenfordDescriptive"`
+	DescriptiveSharedBank             string      `json:"SharedBankDescriptive" sql:"SharedBankDescriptive"`
+	DescriptiveServiceType            string      `json:"ServiceTypeDescriptive" sql:"ServiceTypeDescriptive"`
+	DescriptiveZScore                 string      `json:"Z-Score Descriptive" sql:"Z-Score Descriptive"`
+	DomainListing                     string      `json:"Domain Listing" sql:"Domain Listing"`
+	VendorsPerBankAccount             string      `json:"VendorsPerBankAccount" sql:"VendorsPerBankAccount"`
 
 	// Flag Counts and Match Indicators
 	FlagCount                 int64 `json:"Flags Triggered" sql:"Flags Triggered"`
@@ -175,7 +190,6 @@ type VendorFlags struct {
 	FlagVendorPOSingleApproval                 bool `json:"Flag: VendorPOSingleApproval" sql:"Flag: VendorPOSingleApproval"`
 	FlagVendorPOsNotApproved                   bool `json:"Flag: VendorPOsNotApproved" sql:"Flag: VendorPOsNotApproved"`
 	FlagVendorWithoutGUIDActive                bool `json:"Flag: Vendor Without GUID Active" sql:"Flag: Vendor Without GUID, Active"`
-	FlagVendorWithoutGUIDBACode                bool `json:"Flag: Vendor Without GUID BA Code" sql:"Flag: Vendor Without GUID, BA Code"`
 }
 
 func (vf VendorFlags) GetFlags() ICMEntity {
