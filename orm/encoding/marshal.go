@@ -1,7 +1,8 @@
-package orm
+package encoding
 
 import (
 	"bytes"
+	"icm_processor/orm"
 	"reflect"
 	"strings"
 )
@@ -9,6 +10,15 @@ import (
 type sqlTag struct {
 	Field   string
 	Options []string
+}
+
+func (s *sqlTag) ContainsOption(tag string) bool {
+	for i := range s.Options {
+		if tag == s.Options[i] {
+			return true
+		}
+	}
+	return false
 }
 
 func parseTag(tag string) sqlTag {
@@ -39,7 +49,7 @@ func parseTag(tag string) sqlTag {
 //
 // sql fields names are taken from the `sql` tags on the struct
 // field names for the generated OBJECT are taken from the `json` tags of the struct
-func MarshalToSelect(a ICMEntity, database string, flatten bool) []byte {
+func MarshalToSelect(a orm.ICMEntity, database string, flatten bool) []byte {
 	buf := bytes.NewBufferString("SELECT\n")
 	var tags []string
 	if flatten {
@@ -59,14 +69,14 @@ func MarshalToSelect(a ICMEntity, database string, flatten bool) []byte {
 	return buf.Bytes()
 }
 
-func extractFlatFields(a ICMEntity) []string {
+func extractFlatFields(a orm.ICMEntity) []string {
 	t := reflect.TypeOf(a)
 	var tags []string
 	var indentation = strings.Repeat("\t", 1)
 
 	for i := 0; i < t.NumField(); i++ {
 		field := t.Field(i)
-		if field.Type.Implements(reflect.TypeOf((*ICMEntity)(nil)).Elem()) {
+		if field.Type.Implements(reflect.TypeOf((*orm.ICMEntity)(nil)).Elem()) {
 			for _, tag := range extractFlatFields(a.GetFlags()) {
 				tags = append(tags, tag)
 			}
@@ -87,21 +97,21 @@ func extractFlatFields(a ICMEntity) []string {
 	return tags
 }
 
-func extractNestedFields(a ICMEntity, indentLevel int, asObject bool) []string {
+func extractNestedFields(a orm.ICMEntity, indentLevel int, asObject bool) []string {
 	t := reflect.TypeOf(a)
 	var tags []string
 	var indentation = strings.Repeat("\t", indentLevel)
 
 	for i := 0; i < t.NumField(); i++ {
 		field := t.Field(i)
-		if field.Type.Implements(reflect.TypeOf((*ICMEntity)(nil)).Elem()) {
+		if field.Type.Implements(reflect.TypeOf((*orm.ICMEntity)(nil)).Elem()) {
 			var objectFieldSring strings.Builder = strings.Builder{}
 			objectTags := extractNestedFields(a.GetFlags(), indentLevel+1, true)
 			objectFieldSring.WriteString(indentation)
 			objectFieldSring.WriteString("OBJECT_CONSTRUCT(\n")
 			objectFieldSring.WriteString(strings.Join(objectTags, ",\n"))
 			objectFieldSring.WriteString(`) AS "`)
-			objectFieldSring.WriteString(field.Tag.Get("json"))
+			objectFieldSring.WriteString(field.Tag.Get("sql"))
 			objectFieldSring.WriteString(`"`)
 			s := strings.TrimRight(objectFieldSring.String(), ",\n")
 			tags = append(tags, s)

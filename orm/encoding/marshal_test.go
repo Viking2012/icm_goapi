@@ -1,6 +1,7 @@
-package orm
+package encoding
 
 import (
+	"icm_processor/orm"
 	"reflect"
 	"testing"
 )
@@ -12,7 +13,7 @@ type testEntity struct {
 	Field2 string    `json:"field-2" sql:"FIELD2"`
 }
 
-func (te testEntity) GetFlags() ICMEntity {
+func (te testEntity) GetFlags() orm.ICMEntity {
 	return te.Flags
 }
 
@@ -22,7 +23,7 @@ type testFlags struct {
 	Flag3 bool `json:"flag-3" sql:"Flag: Type 3"`
 }
 
-func (tf testFlags) GetFlags() ICMEntity {
+func (tf testFlags) GetFlags() orm.ICMEntity {
 	return tf
 }
 
@@ -33,7 +34,7 @@ var nestedSelect []byte = []byte(`SELECT
 	OBJECT_CONSTRUCT(
 		'flag-1',"Flag: Type 1",
 		'flag-2',"Flag: Type 2",
-		'flag-3',"Flag: Type 3") AS "flags",
+		'flag-3',"Flag: Type 3") AS "FLAGS",
 	"FIELD2"
 FROM test`)
 
@@ -48,7 +49,7 @@ FROM test`)
 
 func TestMarshalToSelect(t *testing.T) {
 	type args struct {
-		a        ICMEntity
+		a        orm.ICMEntity
 		database string
 		flatten  bool
 	}
@@ -110,7 +111,7 @@ var flatStructFields []string = []string{`	"ID"`, `	"FIELD1"`, `	"Flag: Type 1"`
 
 func Test_extractFlatFields(t *testing.T) {
 	type args struct {
-		a ICMEntity
+		a orm.ICMEntity
 	}
 	tests := []struct {
 		name string
@@ -149,7 +150,7 @@ var nestedStructFields []string = []string{
 
 func Test_extractNestedFields(t *testing.T) {
 	type args struct {
-		a           ICMEntity
+		a           orm.ICMEntity
 		indentLevel int
 		asObject    bool
 	}
