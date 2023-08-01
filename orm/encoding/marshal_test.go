@@ -7,14 +7,14 @@ import (
 )
 
 type testEntity struct {
-	ID     string    `json:"id" sql:"ID|pk"`
-	Field1 string    `json:"field-1" sql:"FIELD1"`
-	Flags  testFlags `json:"flags" sql:"FLAGS"`
-	Field2 string    `json:"field-2" sql:"field2"`
+	ID     string     `json:"id" sql:"ID|pk"`
+	Field1 string     `json:"field-1" sql:"FIELD1"`
+	Flags  *testFlags `json:"flags" sql:"FLAGS"`
+	Field2 string     `json:"field-2" sql:"field2"`
 }
 
 func (te *testEntity) GetFlags() orm.ICMEntity {
-	return &te.Flags
+	return te.Flags
 }
 
 type testFlags struct {
@@ -38,7 +38,7 @@ var nestedSelect []byte = []byte(`SELECT
 	OBJECT_CONSTRUCT(
 		'flag-1',"Flag: Type 1",
 		'flag-2',"Flag: Type 2",
-		'flag-3',"Flag: Type 3") AS "FLAGS",
+		'flag-3',"Flag: Type 3") AS FLAGS,
 	"field2"
 FROM test`)
 
@@ -65,7 +65,7 @@ func TestMarshalToSelect(t *testing.T) {
 		{
 			name: "nested select",
 			args: args{
-				a:        &testEntity{},
+				a:        &testEntity{Flags: &testFlags{}},
 				database: "test",
 				flatten:  false,
 			},
@@ -74,7 +74,7 @@ func TestMarshalToSelect(t *testing.T) {
 		{
 			name: "flat select",
 			args: args{
-				a:        &testEntity{},
+				a:        &testEntity{Flags: &testFlags{}},
 				database: "test",
 				flatten:  true,
 			},
@@ -94,7 +94,7 @@ func TestMarshalToSelect(t *testing.T) {
 var standardStruct testEntity = testEntity{
 	ID:     "123",
 	Field1: "a string",
-	Flags: testFlags{
+	Flags: &testFlags{
 		Flag1: false,
 		Flag2: true,
 		Flag3: false,
@@ -105,13 +105,13 @@ var disorderedStruct testEntity = testEntity{
 	Field2: "another string",
 	Field1: "a string",
 	ID:     "123",
-	Flags: testFlags{
+	Flags: &testFlags{
 		Flag1: false,
 		Flag2: true,
 		Flag3: false,
 	},
 }
-var flatStructFields []string = []string{`	"ID"`, `	"FIELD1"`, `	"Flag: Type 1"`, `	"Flag: Type 2"`, `	"Flag: Type 3"`, `	"FIELD2"`}
+var flatStructFields []string = []string{`	ID`, `	FIELD1`, `	"Flag: Type 1"`, `	"Flag: Type 2"`, `	"Flag: Type 3"`, `	"field2"`}
 
 func Test_extractFlatFields(t *testing.T) {
 	type args struct {
@@ -143,13 +143,13 @@ func Test_extractFlatFields(t *testing.T) {
 }
 
 var nestedStructFields []string = []string{
-	`	"ID"`,
-	`	"FIELD1"`,
+	`	ID`,
+	`	FIELD1`,
 	`	OBJECT_CONSTRUCT(
 		'flag-1',"Flag: Type 1",
 		'flag-2',"Flag: Type 2",
-		'flag-3',"Flag: Type 3") AS "flags"`,
-	`	"FIELD2"`,
+		'flag-3',"Flag: Type 3") AS FLAGS`,
+	`	"field2"`,
 }
 
 func Test_extractNestedFields(t *testing.T) {
@@ -218,6 +218,14 @@ func Test_parseTag(t *testing.T) {
 				Options: emptySlice,
 			},
 		},
+		{
+			name: "multiple options",
+			args: args{tag: `simple|pk,object,another`},
+			want: sqlTag{
+				Field:   "simple",
+				Options: []string{"pk", "object", "another"},
+			},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -240,19 +248,19 @@ func Test_needsQuoting(t *testing.T) {
 	}{
 		{
 			name:    "simple uppercase field",
-			args:    args{field: "test"},
+			args:    args{field: "TEST"},
 			want:    false,
 			wantErr: false,
 		},
 		{
 			name:    "simple lowercase field",
 			args:    args{field: "test"},
-			want:    false,
+			want:    true,
 			wantErr: false,
 		},
 		{
 			name:    "simple field beginning with underscore",
-			args:    args{field: "_test"},
+			args:    args{field: "_TEST"},
 			want:    false,
 			wantErr: false,
 		},
