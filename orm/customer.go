@@ -1,6 +1,10 @@
 package orm
 
-import "time"
+import (
+	"encoding/json"
+	"errors"
+	"time"
+)
 
 type Customer struct {
 	// Identifiers
@@ -86,12 +90,12 @@ type Customer struct {
 	FlagSCPRiskRating string        `json:"Flag: SCP, Risk Rating" sql:"Flag: SCP, Risk Rating"`
 
 	// Unassigned
-	IsActive       bool   `json:"Is Active" sql:"Is Active"`
-	IsIntercompany bool   `json:"Is Intercompany" sql:"Is Intercompany"`
-	TradingPartner string `json:"Trading Partner" sql:"Trading Partner"`
-	PrCode6        string `json:"ZCA_GIS_1_PRCODE6" sql:"ZCA_GIS_1_PRCODE6"`
-	OneTimeAccount string `json:"One-Time Account" sql:"One-Time Account"`
-	SortString     string `json:"Search Term" sql:"Search Term"`
+	IsActive       BoolFromFloat `json:"Is Active" sql:"Is Active"`
+	IsIntercompany bool          `json:"Is Intercompany" sql:"Is Intercompany"`
+	TradingPartner string        `json:"Trading Partner" sql:"Trading Partner"`
+	PrCode6        string        `json:"ZCA_GIS_1_PRCODE6" sql:"ZCA_GIS_1_PRCODE6"`
+	OneTimeAccount string        `json:"One-Time Account" sql:"One-Time Account"`
+	SortString     string        `json:"Search Term" sql:"Search Term"`
 }
 
 func (c Customer) GetFlags() ICMEntity {
@@ -118,4 +122,15 @@ type CustomerFlags struct {
 
 func (cf CustomerFlags) GetFlags() ICMEntity {
 	return cf
+}
+
+func (cf *CustomerFlags) Scan(src interface{}) error {
+	switch v := src.(type) {
+	case string:
+		return json.Unmarshal([]byte(v), cf)
+	case []byte:
+		return json.Unmarshal(v, cf)
+	default:
+		return errors.New("invalid sql return type for Vendor Flags")
+	}
 }

@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"icm_processor/orm"
 	"reflect"
+	"regexp"
 	"strings"
+	"unicode"
 )
 
 type sqlTag struct {
@@ -70,7 +72,10 @@ func MarshalToSelect(a orm.ICMEntity, database string, flatten bool) []byte {
 }
 
 func extractFlatFields(a orm.ICMEntity) []string {
-	t := reflect.TypeOf(a)
+	v := reflect.ValueOf(a)
+	i := reflect.Indirect(v)
+	//t := reflect.TypeOf(a)
+	t := i.Type()
 	var tags []string
 	var indentation = strings.Repeat("\t", 1)
 
@@ -88,9 +93,13 @@ func extractFlatFields(a orm.ICMEntity) []string {
 				break
 			}
 
-			formattedString.WriteString(`"`)
-			formattedString.WriteString(sqlTag.Field)
-			formattedString.WriteString(`"`)
+			if quote, _ := needsQuoting(sqlTag.Field); quote {
+				formattedString.WriteString(`"`)
+				formattedString.WriteString(sqlTag.Field)
+				formattedString.WriteString(`"`)
+			} else {
+				formattedString.WriteString(sqlTag.Field)
+			}
 			tags = append(tags, formattedString.String())
 		}
 	}
@@ -98,22 +107,37 @@ func extractFlatFields(a orm.ICMEntity) []string {
 }
 
 func extractNestedFields(a orm.ICMEntity, indentLevel int, asObject bool) []string {
-	t := reflect.TypeOf(a)
 	var tags []string
+	if a == nil {
+		return tags
+	}
+	v := reflect.ValueOf(a)
+	indirect := reflect.Indirect(v)
+	//t := reflect.TypeOf(a)
+	t := indirect.Type()
 	var indentation = strings.Repeat("\t", indentLevel)
+	var icmEntityType = reflect.TypeOf((*orm.ICMEntity)(nil)).Elem()
 
 	for i := 0; i < t.NumField(); i++ {
 		field := t.Field(i)
-		if field.Type.Implements(reflect.TypeOf((*orm.ICMEntity)(nil)).Elem()) {
-			var objectFieldSring strings.Builder = strings.Builder{}
-			objectTags := extractNestedFields(a.GetFlags(), indentLevel+1, true)
-			objectFieldSring.WriteString(indentation)
-			objectFieldSring.WriteString("OBJECT_CONSTRUCT(\n")
-			objectFieldSring.WriteString(strings.Join(objectTags, ",\n"))
-			objectFieldSring.WriteString(`) AS "`)
-			objectFieldSring.WriteString(field.Tag.Get("sql"))
-			objectFieldSring.WriteString(`"`)
-			s := strings.TrimRight(objectFieldSring.String(), ",\n")
+		implementsEntity := field.Type.Implements(icmEntityType)
+		if implementsEntity {
+			var objectFieldString strings.Builder = strings.Builder{}
+			newThing, _ := indirect.Field(i).Interface().(orm.ICMEntity)
+			objectTags := extractNestedFields(newThing, indentLevel+1, true)
+			objectFieldString.WriteString(indentation)
+			objectFieldString.WriteString("OBJECT_CONSTRUCT(\n")
+			objectFieldString.WriteString(strings.Join(objectTags, ",\n"))
+			objectFieldString.WriteString(`) AS `)
+			thisTag := parseTag(field.Tag.Get("sql"))
+			if quote, _ := needsQuoting(thisTag.Field); quote {
+				objectFieldString.WriteString(`"`)
+				objectFieldString.WriteString(thisTag.Field)
+				objectFieldString.WriteString(`"`)
+			} else {
+				objectFieldString.WriteString(thisTag.Field)
+			}
+			s := strings.TrimRight(objectFieldString.String(), ",\n")
 			tags = append(tags, s)
 		} else {
 			var formattedString strings.Builder = strings.Builder{}
@@ -130,11 +154,49 @@ func extractNestedFields(a orm.ICMEntity, indentLevel int, asObject bool) []stri
 				formattedString.WriteString("',")
 			}
 
-			formattedString.WriteString(`"`)
-			formattedString.WriteString(sqlTag.Field)
-			formattedString.WriteString(`"`)
+			if quote, _ := needsQuoting(sqlTag.Field); quote {
+				formattedString.WriteString(`"`)
+				formattedString.WriteString(sqlTag.Field)
+				formattedString.WriteString(`"`)
+			} else {
+				formattedString.WriteString(sqlTag.Field)
+			}
+
 			tags = append(tags, formattedString.String())
 		}
 	}
 	return tags
+}
+
+func needsQuoting(field string) (bool, error) {
+	matched, err := regexp.Match(`^[A-Za-z_].*`, []byte(field))
+	if err != nil {
+		return true, err
+	}
+	if !matched {
+		return true, nil
+	}
+
+	matched, err = regexp.Match(".*[^A-Za-z0-9_].*", []byte(field))
+	if err != nil {
+		return true, err
+	}
+	if matched {
+		return true, nil
+	}
+
+	if !isUpper(field) {
+		return true, nil
+	}
+
+	return false, nil
+}
+
+func isUpper(s string) bool {
+	for _, r := range s {
+		if !unicode.IsUpper(r) && unicode.IsLetter(r) {
+			return false
+		}
+	}
+	return true
 }

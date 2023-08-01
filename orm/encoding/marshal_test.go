@@ -10,11 +10,11 @@ type testEntity struct {
 	ID     string    `json:"id" sql:"ID|pk"`
 	Field1 string    `json:"field-1" sql:"FIELD1"`
 	Flags  testFlags `json:"flags" sql:"FLAGS"`
-	Field2 string    `json:"field-2" sql:"FIELD2"`
+	Field2 string    `json:"field-2" sql:"field2"`
 }
 
-func (te testEntity) GetFlags() orm.ICMEntity {
-	return te.Flags
+func (te *testEntity) GetFlags() orm.ICMEntity {
+	return &te.Flags
 }
 
 type testFlags struct {
@@ -23,28 +23,32 @@ type testFlags struct {
 	Flag3 bool `json:"flag-3" sql:"Flag: Type 3"`
 }
 
-func (tf testFlags) GetFlags() orm.ICMEntity {
-	return tf
+func (tf *testFlags) GetFlags() orm.ICMEntity {
+	return nil
 }
+
+//func (tf *testFlags) LoadFromRow(row *sql.Rows) error {
+//	return nil
+//}
 
 // TestMarshalToSelect results for cleaner tests
 var nestedSelect []byte = []byte(`SELECT
-	"ID",
-	"FIELD1",
+	ID,
+	FIELD1,
 	OBJECT_CONSTRUCT(
 		'flag-1',"Flag: Type 1",
 		'flag-2',"Flag: Type 2",
 		'flag-3',"Flag: Type 3") AS "FLAGS",
-	"FIELD2"
+	"field2"
 FROM test`)
 
 var flatSelect []byte = []byte(`SELECT
-	"ID",
-	"FIELD1",
+	ID,
+	FIELD1,
 	"Flag: Type 1",
 	"Flag: Type 2",
 	"Flag: Type 3",
-	"FIELD2"
+	"field2"
 FROM test`)
 
 func TestMarshalToSelect(t *testing.T) {
@@ -61,7 +65,7 @@ func TestMarshalToSelect(t *testing.T) {
 		{
 			name: "nested select",
 			args: args{
-				a:        testEntity{},
+				a:        &testEntity{},
 				database: "test",
 				flatten:  false,
 			},
@@ -70,7 +74,7 @@ func TestMarshalToSelect(t *testing.T) {
 		{
 			name: "flat select",
 			args: args{
-				a:        testEntity{},
+				a:        &testEntity{},
 				database: "test",
 				flatten:  true,
 			},
@@ -120,12 +124,12 @@ func Test_extractFlatFields(t *testing.T) {
 	}{
 		{
 			name: "standard struct",
-			args: args{a: standardStruct},
+			args: args{a: &standardStruct},
 			want: flatStructFields,
 		},
 		{
 			name: "disordered struct",
-			args: args{a: disorderedStruct},
+			args: args{a: &disorderedStruct},
 			want: flatStructFields,
 		},
 	}
@@ -161,12 +165,12 @@ func Test_extractNestedFields(t *testing.T) {
 	}{
 		{
 			name: "standard struct",
-			args: args{a: standardStruct, indentLevel: 1, asObject: false},
+			args: args{a: &standardStruct, indentLevel: 1, asObject: false},
 			want: nestedStructFields,
 		},
 		{
 			name: "disordered struct",
-			args: args{a: disorderedStruct, indentLevel: 1, asObject: false},
+			args: args{a: &disorderedStruct, indentLevel: 1, asObject: false},
 			want: nestedStructFields,
 		},
 	}
@@ -219,6 +223,61 @@ func Test_parseTag(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := parseTag(tt.args.tag); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("parseTag(), %s\n got:\n%s\nwant:\n%s", tt.name, got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_needsQuoting(t *testing.T) {
+	type args struct {
+		field string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    bool
+		wantErr bool
+	}{
+		{
+			name:    "simple uppercase field",
+			args:    args{field: "test"},
+			want:    false,
+			wantErr: false,
+		},
+		{
+			name:    "simple lowercase field",
+			args:    args{field: "test"},
+			want:    false,
+			wantErr: false,
+		},
+		{
+			name:    "simple field beginning with underscore",
+			args:    args{field: "_test"},
+			want:    false,
+			wantErr: false,
+		},
+		{
+			name:    "simple field beginning with number",
+			args:    args{field: "1test"},
+			want:    true,
+			wantErr: false,
+		},
+		{
+			name:    "field with space",
+			args:    args{field: "test space"},
+			want:    true,
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := needsQuoting(tt.args.field)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("needsQuoting() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("needsQuoting() got = %v, want %v", got, tt.want)
 			}
 		})
 	}
