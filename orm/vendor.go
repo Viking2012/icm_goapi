@@ -113,22 +113,22 @@ type Vendor struct {
 	DUNSParent   string `json:"GIS_PRPARENTDUNS" sql:"GIS_PRPARENTDUNS"`
 
 	// Flags
-	Flags                             VendorFlags `json:"flags" sql:"FLAGS"`
-	FlagSCPRiskRating                 string      `json:"Flag: SCP Risk Rating" sql:"Flag: SCP, Risk Rating"`
-	FlagSCPStatus                     string      `json:"Flag: SCP Status" sql:"Flag: SCP, Status"`
-	FlagSplitInvoiceTotalInUSD        float64     `json:"Flag: Split Invoice Total in USD" sql:"Flag: Split Invoice Total in USD"`
-	FlagVendorWithoutGUIDBA           string      `json:"Flag: Vendor Without GUID BA" sql:"Flag: Vendor Without GUID, BA"`
-	FlagVendorWithoutGUIDBACode       string      `json:"Flag: Vendor Without GUID BA Code" sql:"Flag: Vendor Without GUID, BA Code"`
-	FlagVendorWithoutGUIDCompanyCode  string      `json:"Flag: Vendor Without GUID Company Code" sql:"Flag: Vendor Without GUID, Company Code"`
-	FlagVendorWithoutGUIDDivision     string      `json:"Flag: Vendor Without GUID Division" sql:"Flag: Vendor Without GUID, Division"`
-	FlagVendorWithoutGUIDDivisionCode string      `json:"Flag: Vendor Without GUID Division Code" sql:"Flag: Vendor Without GUID, Division Code"`
-	FlagVendorWithoutGUIDRegion       string      `json:"Flag: Vendor Without GUID Region" sql:"Flag: Vendor Without GUID, Region"`
-	DescriptiveBenford                string      `json:"BenfordDescriptive" sql:"BenfordDescriptive"`
-	DescriptiveSharedBank             string      `json:"SharedBankDescriptive" sql:"SharedBankDescriptive"`
-	DescriptiveServiceType            string      `json:"ServiceTypeDescriptive" sql:"ServiceTypeDescriptive"`
-	DescriptiveZScore                 string      `json:"Z-Score Descriptive" sql:"Z-Score Descriptive"`
-	DomainListing                     string      `json:"Domain Listing" sql:"Domain Listing"`
-	VendorsPerBankAccount             string      `json:"VendorsPerBankAccount" sql:"VendorsPerBankAccount"`
+	Flags                             *VendorFlags `json:"flags" sql:"FLAGS"`
+	FlagSCPRiskRating                 string       `json:"Flag: SCP Risk Rating" sql:"Flag: SCP, Risk Rating"`
+	FlagSCPStatus                     string       `json:"Flag: SCP Status" sql:"Flag: SCP, Status"`
+	FlagSplitInvoiceTotalInUSD        float64      `json:"Flag: Split Invoice Total in USD" sql:"Flag: Split Invoice Total in USD"`
+	FlagVendorWithoutGUIDBA           string       `json:"Flag: Vendor Without GUID BA" sql:"Flag: Vendor Without GUID, BA"`
+	FlagVendorWithoutGUIDBACode       string       `json:"Flag: Vendor Without GUID BA Code" sql:"Flag: Vendor Without GUID, BA Code"`
+	FlagVendorWithoutGUIDCompanyCode  string       `json:"Flag: Vendor Without GUID Company Code" sql:"Flag: Vendor Without GUID, Company Code"`
+	FlagVendorWithoutGUIDDivision     string       `json:"Flag: Vendor Without GUID Division" sql:"Flag: Vendor Without GUID, Division"`
+	FlagVendorWithoutGUIDDivisionCode string       `json:"Flag: Vendor Without GUID Division Code" sql:"Flag: Vendor Without GUID, Division Code"`
+	FlagVendorWithoutGUIDRegion       string       `json:"Flag: Vendor Without GUID Region" sql:"Flag: Vendor Without GUID, Region"`
+	DescriptiveBenford                string       `json:"BenfordDescriptive" sql:"BenfordDescriptive"`
+	DescriptiveSharedBank             string       `json:"SharedBankDescriptive" sql:"SharedBankDescriptive"`
+	DescriptiveServiceType            string       `json:"ServiceTypeDescriptive" sql:"ServiceTypeDescriptive"`
+	DescriptiveZScore                 string       `json:"Z-Score Descriptive" sql:"Z-Score Descriptive"`
+	DomainListing                     string       `json:"Domain Listing" sql:"Domain Listing"`
+	VendorsPerBankAccount             string       `json:"VendorsPerBankAccount" sql:"VendorsPerBankAccount"`
 
 	// Flag Counts and Match Indicators
 	FlagCount                 int64         `json:"Flags Triggered" sql:"Flags Triggered"`
@@ -157,8 +157,138 @@ type Vendor struct {
 	TradingPartnerCompanyID               string        `json:"Company ID of trading partner" sql:"Company ID of trading partner"`
 }
 
-func (v Vendor) GetFlags() ICMEntity {
+func (v *Vendor) GetFlags() ICMEntity {
 	return v.Flags
+}
+
+func VendorFromRow(row *sql.Rows) (ICMEntity, error) {
+	var v Vendor
+	err := row.Scan(
+		&v.ID,
+		&v.Database,
+		&v.Code,
+		&v.Key,
+		&v.Name1,
+		&v.Name2,
+		&v.Name3,
+		&v.Name4,
+		&v.GUIDCommonName,
+		&v.GISLegalName,
+		&v.CustomerCode,
+		&v.CreatedBy,
+		&v.CreationDate,
+		&v.AmountUSDLastMonth,
+		&v.CountLastMonth,
+		&v.AmountUSDCurrentYear,
+		&v.CountCurrentYear,
+		&v.AmountUSDCurrentYear1,
+		&v.CountCurrentYear1,
+		&v.AmountUSDCurrentYear2,
+		&v.CountCurrentYear2,
+		&v.BlockPayment,
+		&v.BlockPosting,
+		&v.BlockPurchase,
+		&v.DescriptiveBlockPurch,
+		&v.DeletionFlag,
+		&v.BlockFunction,
+		&v.PrimaryBU,
+		&v.PrimaryBUInvoicesUsd,
+		&v.PrimaryDivision,
+		&v.CompanyCodeID,
+		&v.Organization,
+		&v.Plant,
+		&v.AccountGroup,
+		&v.AccountGroupCode,
+		&v.GUIDIndustryUsageLevel,
+		&v.GISIndustry,
+		&v.IndustryCode,
+		&v.GUIDChannelCode,
+		&v.GUIDChannelName,
+		&v.AlternatePayeeAllowed,
+		&v.AlternatePayeeCode,
+		&v.AlternatePayeeName,
+		&v.AlternatePayee,
+		&v.AlternatePayeeAccountGroup,
+		&v.AlternatePayeeAccountGroupCode,
+		&v.AlternatePayeeCountry,
+		&v.AlternatePayeeCountryCode,
+		&v.AlternatePayeeGUID,
+		&v.AlternatePayeeGUIDOld,
+		&v.POBox,
+		&v.PostalCodePOBox,
+		&v.StreetAddress,
+		&v.City,
+		&v.District,
+		&v.Region,
+		&v.Country,
+		&v.CountryCode,
+		&v.PostalCode,
+		&v.GUIDCity,
+		&v.GUIDCountry,
+		&v.FaxNumber,
+		&v.Teletex,
+		&v.Telebox,
+		&v.Telex,
+		&v.Telephone1,
+		&v.Telephone2,
+		&v.Url,
+		&v.VAT,
+		&v.TaxCode1,
+		&v.TaxCode2,
+		&v.TaxCode3,
+		&v.TaxCode4,
+		&v.TaxJurisdiction,
+		&v.TaxNumberType,
+		&v.TaxSplit,
+		&v.TaxBase,
+		&v.TransportationZone,
+		&v.GUID,
+		&v.GUIDOld,
+		&v.GUIDDomestic,
+		&v.GUIDParent,
+		&v.DUNS,
+		&v.DUNSDomestic,
+		&v.DUNSParent,
+		&v.Flags,
+		&v.FlagSCPRiskRating,
+		&v.FlagSCPStatus,
+		&v.FlagSplitInvoiceTotalInUSD,
+		&v.FlagVendorWithoutGUIDBA,
+		&v.FlagVendorWithoutGUIDBACode,
+		&v.FlagVendorWithoutGUIDCompanyCode,
+		&v.FlagVendorWithoutGUIDDivision,
+		&v.FlagVendorWithoutGUIDDivisionCode,
+		&v.FlagVendorWithoutGUIDRegion,
+		&v.DescriptiveBenford,
+		&v.DescriptiveSharedBank,
+		&v.DescriptiveServiceType,
+		&v.DescriptiveZScore,
+		&v.DomainListing,
+		&v.VendorsPerBankAccount,
+		&v.FlagCount,
+		&v.MatchDataDeviation,
+		&v.FlagCountDataDeviation,
+		&v.MatchDormantVendor,
+		&v.FlagCountDormant,
+		&v.MatchFictitiousVendor,
+		&v.FlagCountFictitiousVendor,
+		&v.MatchUniversal,
+		&v.FlagCountUniversal,
+		&v.CreditInformationNumber,
+		&v.IsIntercompany,
+		&v.Language,
+		&v.LastVendorExternalReview,
+		&v.ListMissingFields,
+		&v.OneTimeVendorIndicator,
+		&v.PrCode6,
+		&v.RoundAmountRatio,
+		&v.ShipmentStatisticsGroup,
+		&v.SortString,
+		&v.TotalRoundAmountTransactions,
+		&v.TotalTransactionsTestedForRoundAmount,
+		&v.TradingPartnerCompanyID,
+	)
+	return &v, err
 }
 
 type VendorFlags struct {
@@ -194,7 +324,7 @@ type VendorFlags struct {
 	FlagVendorWithoutGUIDActive                BoolFromFloat `json:"Flag: Vendor Without GUID Active" sql:"Flag: Vendor Without GUID, Active"`
 }
 
-func (vf VendorFlags) GetFlags() ICMEntity {
+func (vf *VendorFlags) GetFlags() ICMEntity {
 	return vf
 }
 

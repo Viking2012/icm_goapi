@@ -1,41 +1,45 @@
 package orm
 
-import "time"
+import (
+	"database/sql"
+	"encoding/json"
+	"errors"
+)
 
 type BillingDocument struct {
 	// Document Details
-	Database             string    `json:"Database" sql:"Database"`
-	DocumentNumber       string    `json:"Billing Document" sql:"Billing Document"`
-	BillingTypeCode      string    `json:"Billing Type Code" sql:"Billing Type Code"`
-	BillingType          string    `json:"Billing Type" sql:"Billing Type"`
-	BillingCategoryCode  string    `json:"Billing Category Code" sql:"Billing Category Code"`
-	BillingCategory      string    `json:"Billing Category" sql:"Billing Category"`
-	DocumentCategoryCode string    `json:"Document Category Code" sql:"Document Category Code"`
-	DocumentCategory     string    `json:"Document Category" sql:"Document Category"`
-	CreationDateDocument time.Time `json:"Created On" sql:"Created On"`
-	CreatedBy            string    `json:"Created By" sql:"Created By"`
-	Currency             string    `json:"Currency" sql:"Currency"`
-	LocalCurrency        string    `json:"Local Currency" sql:"Local Currency"`
-	NetValueDocument     float64   `json:"Net Value" sql:"Net Value"`
+	Database             string       `json:"Database" sql:"Database"`
+	DocumentNumber       string       `json:"Billing Document" sql:"Billing Document"`
+	BillingTypeCode      string       `json:"Billing Type Code" sql:"Billing Type Code"`
+	BillingType          string       `json:"Billing Type" sql:"Billing Type"`
+	BillingCategoryCode  string       `json:"Billing Category Code" sql:"Billing Category Code"`
+	BillingCategory      string       `json:"Billing Category" sql:"Billing Category"`
+	DocumentCategoryCode string       `json:"Document Category Code" sql:"Document Category Code"`
+	DocumentCategory     string       `json:"Document Category" sql:"Document Category"`
+	CreationDateDocument sql.NullTime `json:"Created On" sql:"Created On"`
+	CreatedBy            string       `json:"Created By" sql:"Created By"`
+	Currency             string       `json:"Currency" sql:"Currency"`
+	LocalCurrency        string       `json:"Local Currency" sql:"Local Currency"`
+	NetValueDocument     float64      `json:"Net Value" sql:"Net Value"`
 
 	// Item Details
-	Item                  string    `json:"Item" sql:"Item"`
-	MaterialGroupCode     string    `json:"Material Group Code" sql:"Material Group Code"`
-	MaterialGroup         string    `json:"Material Group" sql:"Material Group"`
-	MaterialCode          string    `json:"Material Code" sql:"Material Code"`
-	Material              string    `json:"Material" sql:"Material"`
-	Description           string    `json:"Description" sql:"Description"`
-	CreationDateItem      time.Time `json:"VBRP_ERDAT" sql:"VBRP_ERDAT"`
-	BaseUOMBilledQuantity float64   `json:"Billed Quantity in Base UOM" sql:"Billed Quantity in Base UOM"`
-	TaxAmount             float64   `json:"Tax Amount" sql:"Tax Amount"`
-	TaxAmountInLC         float64   `json:"Tax Amount in LC" sql:"Tax Amount in LC"`
-	TaxAmountInUSD        float64   `json:"Tax Amount in USD" sql:"Tax Amount in USD"`
-	Cost                  float64   `json:"Cost" sql:"Cost"`
-	CostInLC              float64   `json:"Cost in LC" sql:"Cost in LC"`
-	CostInUSD             float64   `json:"Cost in USD" sql:"Cost in USD"`
-	NetValueItem          float64   `json:"VBRP_NETWR_Orig" sql:"VBRP_NETWR_Orig"`
-	NetValueItemLc        float64   `json:"Net Value in LC" sql:"Net Value in LC"`
-	NetValueItemUSD       float64   `json:"Net Value in USD" sql:"Net Value in USD"`
+	Item                  string       `json:"Item" sql:"Item"`
+	MaterialGroupCode     string       `json:"Material Group Code" sql:"Material Group Code"`
+	MaterialGroup         string       `json:"Material Group" sql:"Material Group"`
+	MaterialCode          string       `json:"Material Code" sql:"Material Code"`
+	Material              string       `json:"Material" sql:"Material"`
+	Description           string       `json:"Description" sql:"Description"`
+	CreationDateItem      sql.NullTime `json:"VBRP_ERDAT" sql:"VBRP_ERDAT"`
+	BaseUOMBilledQuantity float64      `json:"Billed Quantity in Base UOM" sql:"Billed Quantity in Base UOM"`
+	TaxAmount             float64      `json:"Tax Amount" sql:"Tax Amount"`
+	TaxAmountInLC         float64      `json:"Tax Amount in LC" sql:"Tax Amount in LC"`
+	TaxAmountInUSD        float64      `json:"Tax Amount in USD" sql:"Tax Amount in USD"`
+	Cost                  float64      `json:"Cost" sql:"Cost"`
+	CostInLC              float64      `json:"Cost in LC" sql:"Cost in LC"`
+	CostInUSD             float64      `json:"Cost in USD" sql:"Cost in USD"`
+	NetValueItem          float64      `json:"VBRP_NETWR_Orig" sql:"VBRP_NETWR_Orig"`
+	NetValueItemLc        float64      `json:"Net Value in LC" sql:"Net Value in LC"`
+	NetValueItemUSD       float64      `json:"Net Value in USD" sql:"Net Value in USD"`
 
 	// References
 	DocumentNumberReference string `json:"Reference Document" sql:"Reference Document"`
@@ -50,28 +54,28 @@ type BillingDocument struct {
 	ItemSales             string `json:"Sales Item" sql:"Sales Item"`
 	ItemCategorySales     string `json:"VBRP_PSTYV" sql:"VBRP_PSTYV"`
 
-	IsReturn                   string `json:"Is Return" sql:"Is Return"`
-	IsCancellation             bool   `json:"IsCancel" sql:"IsCancel"`
-	IsCancelled                string `json:"Cancelled" sql:"Cancelled"`
-	DocumentNumberCancellation string `json:"Cancellation Document" sql:"Cancellation Document"`
-	DocumentNumberReverse      string `json:"Reverse Document Number" sql:"Reverse Document Number"`
+	IsReturn                   string        `json:"Is Return" sql:"Is Return"`
+	IsCancellation             BoolFromFloat `json:"IsCancel" sql:"IsCancel"`
+	IsCancelled                string        `json:"Cancelled" sql:"Cancelled"`
+	DocumentNumberCancellation string        `json:"Cancellation Document" sql:"Cancellation Document"`
+	DocumentNumberReverse      string        `json:"Reverse Document Number" sql:"Reverse Document Number"`
 
-	IsPostedToFI                   bool      `json:"Posted to FI" sql:"Posted to FI"`
-	DocumentStatusAccounting       string    `json:"VBRK_RFBSK" sql:"VBRK_RFBSK"`
-	DocumentNumberAccounting       string    `json:"Accounting Doc Number" sql:"Accounting Doc Number"`
-	FiscalYearAccountingDocument   string    `json:"Accounting Doc Fiscal Year" sql:"Accounting Doc Fiscal Year"`
-	TypeCodeAccountingDocument     string    `json:"Accounting Document Type Code" sql:"Accounting Document Type Code"`
-	DocumentTypeAccountingDocument string    `json:"Accounting Document Type" sql:"Accounting Document Type"`
-	PostingDateAccountingDocument  time.Time `json:"Posting Date" sql:"Posting Date"`
+	IsPostedToFI                   BoolFromFloat `json:"Posted to FI" sql:"Posted to FI"`
+	DocumentStatusAccounting       string        `json:"VBRK_RFBSK" sql:"VBRK_RFBSK"`
+	DocumentNumberAccounting       string        `json:"Accounting Doc Number" sql:"Accounting Doc Number"`
+	FiscalYearAccountingDocument   string        `json:"Accounting Doc Fiscal Year" sql:"Accounting Doc Fiscal Year"`
+	TypeCodeAccountingDocument     string        `json:"Accounting Document Type Code" sql:"Accounting Document Type Code"`
+	DocumentTypeAccountingDocument string        `json:"Accounting Document Type" sql:"Accounting Document Type"`
+	PostingDateAccountingDocument  sql.NullTime  `json:"Posting Date" sql:"Posting Date"`
 
 	ProjectDefinition string `json:"VBRP_PS_PSP_PNR" sql:"VBRP_PS_PSP_PNR"`
 	ProjectNumber     string `json:"Project Number" sql:"Project Number"`
 	ProjectName       string `json:"PROJ_Concat" sql:"PROJ_Concat"`
 
 	// Document Dates
-	BillingDate          time.Time `json:"Billing Date" sql:"Billing Date"`
-	PricingDate          time.Time `json:"Pricing Date" sql:"Pricing Date"`
-	ServicesRenderedDate time.Time `json:"Services Rendered On" sql:"Services Rendered On"`
+	BillingDate          sql.NullTime `json:"Billing Date" sql:"Billing Date"`
+	PricingDate          sql.NullTime `json:"Pricing Date" sql:"Pricing Date"`
+	ServicesRenderedDate sql.NullTime `json:"Services Rendered On" sql:"Services Rendered On"`
 
 	// BA Assignments
 	Division                string `json:"VBRK_SPART" sql:"VBRK_SPART"`
@@ -126,7 +130,7 @@ type BillingDocument struct {
 	BillingPlanItem   string `json:"Billing Plan Item" sql:"Billing Plan Item"`
 
 	// Flags
-	Flags BillingDocumentFlags `json:"flags" sql:"FLAGS"`
+	Flags *BillingDocumentFlags `json:"flags" sql:"FLAGS"`
 
 	// Unassigned fields
 	ExchangeRatePosting  float64 `json:"VBRK_KURRF" sql:"VBRK_KURRF"`
@@ -146,13 +150,142 @@ type BillingDocument struct {
 	SalesDeal            string  `json:"VBRP_KNUMA_AG" sql:"VBRP_KNUMA_AG"`
 	OrderReasonCode      string  `json:"Order Reason Code" sql:"Order Reason Code"`
 	TaxCode              string  `json:"VBRP_MWSKZ" sql:"VBRP_MWSKZ"`
-	ValueSign            int32   `json:"valueSign" sql:"valueSign"`
+	ValueSign            int64   `json:"valueSign" sql:"valueSign"`
 	ExchangeRateToLc     float64 `json:"Exchange Rate to LC" sql:"Exchange Rate to LC"`
 	ExchangeRateToUsd    float64 `json:"Exchange Rate to USD" sql:"Exchange Rate to USD"`
 }
 
-func (bd BillingDocument) GetFlags() ICMEntity {
+func (bd *BillingDocument) GetFlags() ICMEntity {
 	return bd.Flags
+}
+
+func BillingDocFromRow(rows *sql.Rows) (ICMEntity, error) {
+	var bd BillingDocument
+	err := rows.Scan(
+		&bd.Database,
+		&bd.DocumentNumber,
+		&bd.BillingTypeCode,
+		&bd.BillingType,
+		&bd.BillingCategoryCode,
+		&bd.BillingCategory,
+		&bd.DocumentCategoryCode,
+		&bd.DocumentCategory,
+		&bd.CreationDateDocument,
+		&bd.CreatedBy,
+		&bd.Currency,
+		&bd.LocalCurrency,
+		&bd.NetValueDocument,
+		&bd.Item,
+		&bd.MaterialGroupCode,
+		&bd.MaterialGroup,
+		&bd.MaterialCode,
+		&bd.Material,
+		&bd.Description,
+		&bd.CreationDateItem,
+		&bd.BaseUOMBilledQuantity,
+		&bd.TaxAmount,
+		&bd.TaxAmountInLC,
+		&bd.TaxAmountInUSD,
+		&bd.Cost,
+		&bd.CostInLC,
+		&bd.CostInUSD,
+		&bd.NetValueItem,
+		&bd.NetValueItemLc,
+		&bd.NetValueItemUSD,
+		&bd.DocumentNumberReference,
+		&bd.ItemReference,
+		&bd.DocumentTypeReference,
+		&bd.DocumentNumberOriginating,
+		&bd.ItemOriginating,
+		&bd.DocumentNumberSales,
+		&bd.DocumentCategorySales,
+		&bd.ItemSales,
+		&bd.ItemCategorySales,
+		&bd.IsReturn,
+		&bd.IsCancellation,
+		&bd.IsCancelled,
+		&bd.DocumentNumberCancellation,
+		&bd.DocumentNumberReverse,
+		&bd.IsPostedToFI,
+		&bd.DocumentStatusAccounting,
+		&bd.DocumentNumberAccounting,
+		&bd.FiscalYearAccountingDocument,
+		&bd.TypeCodeAccountingDocument,
+		&bd.DocumentTypeAccountingDocument,
+		&bd.PostingDateAccountingDocument,
+		&bd.ProjectDefinition,
+		&bd.ProjectNumber,
+		&bd.ProjectName,
+		&bd.BillingDate,
+		&bd.PricingDate,
+		&bd.ServicesRenderedDate,
+		&bd.Division,
+		&bd.BusinessAreaCode,
+		&bd.BusinessArea,
+		&bd.SalesOrganizationCode,
+		&bd.SalesOrganization,
+		&bd.DistributionChannelCode,
+		&bd.DistributionChannel,
+		&bd.DocumentCondition,
+		&bd.ProfitCenterCode,
+		&bd.ProfitCenter,
+		&bd.ProfitCenterOrg1Code,
+		&bd.ProfitCenterOrg1,
+		&bd.ProfitCenterOrg2Code,
+		&bd.ProfitCenterOrg2,
+		&bd.ProfitCenterOrg3Code,
+		&bd.ProfitCenterOrg3,
+		&bd.ProfitCenterCountry,
+		&bd.ProfitCenterLegalCode,
+		&bd.DivisionCode,
+		&bd.CompanyCodeId,
+		&bd.CompanyCode,
+		&bd.PlantCode,
+		&bd.CostCenterCode,
+		&bd.CostCenter,
+		&bd.SalesGroup,
+		&bd.SalesOfficeCode,
+		&bd.ControllingAreaCode,
+		&bd.ShippingPointCode,
+		&bd.SoldToID,
+		&bd.SoldToNumber,
+		&bd.SoldTo,
+		&bd.CountryKeySoldTo,
+		&bd.AccountGroupCodeSoldTo,
+		&bd.AccountGroupSoldTo,
+		&bd.PayerNumber,
+		&bd.Payer,
+		&bd.CountryKeyPayer,
+		&bd.AccountGroupPayer,
+		&bd.AccountGroupCodePayer,
+		&bd.Incoterms1,
+		&bd.Incoterms2,
+		&bd.PaymentTermsCode,
+		&bd.BillingPlanNumber,
+		&bd.BillingPlanItem,
+		&bd.Flags,
+		&bd.ExchangeRatePosting,
+		&bd.TradingPartner,
+		&bd.BilledQuantity,
+		&bd.UOMSales,
+		&bd.UOMSalesNumerator,
+		&bd.UOMSalesDenominator,
+		&bd.UOMBased,
+		&bd.ScaleQuantity,
+		&bd.ExchangeRatePricing,
+		&bd.ProductHierarchyCode,
+		&bd.StatisticalValue,
+		&bd.MaterialPricingGroup,
+		&bd.DocumentNumberOrder,
+		&bd.DestinationCountry,
+		&bd.SalesDeal,
+		&bd.OrderReasonCode,
+		&bd.TaxCode,
+		&bd.ValueSign,
+		&bd.ExchangeRateToLc,
+		&bd.ExchangeRateToUsd,
+	)
+	return &bd, err
 }
 
 type BillingDocumentFlags struct {
@@ -162,6 +295,16 @@ type BillingDocumentFlags struct {
 	FlagPossibleChannelStuffing               bool `json:"FLAG: Possible Channel Stuffing" sql:"FLAG: Possible Channel Stuffing"`
 }
 
-func (bdf BillingDocumentFlags) GetFlags() ICMEntity {
+func (bdf *BillingDocumentFlags) GetFlags() ICMEntity {
 	return bdf
+}
+func (bdf *BillingDocumentFlags) Scan(src interface{}) error {
+	switch v := src.(type) {
+	case string:
+		return json.Unmarshal([]byte(v), bdf)
+	case []byte:
+		return json.Unmarshal(v, bdf)
+	default:
+		return errors.New("invalid sql return type for Vendor Flags")
+	}
 }

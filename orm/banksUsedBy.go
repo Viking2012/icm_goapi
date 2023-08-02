@@ -1,6 +1,10 @@
 package orm
 
-import "time"
+import (
+	"database/sql"
+	"encoding/json"
+	"errors"
+)
 
 type BankUsedBy struct {
 	// Identifiers
@@ -16,8 +20,8 @@ type BankUsedBy struct {
 	Vendor            string `json:"Vendor" sql:"Vendor"`
 
 	// Creation Date
-	CreatedBy    string    `json:"Bank Record Created By" sql:"Bank Record Created By"`
-	CreationDate time.Time `json:"Bank Record Creation Date" sql:"Bank Record Creation Date"`
+	CreatedBy    string       `json:"Bank Record Created By" sql:"Bank Record Created By"`
+	CreationDate sql.NullTime `json:"Bank Record Creation Date" sql:"Bank Record Creation Date"`
 
 	// Transactional summary
 	AmountUSDLastMonth    float64 `json:"Amount USD Last Month" sql:"Amount USD Last Month"`
@@ -49,19 +53,62 @@ type BankUsedBy struct {
 	GUIDParent string `json:"GIS_PRPARENTGUID" sql:"GIS_PRPARENTGUID"`
 
 	// Flags
-	Flags                      BanksUsedByFlags `json:"flags" sql:"FLAGS"`
-	ListMissingFields          string           `json:"List Missing Fields" sql:"List Missing Fields"`
-	DescriptivePurchBlock      string           `json:"PurchBlockDescriptive" sql:"PurchBlockDescriptive"`
-	DomainListing              string           `json:"Domain Listing" sql:"Domain Listing"`
-	FlagSplitInvoiceTotalInUsd float64          `json:"Flag: Split Invoice Total in USD" sql:"Flag: Split Invoice Total in USD"`
-	RoundAmountRatio           float64          `json:"Round Amount Ratio" sql:"Round Amount Ratio"`
+	Flags                      *BanksUsedByFlags `json:"flags" sql:"FLAGS"`
+	ListMissingFields          string            `json:"List Missing Fields" sql:"List Missing Fields"`
+	DescriptivePurchBlock      string            `json:"PurchBlockDescriptive" sql:"PurchBlockDescriptive"`
+	DomainListing              string            `json:"Domain Listing" sql:"Domain Listing"`
+	FlagSplitInvoiceTotalInUsd float64           `json:"Flag: Split Invoice Total in USD" sql:"Flag: Split Invoice Total in USD"`
+	RoundAmountRatio           float64           `json:"Round Amount Ratio" sql:"Round Amount Ratio"`
 
 	// Unassigned fields
 	IsIntercompany bool `json:"Is Intercompany" sql:"Is Intercompany"`
 }
 
-func (bub BankUsedBy) GetFlags() ICMEntity {
+func (bub *BankUsedBy) GetFlags() ICMEntity {
 	return bub.Flags
+}
+
+func BankUsedByFromRow(rows *sql.Rows) (ICMEntity, error) {
+	var bub BankUsedBy
+	err := rows.Scan(
+		&bub.BankID,
+		&bub.Database,
+		&bub.BankAccount,
+		&bub.BankCode,
+		&bub.BankCountryKey,
+		&bub.BankA,
+		&bub.BankAccountConcat,
+		&bub.Swift,
+		&bub.VendorCode,
+		&bub.Vendor,
+		&bub.CreatedBy,
+		&bub.CreationDate,
+		&bub.AmountUSDLastMonth,
+		&bub.AmountUSDCurrentYear,
+		&bub.AmountUSDCurrentYear1,
+		&bub.AmountUSDCurrentYear2,
+		&bub.BlockPosting,
+		&bub.BlockPurchase,
+		&bub.DeletionFlag,
+		&bub.AccountGroup,
+		&bub.AlternatePayeeCountry,
+		&bub.AlternatePayee,
+		&bub.AlternatePayeeAccountGroup,
+		&bub.StreetAddress,
+		&bub.Country,
+		&bub.City,
+		&bub.GUID,
+		&bub.GUIDOld,
+		&bub.GUIDParent,
+		&bub.Flags,
+		&bub.ListMissingFields,
+		&bub.DescriptivePurchBlock,
+		&bub.DomainListing,
+		&bub.FlagSplitInvoiceTotalInUsd,
+		&bub.RoundAmountRatio,
+		&bub.IsIntercompany,
+	)
+	return &bub, err
 }
 
 type BanksUsedByFlags struct {
@@ -92,6 +139,16 @@ type BanksUsedByFlags struct {
 	FlagHadActivityLastMonth                   bool `json:"Flag: Had Activity Last Month" sql:"Flag: Had Activity Last Month"`
 }
 
-func (bubf BanksUsedByFlags) GetFlags() ICMEntity {
+func (bubf *BanksUsedByFlags) GetFlags() ICMEntity {
 	return bubf
+}
+func (bubf *BanksUsedByFlags) Scan(src interface{}) error {
+	switch v := src.(type) {
+	case string:
+		return json.Unmarshal([]byte(v), bubf)
+	case []byte:
+		return json.Unmarshal(v, bubf)
+	default:
+		return errors.New("invalid sql return type for Vendor Flags")
+	}
 }

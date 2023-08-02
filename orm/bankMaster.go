@@ -1,6 +1,10 @@
 package orm
 
-import "time"
+import (
+	"database/sql"
+	"encoding/json"
+	"errors"
+)
 
 type BankMaster struct {
 	// Identifiers
@@ -17,16 +21,16 @@ type BankMaster struct {
 	NewBankS          string `json:"New_BANKS" sql:"New_BANKS"`
 
 	// Creation date
-	CreatedBy    string    `json:"Bank Record Created By" sql:"Bank Record Created By"`
-	CreationDate time.Time `json:"Bank Record Creation Date" sql:"Bank Record Creation Date"`
+	CreatedBy    string       `json:"Bank Record Created By" sql:"Bank Record Created By"`
+	CreationDate sql.NullTime `json:"Bank Record Creation Date" sql:"Bank Record Creation Date"`
 
 	// Flags
-	Flags                            BankMasterFlags `json:"flags" sql:"FLAGS"`
-	FlagVendorClusterCount           int32           `json:"Flag: Vendor Cluster Count" sql:"Flag: Vendor Cluster Count"`
-	FlagCountOfSecondaryBankVendors  int32           `json:"Flag: Count of Secondary Bank Vendors" sql:"Flag: Count of Secondary Bank Vendors"`
-	DescriptiveSecondaryBankVendors  string          `json:"Secondary Bank Vendors" sql:"Secondary Bank Vendors"`
-	DescriptiveAlternativePayeeNames string          `json:"Descriptive: Alternative Payee Names" sql:"Descriptive: Alternative Payee Names"`
-	DescriptiveBenford               string          `json:"BenfordDescriptive" sql:"BenfordDescriptive"`
+	Flags                            *BankMasterFlags `json:"flags" sql:"FLAGS"`
+	FlagVendorClusterCount           int32            `json:"Flag: Vendor Cluster Count" sql:"Flag: Vendor Cluster Count"`
+	FlagCountOfSecondaryBankVendors  int32            `json:"Flag: Count of Secondary Bank Vendors" sql:"Flag: Count of Secondary Bank Vendors"`
+	DescriptiveSecondaryBankVendors  string           `json:"Secondary Bank Vendors" sql:"Secondary Bank Vendors"`
+	DescriptiveAlternativePayeeNames string           `json:"Descriptive: Alternative Payee Names" sql:"Descriptive: Alternative Payee Names"`
+	DescriptiveBenford               string           `json:"BenfordDescriptive" sql:"BenfordDescriptive"`
 
 	// Transactional summary
 	AmountTotalValueUSD float64 `json:"Sum_REGUP_WRBTR_USD" sql:"Sum_REGUP_WRBTR_USD"`
@@ -39,8 +43,40 @@ type BankMaster struct {
 	VendorAccountGroup  string `json:"Vendor Account Group" sql:"Vendor Account Group"`
 }
 
-func (bm BankMaster) GetFlags() ICMEntity {
+func (bm *BankMaster) GetFlags() ICMEntity {
 	return bm.Flags
+}
+
+func BankMasterFromRow(rows *sql.Rows) (ICMEntity, error) {
+	var bm BankMaster
+	err := rows.Scan(
+		&bm.ID,
+		&bm.Database,
+		&bm.BankAccount,
+		&bm.BankCode,
+		&bm.BankCountryKey,
+		&bm.BankA,
+		&bm.BankAccountConcat,
+		&bm.Swift,
+		&bm.NewBankN,
+		&bm.NewBankL,
+		&bm.NewBankS,
+		&bm.CreatedBy,
+		&bm.CreationDate,
+		&bm.Flags,
+		&bm.FlagVendorClusterCount,
+		&bm.FlagCountOfSecondaryBankVendors,
+		&bm.DescriptiveSecondaryBankVendors,
+		&bm.DescriptiveAlternativePayeeNames,
+		&bm.DescriptiveBenford,
+		&bm.AmountTotalValueUSD,
+		&bm.VendorsOnBankAcc,
+		&bm.PayeeBankCountryKey,
+		&bm.PayeeBankAcctNumber,
+		&bm.PayeeBankNumber,
+		&bm.VendorAccountGroup,
+	)
+	return &bm, err
 }
 
 type BankMasterFlags struct {
@@ -61,6 +97,17 @@ type BankMasterFlags struct {
 	FlagTop5BenfordDeviation                                    bool `json:"Flag: Top5BenfordDeviation" sql:"Flag: Top5BenfordDeviation"`
 }
 
-func (bmf BankMasterFlags) GetFlags() ICMEntity {
+func (bmf *BankMasterFlags) GetFlags() ICMEntity {
 	return bmf
+}
+
+func (bmf *BankMasterFlags) Scan(src interface{}) error {
+	switch v := src.(type) {
+	case string:
+		return json.Unmarshal([]byte(v), bmf)
+	case []byte:
+		return json.Unmarshal(v, bmf)
+	default:
+		return errors.New("invalid sql return type for Vendor Flags")
+	}
 }

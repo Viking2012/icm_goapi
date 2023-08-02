@@ -1,35 +1,35 @@
 package orm
 
 import (
+	"database/sql"
 	"encoding/json"
 	"errors"
-	"time"
 )
 
 type Customer struct {
 	// Identifiers
-	ID             string    `json:"ICM_ID" sql:"ICM_ID"`
-	Database       string    `json:"Database" sql:"Database"`
-	Code           string    `json:"Customer Code" sql:"Customer Code"`
-	Name1          string    `json:"Name 1" sql:"Name 1"`
-	Name2          string    `json:"Name 2" sql:"Name 2"`
-	Name3          string    `json:"Name 3" sql:"Name 3"`
-	Name4          string    `json:"Name 4" sql:"Name 4"`
-	GUIDCommonName string    `json:"ZCA_GIS_1_PRCOMMONNAME" sql:"ZCA_GIS_1_PRCOMMONNAME"`
-	GISLegalName   string    `json:"ZCA_GIS_1_PRLEGALNAMELOC" sql:"ZCA_GIS_1_PRLEGALNAMELOC"`
-	VendorCode     string    `json:"KNA1_LIFNR" sql:"KNA1_LIFNR"`
-	CreatedBy      string    `json:"Created By" sql:"Created By"`
-	CreationDate   time.Time `json:"Created On" sql:"Created On"`
+	ID             string       `json:"ICM_ID" sql:"ICM_ID"`
+	Database       string       `json:"Database" sql:"Database"`
+	Code           string       `json:"Customer Code" sql:"Customer Code"`
+	Name1          string       `json:"Name 1" sql:"Name 1"`
+	Name2          string       `json:"Name 2" sql:"Name 2"`
+	Name3          string       `json:"Name 3" sql:"Name 3"`
+	Name4          string       `json:"Name 4" sql:"Name 4"`
+	GUIDCommonName string       `json:"ZCA_GIS_1_PRCOMMONNAME" sql:"ZCA_GIS_1_PRCOMMONNAME"`
+	GISLegalName   string       `json:"ZCA_GIS_1_PRLEGALNAMELOC" sql:"ZCA_GIS_1_PRLEGALNAMELOC"`
+	VendorCode     string       `json:"KNA1_LIFNR" sql:"KNA1_LIFNR"`
+	CreatedBy      string       `json:"Created By" sql:"Created By"`
+	CreationDate   sql.NullTime `json:"Created On" sql:"Created On"`
 
 	// Transactional summary
 	AmountUSDLastMonth    float64 `json:"Amount USD Last Month" sql:"Amount USD Last Month"`
-	CountLastMonth        int32   `json:"Count Last Month" sql:"Count Last Month"`
+	CountLastMonth        int64   `json:"Count Last Month" sql:"Count Last Month"`
 	AmountUSDCurrentYear  float64 `json:"Amount USD Current Year" sql:"Amount USD Current Year"`
-	CountCurrentYear      int32   `json:"Count Current Year" sql:"Count Current Year"`
+	CountCurrentYear      int64   `json:"Count Current Year" sql:"Count Current Year"`
 	AmountUSDCurrentYear1 float64 `json:"Amount USD Current Year -1" sql:"Amount USD Current Year -1"`
-	CountCurrentYear1     int32   `json:"Count Current Year -1" sql:"Count Current Year -1"`
+	CountCurrentYear1     int64   `json:"Count Current Year -1" sql:"Count Current Year -1"`
 	AmountUSDCurrentYear2 float64 `json:"Amount USD Current Year -2" sql:"Amount USD Current Year -2"`
-	CountCurrentYear2     int32   `json:"Count Current Year -2" sql:"Count Current Year -2"`
+	CountCurrentYear2     int64   `json:"Count Current Year -2" sql:"Count Current Year -2"`
 
 	// blocks
 	BlockOrder    string `json:"Order Block" sql:"Order Block"`
@@ -85,9 +85,9 @@ type Customer struct {
 	DUNSDomestic string `json:"ZCA_GIS_1_PRDOMESTICDUNS" sql:"ZCA_GIS_1_PRDOMESTICDUNS"`
 
 	// Flags
-	Flags             CustomerFlags `json:"flags" sql:"FLAGS"`
-	FlagSCPStatus     string        `json:"Flag: SCP, Status" sql:"Flag: SCP, Status"`
-	FlagSCPRiskRating string        `json:"Flag: SCP, Risk Rating" sql:"Flag: SCP, Risk Rating"`
+	Flags             *CustomerFlags `json:"flags" sql:"FLAGS"`
+	FlagSCPStatus     string         `json:"Flag: SCP, Status" sql:"Flag: SCP, Status"`
+	FlagSCPRiskRating string         `json:"Flag: SCP, Risk Rating" sql:"Flag: SCP, Risk Rating"`
 
 	// Unassigned
 	IsActive       BoolFromFloat `json:"Is Active" sql:"Is Active"`
@@ -98,8 +98,83 @@ type Customer struct {
 	SortString     string        `json:"Search Term" sql:"Search Term"`
 }
 
-func (c Customer) GetFlags() ICMEntity {
+func (c *Customer) GetFlags() ICMEntity {
 	return c.Flags
+}
+
+func CustomerFromRows(rows *sql.Rows) (ICMEntity, error) {
+	var c Customer
+	err := rows.Scan(
+		&c.ID,
+		&c.Database,
+		&c.Code,
+		&c.Name1,
+		&c.Name2,
+		&c.Name3,
+		&c.Name4,
+		&c.GUIDCommonName,
+		&c.GISLegalName,
+		&c.VendorCode,
+		&c.CreatedBy,
+		&c.CreationDate,
+		&c.AmountUSDLastMonth,
+		&c.CountLastMonth,
+		&c.AmountUSDCurrentYear,
+		&c.CountCurrentYear,
+		&c.AmountUSDCurrentYear1,
+		&c.CountCurrentYear1,
+		&c.AmountUSDCurrentYear2,
+		&c.CountCurrentYear2,
+		&c.BlockOrder,
+		&c.BlockPosting,
+		&c.BlockBilling,
+		&c.BlockDelivery,
+		&c.DeletionFlag,
+		&c.PrimaryBU,
+		&c.PrimaryDivision,
+		&c.AccountGroup,
+		&c.AccountGroupCode,
+		&c.GUIDIndustryUsageLevel,
+		&c.IndustryUsageCode,
+		&c.IndustryUsage,
+		&c.GUIDChannelCode,
+		&c.GUIDChannelName,
+		&c.AddressNumber,
+		&c.StreetAddress,
+		&c.City,
+		&c.Region,
+		&c.Country,
+		&c.CountryCode,
+		&c.PostalCode,
+		&c.GUIDCity,
+		&c.GUIDCountry,
+		&c.Telephone1,
+		&c.Fax1,
+		&c.VAT,
+		&c.TaxCode1,
+		&c.TaxCode2,
+		&c.TaxCode3,
+		&c.TaxCode4,
+		&c.TaxJurisdiction,
+		&c.TransportationZone,
+		&c.GUID,
+		&c.GUIDOld,
+		&c.GUIDDomestic,
+		&c.GUIDParent,
+		&c.DUNS,
+		&c.DUNSParent,
+		&c.DUNSDomestic,
+		&c.Flags,
+		&c.FlagSCPStatus,
+		&c.FlagSCPRiskRating,
+		&c.IsActive,
+		&c.IsIntercompany,
+		&c.TradingPartner,
+		&c.PrCode6,
+		&c.OneTimeAccount,
+		&c.SortString,
+	)
+	return &c, err
 }
 
 type CustomerFlags struct {
@@ -120,7 +195,7 @@ type CustomerFlags struct {
 	FlagNoGUID                                bool `json:"Flag: No GUID" sql:"Flag: No GUID"`
 }
 
-func (cf CustomerFlags) GetFlags() ICMEntity {
+func (cf *CustomerFlags) GetFlags() ICMEntity {
 	return cf
 }
 

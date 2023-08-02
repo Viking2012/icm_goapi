@@ -1,20 +1,22 @@
 package orm
 
-import "time"
+import (
+	"database/sql"
+)
 
 type Check struct {
 	// Identifiers
-	Database              string    `json:"Database" sql:"Database"`
-	RunOn                 time.Time `json:"Run On" sql:"Run On"`
-	PrintDate             time.Time `json:"Print Date" sql:"Print Date"`
-	PrintUser             string    `json:"Print User" sql:"Print User"`
-	ProbablePaymentDate   time.Time `json:"Probable Payment Date" sql:"Probable Payment Date"`
-	PaymentDocumentNumber string    `json:"Payment Document Number" sql:"Payment Document Number"`
-	CheckIdentification   string    `json:"Identification" sql:"Identification"`
-	UpperCheckNumber      string    `json:"Upper Check Number" sql:"Upper Check Number"`
-	LowerCheckNumber      string    `json:"Lower Check Number" sql:"Lower Check Number"`
-	ManualCheck           string    `json:"Manual Check" sql:"Manual Check"`
-	PaidCheck             string    `json:"Paid Check" sql:"Paid Check"`
+	Database              string       `json:"Database" sql:"Database"`
+	RunOn                 sql.NullTime `json:"Run On" sql:"Run On"`
+	PrintDate             sql.NullTime `json:"Print Date" sql:"Print Date"`
+	PrintUser             string       `json:"Print User" sql:"Print User"`
+	ProbablePaymentDate   sql.NullTime `json:"Probable Payment Date" sql:"Probable Payment Date"`
+	PaymentDocumentNumber string       `json:"Payment Document Number" sql:"Payment Document Number"`
+	CheckIdentification   string       `json:"Identification" sql:"Identification"`
+	UpperCheckNumber      string       `json:"Upper Check Number" sql:"Upper Check Number"`
+	LowerCheckNumber      string       `json:"Lower Check Number" sql:"Lower Check Number"`
+	ManualCheck           string       `json:"Manual Check" sql:"Manual Check"`
+	PaidCheck             string       `json:"Paid Check" sql:"Paid Check"`
 
 	// Assignments
 	CompanyCodeID             string `json:"Company Code ID" sql:"Company Code ID"`
@@ -54,12 +56,63 @@ type Check struct {
 	AmountPaidInUSD float64 `json:"Amount Paid in USD" sql:"Amount Paid in USD"`
 
 	// Void Details
-	VoidReasonCode        string    `json:"Void Reason Code" sql:"Void Reason Code"`
-	VoidDate              time.Time `json:"Void Date" sql:"Void Date"`
-	VoidUser              string    `json:"Void User" sql:"Void User"`
-	ReplacedByCheckNumber string    `json:"Replaced By Check Number" sql:"Replaced By Check Number"`
+	VoidReasonCode        string       `json:"Void Reason Code" sql:"Void Reason Code"`
+	VoidDate              sql.NullTime `json:"Void Date" sql:"Void Date"`
+	VoidUser              string       `json:"Void User" sql:"Void User"`
+	ReplacedByCheckNumber string       `json:"Replaced By Check Number" sql:"Replaced By Check Number"`
 }
 
-func (c Check) GetFlags() ICMEntity {
+func (c *Check) GetFlags() ICMEntity {
 	return nil
+}
+
+func CheckFromRows(rows *sql.Rows) (ICMEntity, error) {
+	var c Check
+	err := rows.Scan(
+		&c.Database,
+		&c.RunOn,
+		&c.PrintDate,
+		&c.PrintUser,
+		&c.ProbablePaymentDate,
+		&c.PaymentDocumentNumber,
+		&c.CheckIdentification,
+		&c.UpperCheckNumber,
+		&c.LowerCheckNumber,
+		&c.ManualCheck,
+		&c.PaidCheck,
+		&c.CompanyCodeID,
+		&c.IntercompanyCompanyCodeId,
+		&c.BusinessAreaCode,
+		&c.GLAccountCode,
+		&c.FiscalYear,
+		&c.PaymentMethodCode,
+		&c.HouseBankCode,
+		&c.HouseBankAccountId,
+		&c.VendorCode,
+		&c.CustomerCode,
+		&c.PersonNumber,
+		&c.PayeeCode,
+		&c.PayeeTitle,
+		&c.PayeeName1,
+		&c.PayeeName2,
+		&c.PayeeName3,
+		&c.PayeeName4,
+		&c.PayeePostalCode,
+		&c.PayeeCity,
+		&c.PayeeStreet,
+		&c.PayeePOBox,
+		&c.PayeePOBoxCity,
+		&c.PayeePOBoxPostalCode,
+		&c.PayeeCountry,
+		&c.PayeeRegion,
+		&c.Currency,
+		&c.AmountPaid,
+		&c.AmountPaidInLC,
+		&c.AmountPaidInUSD,
+		&c.VoidReasonCode,
+		&c.VoidDate,
+		&c.VoidUser,
+		&c.ReplacedByCheckNumber,
+	)
+	return &c, err
 }
