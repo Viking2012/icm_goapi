@@ -1,20 +1,9 @@
-![orm logo](../assets/orm_logo.png)
+![encoding logo](../assets/orm_logo.png)
 
-orm is a package which contains both Go representations of ICM Entities and a library for Marshaling these 
-representations into SQL select statements.
+encoding is a library which aids in transporting data from ABB Snowflake platforms into Golang structs.
 
 # Overview
-This package contains:
-- An amateurish attempt at an encoding library, similar to the standard lib's encoding package, which provides a Marshaller to various SQL SELECT statments
-- A Go struct for Banks
-- A Go struct for BanksUsedBy
-- A Go struct for Customers
-- A Go struct for Projects
-- A Go struct for Vendors
-- An interface, ICMEntity, of required functions for each of the above which is leveraged by the encoding lib
-
-# Encoding
-Ths standard go library includes an `encoding` package which provides interfaces shared by other packages that convert 
+Ths standard go library includes an `encoding` package which provides interfaces shared by other packages that convert
 data to and from byte-level and textual representations. The `json` encoder is one of the most commonly used within this
 package. Importantly, the `json` package (and others within the `encoding` package) define a format for tagging Go structs
 with valid json field names and a short list of options for reading these fields from raw json byte arrays.
@@ -28,7 +17,7 @@ Within the standard library, the json packages allows for the following [tag opt
 
 
 ## SQL Encoding
-Similarly, the `orm` package allows for the creation of `sql:"FieldName"` tags. It is recommended, and required in many 
+Similarly, the `orm` package allows for the creation of `sql:"FieldName"` tags. It is recommended, and required in many
 cases, that structs with `sql` tags also have `json` tags. For instance, in Marshalling a struct into a corresponding,
 nested SQL SELECT statement, the `json` tags are used as the keys in a call to `OBJECT_CONSTRUCT()`. For instance:
 
@@ -90,9 +79,9 @@ SELECT
  FROM SCHEMA
 ```
 ### Encoding Options
-Similar to the `encoding/json` package of standard library, the orm encoder also allows for options in `sql` tags. These 
-options should be seperated from the SQL field name with a pipe (`|`). Multiple options can be provided, and should be 
+Similar to the `encoding/json` package of standard library, the orm encoder also allows for options in `sql` tags. These
+options should be seperated from the SQL field name with a pipe (`|`). Multiple options can be provided, and should be
 seperated with a comma.
-- `pk`: the `MarshalSelectThis` function returns a query which will select a single ICM Entity from the relevant table. 
- The `pk` option marks this field as necessary within the `WHERE` clause to uniquely identify this entity within the relevant
- table.
+- `pk`: the `MarshalSelectThis` function returns a query which will select a single ICM Entity from the relevant table.
+  The `pk` option marks this field as necessary within the `WHERE` clause to uniquely identify this entity within the relevant
+  table.
