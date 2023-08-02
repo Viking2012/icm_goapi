@@ -2,7 +2,7 @@ package encoding
 
 import (
 	"bytes"
-	"icm_goapi/orm"
+	"github.com/alexander-orban/icm_goapi/orm"
 	"reflect"
 	"regexp"
 	"strings"

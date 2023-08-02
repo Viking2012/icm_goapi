@@ -25,34 +25,34 @@ nested SQL SELECT statement, the `json` tags are used as the keys in a call to `
 package main
 
 import (
-    "icm_goapi/orm"
-	"reflect"
-	"os"
+  "github.com/alexander-orban/icm_goapi/encoding"
+  "os"
+  "reflect"
 )
 
 type Entity struct {
-	ID          string       `json:"icm-id" sql:"ICM_ID|pk"`
-	Name        string       `json:"name-1" sql:"NAME1"`
-	Flags       NestedStruct `json:"flags" sql:"FLAGS"`
-	OtherField  string       `json:"other-field" sql:"OTHER_FIELD"`      
+  ID         string       `json:"icm-id" sql:"ICM_ID|pk"`
+  Name       string       `json:"name-1" sql:"NAME1"`
+  Flags      NestedStruct `json:"flags" sql:"FLAGS"`
+  OtherField string       `json:"other-field" sql:"OTHER_FIELD"`
 }
 type NestedStruct struct {
-	Flag1 bool `json:"flag-type-1" sql:"Flag: Type 1"`
-	Flag2 bool `json:"flag-type-2" sql:"Flag: Type 2"`
+  Flag1 bool `json:"flag-type-1" sql:"Flag: Type 1"`
+  Flag2 bool `json:"flag-type-2" sql:"Flag: Type 2"`
 }
 
 func main() {
-	t := reflect.TypeOf((*Entity)(nil)).Elem()
-	// Allow nested objects within the SELECT query
-	qry := orm.MarshalToSelect(t, "SCHEMA", false)
+  t := reflect.TypeOf((*Entity)(nil)).Elem()
+  // Allow nested objects within the SELECT query
+  qry := encoding.MarshalToSelect(t, "SCHEMA", false)
 
-	os.Stdout.Write([]byte("Nested"))
-	os.Stdout.Write(qry)
-	
-	// A flat query, roughly equal to a SELECT *
-	qry = orm.MarshalToSelect(t, "SCHEMA", true)
-	os.Stdout.Write([]byte("Flat"))
-	os.Stdout.Write(qry)
+  os.Stdout.Write([]byte("Nested"))
+  os.Stdout.Write(qry)
+
+  // A flat query, roughly equal to a SELECT *
+  qry = encoding.MarshalToSelect(t, "SCHEMA", true)
+  os.Stdout.Write([]byte("Flat"))
+  os.Stdout.Write(qry)
 }
 ```
 ```text

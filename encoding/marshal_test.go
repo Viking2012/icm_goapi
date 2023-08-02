@@ -1,7 +1,7 @@
 package encoding
 
 import (
-	"icm_goapi/orm"
+	"github.com/alexander-orban/icm_goapi/orm"
 	"reflect"
 	"testing"
 )
