@@ -36,7 +36,7 @@ nested SQL SELECT statement, the `json` tags are used as the keys in a call to `
 package main
 
 import (
-	"icm_processor/orm"
+    "icm_goapi/orm"
 	"reflect"
 	"os"
 )

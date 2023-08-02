@@ -1,7 +1,7 @@
 package encoding
 
 import (
-	"icm_processor/orm"
+	"icm_goapi/orm"
 	"reflect"
 	"testing"
 )

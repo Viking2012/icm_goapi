@@ -2,7 +2,7 @@ package encoding
 
 import (
 	"bytes"
-	"icm_processor/orm"
+	"icm_goapi/orm"
 	"reflect"
 	"regexp"
 	"strings"
@@ -86,7 +86,7 @@ func extractFlatFields(a orm.ICMEntity) []string {
 				tags = append(tags, tag)
 			}
 		} else {
-			var formattedString strings.Builder = strings.Builder{}
+			var formattedString = strings.Builder{}
 			formattedString.WriteString(indentation)
 			sqlTag := parseTag(field.Tag.Get("sql"))
 			if sqlTag.Field == "" {
@@ -122,7 +122,7 @@ func extractNestedFields(a orm.ICMEntity, indentLevel int, asObject bool) []stri
 		field := t.Field(i)
 		implementsEntity := field.Type.Implements(icmEntityType)
 		if implementsEntity {
-			var objectFieldString strings.Builder = strings.Builder{}
+			var objectFieldString = strings.Builder{}
 			newThing, _ := indirect.Field(i).Interface().(orm.ICMEntity)
 			objectTags := extractNestedFields(newThing, indentLevel+1, true)
 			objectFieldString.WriteString(indentation)
@@ -140,7 +140,7 @@ func extractNestedFields(a orm.ICMEntity, indentLevel int, asObject bool) []stri
 			s := strings.TrimRight(objectFieldString.String(), ",\n")
 			tags = append(tags, s)
 		} else {
-			var formattedString strings.Builder = strings.Builder{}
+			var formattedString = strings.Builder{}
 			formattedString.WriteString(indentation)
 			sqlTag := parseTag(field.Tag.Get("sql"))
 			if sqlTag.Field == "" {

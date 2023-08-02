@@ -1,4 +1,4 @@
-module icm_processor
+module icm_goapi
 
 go 1.20
 
