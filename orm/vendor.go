@@ -1,24 +1,26 @@
 package orm
 
 import (
-	"time"
+	"database/sql"
+	"encoding/json"
+	"errors"
 )
 
 type Vendor struct {
 	// Identifiers
-	ID             string    `json:"ICM_VENDOR_ID" sql:"ICM_VENDOR_ID"`
-	Database       string    `json:"Database" sql:"Database"`
-	Code           string    `json:"Vendor Code" sql:"Vendor Code"`
-	Key            string    `json:"CMT Vendor Key" sql:"CMT Vendor Key"`
-	Name1          string    `json:"Name 1" sql:"Name 1"`
-	Name2          string    `json:"Vendor Name 2" sql:"Vendor Name 2"`
-	Name3          string    `json:"Vendor Name 3" sql:"Vendor Name 3"`
-	Name4          string    `json:"Vendor Name 4" sql:"Vendor Name 4"`
-	GUIDCommonName string    `json:"Vendor GUID Common Name" sql:"Vendor GUID Common Name"`
-	GISLegalName   string    `json:"GIS_PRLEGALNAMELOC" sql:"GIS_PRLEGALNAMELOC"`
-	CustomerCode   string    `json:"Customer ID" sql:"Customer ID"`
-	CreatedBy      string    `json:"Vendor Created By" sql:"Vendor Created By"`
-	CreationDate   time.Time `json:"Vendor Creation Date" sql:"Vendor Creation Date"`
+	ID             string       `json:"ICM_VENDOR_ID" sql:"ICM_VENDOR_ID"`
+	Database       string       `json:"Database" sql:"Database"`
+	Code           string       `json:"Vendor Code" sql:"Vendor Code"`
+	Key            string       `json:"CMT Vendor Key" sql:"CMT Vendor Key"`
+	Name1          string       `json:"Name 1" sql:"Name 1"`
+	Name2          string       `json:"Vendor Name 2" sql:"Vendor Name 2"`
+	Name3          string       `json:"Vendor Name 3" sql:"Vendor Name 3"`
+	Name4          string       `json:"Vendor Name 4" sql:"Vendor Name 4"`
+	GUIDCommonName string       `json:"Vendor GUID Common Name" sql:"Vendor GUID Common Name"`
+	GISLegalName   string       `json:"GIS_PRLEGALNAMELOC" sql:"GIS_PRLEGALNAMELOC"`
+	CustomerCode   string       `json:"Customer ID" sql:"Customer ID"`
+	CreatedBy      string       `json:"Vendor Created By" sql:"Vendor Created By"`
+	CreationDate   sql.NullTime `json:"Vendor Creation Date" sql:"Vendor Creation Date"`
 
 	// Transactional summary
 	AmountUSDLastMonth    float64 `json:"Amount USD Last Month" sql:"Amount USD Last Month"`
@@ -129,30 +131,30 @@ type Vendor struct {
 	VendorsPerBankAccount             string      `json:"VendorsPerBankAccount" sql:"VendorsPerBankAccount"`
 
 	// Flag Counts and Match Indicators
-	FlagCount                 int64 `json:"Flags Triggered" sql:"Flags Triggered"`
-	MatchDataDeviation        bool  `json:"Data Deviation Match" sql:"Data Deviation Match"`
-	FlagCountDataDeviation    int64 `json:"Data Deviation Flag Count" sql:"Data Deviation Flag Count"`
-	MatchDormantVendor        bool  `json:"Dormant Vendor Match" sql:"Dormant Vendor Match"`
-	FlagCountDormant          int64 `json:"Dormant Flag Count" sql:"Dormant Flag Count"`
-	MatchFictitiousVendor     bool  `json:"Fictitious Vendor Match" sql:"Fictitious Vendor Match"`
-	FlagCountFictitiousVendor int64 `json:"Fictitious Vendor Flag Count" sql:"Fictitious Vendor Flag Count"`
-	MatchUniversal            bool  `json:"Universal Match" sql:"Universal Match"`
-	FlagCountUniversal        int64 `json:"Universal Flag Count" sql:"Universal Flag Count"`
+	FlagCount                 int64         `json:"Flags Triggered" sql:"Flags Triggered"`
+	MatchDataDeviation        BoolFromFloat `json:"Data Deviation Match" sql:"Data Deviation Match"`
+	FlagCountDataDeviation    int64         `json:"Data Deviation Flag Count" sql:"Data Deviation Flag Count"`
+	MatchDormantVendor        BoolFromFloat `json:"Dormant Vendor Match" sql:"Dormant Vendor Match"`
+	FlagCountDormant          int64         `json:"Dormant Flag Count" sql:"Dormant Flag Count"`
+	MatchFictitiousVendor     BoolFromFloat `json:"Fictitious Vendor Match" sql:"Fictitious Vendor Match"`
+	FlagCountFictitiousVendor int64         `json:"Fictitious Vendor Flag Count" sql:"Fictitious Vendor Flag Count"`
+	MatchUniversal            BoolFromFloat `json:"Universal Match" sql:"Universal Match"`
+	FlagCountUniversal        int64         `json:"Universal Flag Count" sql:"Universal Flag Count"`
 
 	// Unassigned fields
-	CreditInformationNumber               string    `json:"Vendor Credit Information Number" sql:"Vendor Credit Information Number"`
-	IsIntercompany                        bool      `json:"Is Intercompany" sql:"Is Intercompany"`
-	Language                              string    `json:"Vendor Language" sql:"Vendor Language"`
-	LastVendorExternalReview              time.Time `json:"Last Vendor External Review" sql:"Last Vendor External Review"`
-	ListMissingFields                     string    `json:"List Missing Fields" sql:"List Missing Fields"`
-	OneTimeVendorIndicator                string    `json:"One-time Vendor Indicator" sql:"One-time Vendor Indicator"`
-	PrCode6                               string    `json:"Vendor PR Code 6" sql:"Vendor PR Code 6"`
-	RoundAmountRatio                      float64   `json:"Round Amount Ratio" sql:"Round Amount Ratio"`
-	ShipmentStatisticsGroup               string    `json:"Vendor Shipment Statistics Group" sql:"Vendor Shipment Statistics Group"`
-	SortString                            string    `json:"Vendor Sort String" sql:"Vendor Sort String"`
-	TotalRoundAmountTransactions          int64     `json:"Total Round Amount Transactions" sql:"Total Round Amount Transactions"`
-	TotalTransactionsTestedForRoundAmount int64     `json:"Total Transactions Tested for Round Amount" sql:"Total Transactions Tested for Round Amount"`
-	TradingPartnerCompanyID               string    `json:"Company ID of trading partner" sql:"Company ID of trading partner"`
+	CreditInformationNumber               string        `json:"Vendor Credit Information Number" sql:"Vendor Credit Information Number"`
+	IsIntercompany                        BoolFromFloat `json:"Is Intercompany" sql:"Is Intercompany"`
+	Language                              string        `json:"Vendor Language" sql:"Vendor Language"`
+	LastVendorExternalReview              sql.NullTime  `json:"Last Vendor External Review" sql:"Last Vendor External Review"`
+	ListMissingFields                     string        `json:"List Missing Fields" sql:"List Missing Fields"`
+	OneTimeVendorIndicator                string        `json:"One-time Vendor Indicator" sql:"One-time Vendor Indicator"`
+	PrCode6                               string        `json:"Vendor PR Code 6" sql:"Vendor PR Code 6"`
+	RoundAmountRatio                      float64       `json:"Round Amount Ratio" sql:"Round Amount Ratio"`
+	ShipmentStatisticsGroup               string        `json:"Vendor Shipment Statistics Group" sql:"Vendor Shipment Statistics Group"`
+	SortString                            string        `json:"Vendor Sort String" sql:"Vendor Sort String"`
+	TotalRoundAmountTransactions          int64         `json:"Total Round Amount Transactions" sql:"Total Round Amount Transactions"`
+	TotalTransactionsTestedForRoundAmount int64         `json:"Total Transactions Tested for Round Amount" sql:"Total Transactions Tested for Round Amount"`
+	TradingPartnerCompanyID               string        `json:"Company ID of trading partner" sql:"Company ID of trading partner"`
 }
 
 func (v Vendor) GetFlags() ICMEntity {
@@ -160,38 +162,49 @@ func (v Vendor) GetFlags() ICMEntity {
 }
 
 type VendorFlags struct {
-	Flag2WayMatchPOsOnly                       bool `json:"Flag: 2WayMatchPOsOnly" sql:"Flag: 2WayMatchPOsOnly"`
-	FlagAllVendorInvoicesWithoutPO             bool `json:"Flag: All Vendor Invoices Without PO" sql:"Flag: All Vendor Invoices Without PO"`
-	FlagBankAccountAddedToDormantVendor        bool `json:"Flag: Bank Account Added to Dormant Vendor" sql:"Flag: Bank Account Added to Dormant Vendor"`
-	FlagConsInv                                bool `json:"Flag: ConsInvVendor" sql:"Flag: ConsInvVendor"`
-	FlagCountryWithHighEnforcementActivity     bool `json:"Flag: Country with High Enforcement Activity" sql:"Flag: Country with High Enforcement Activity"`
-	FlagCountryWithSL1CaseHistory              bool `json:"Flag: Country with SL1 Case History" sql:"Flag: Country with SL1 Case History"`
-	FlagDormantVendor                          bool `json:"Flag: Dormant Vendor" sql:"Flag: Dormant Vendor"`
-	FlagFIInvoice                              bool `json:"Flag: FI Invoice" sql:"Flag: FI Invoice"`
-	FlagHadActivityLastMonth                   bool `json:"Flag: Had Activity Last Month" sql:"Flag: Had Activity Last Month"`
-	FlagHasSplitInvoice                        bool `json:"Flag: Has Split Invoice" sql:"Flag: Has Split Invoice"`
-	FlagIncreasingInvoiceValue                 bool `json:"Flag: Increasing Invoice Value" sql:"Flag: Increasing Invoice Value"`
-	FlagMissingOrNonStandardDuns               bool `json:"Flag: Missing or Non-Standard DUNS" sql:"Flag: Missing or Non-Standard DUNS"`
-	FlagMissingOrNonStandardGuid               bool `json:"Flag: Missing or Non-Standard GUID" sql:"Flag: Missing or Non-Standard GUID"`
-	FlagMissingVendorMasterFields              bool `json:"Flag: Missing Vendor Master Fields" sql:"Flag: Missing Vendor Master Fields"`
-	FlagNoReceiptNeeded                        bool `json:"Flag: NoReceiptNeeded" sql:"Flag: NoReceiptNeeded"`
-	FlagOnlyExternalDomainsAreKnownFreeDomains bool `json:"Flag: Only External Domains are Known Free Domains" sql:"Flag: Only External Domains are Known Free Domains"`
-	FlagPOBoxAddress                           bool `json:"Flag: PO Box Address" sql:"Flag: PO Box Address"`
-	FlagPossibleGD43                           bool `json:"Flag: Possible GD43" sql:"Flag: Possible GD43"`
-	FlagPossibleSOE                            bool `json:"Flag: Possible SOE" sql:"Flag: Possible SOE"`
-	FlagRecentBankAccountChange                bool `json:"Flag: Recent Bank Account Change" sql:"Flag: Recent Bank Account Change"`
-	FlagSCP                                    bool `json:"Flag: SCP" sql:"Flag: SCP"`
-	FlagServiceVendor                          bool `json:"Flag: ServiceVendor" sql:"Flag: ServiceVendor"`
-	FlagSwiftFirstTransaction                  bool `json:"Flag: SwiftFirstTransaction" sql:"Flag: SwiftFirstTransaction"`
-	FlagTop5BenfordDeviation                   bool `json:"Flag: Top5BenfordDeviation" sql:"Flag: Top5BenfordDeviation"`
-	FlagTop5ZScorevendors                      bool `json:"Flag: Top5 Z-ScoreVendors" sql:"Flag: Top5 Z-ScoreVendors"`
-	FlagUnblockedPurchBlock                    bool `json:"Flag: UnblockedPurchBlock" sql:"Flag: UnblockedPurchBlock"`
-	FlagVendorFormerEmployee                   bool `json:"Flag: Vendor Former Emploee" sql:"Flag: Vendor Former Emploee"`
-	FlagVendorPOSingleApproval                 bool `json:"Flag: VendorPOSingleApproval" sql:"Flag: VendorPOSingleApproval"`
-	FlagVendorPOsNotApproved                   bool `json:"Flag: VendorPOsNotApproved" sql:"Flag: VendorPOsNotApproved"`
-	FlagVendorWithoutGUIDActive                bool `json:"Flag: Vendor Without GUID Active" sql:"Flag: Vendor Without GUID, Active"`
+	Flag2WayMatchPOsOnly                       BoolFromFloat `json:"Flag: 2WayMatchPOsOnly" sql:"Flag: 2WayMatchPOsOnly"`
+	FlagAllVendorInvoicesWithoutPO             BoolFromFloat `json:"Flag: All Vendor Invoices Without PO" sql:"Flag: All Vendor Invoices Without PO"`
+	FlagBankAccountAddedToDormantVendor        BoolFromFloat `json:"Flag: Bank Account Added to Dormant Vendor" sql:"Flag: Bank Account Added to Dormant Vendor"`
+	FlagConsInv                                BoolFromFloat `json:"Flag: ConsInvVendor" sql:"Flag: ConsInvVendor"`
+	FlagCountryWithHighEnforcementActivity     BoolFromFloat `json:"Flag: Country with High Enforcement Activity" sql:"Flag: Country with High Enforcement Activity"`
+	FlagCountryWithSL1CaseHistory              BoolFromFloat `json:"Flag: Country with SL1 Case History" sql:"Flag: Country with SL1 Case History"`
+	FlagDormantVendor                          BoolFromFloat `json:"Flag: Dormant Vendor" sql:"Flag: Dormant Vendor"`
+	FlagFIInvoice                              BoolFromFloat `json:"Flag: FI Invoice" sql:"Flag: FI Invoice"`
+	FlagHadActivityLastMonth                   BoolFromFloat `json:"Flag: Had Activity Last Month" sql:"Flag: Had Activity Last Month"`
+	FlagHasSplitInvoice                        BoolFromFloat `json:"Flag: Has Split Invoice" sql:"Flag: Has Split Invoice"`
+	FlagIncreasingInvoiceValue                 BoolFromFloat `json:"Flag: Increasing Invoice Value" sql:"Flag: Increasing Invoice Value"`
+	FlagMissingOrNonStandardDuns               BoolFromFloat `json:"Flag: Missing or Non-Standard DUNS" sql:"Flag: Missing or Non-Standard DUNS"`
+	FlagMissingOrNonStandardGuid               BoolFromFloat `json:"Flag: Missing or Non-Standard GUID" sql:"Flag: Missing or Non-Standard GUID"`
+	FlagMissingVendorMasterFields              BoolFromFloat `json:"Flag: Missing Vendor Master Fields" sql:"Flag: Missing Vendor Master Fields"`
+	FlagNoReceiptNeeded                        BoolFromFloat `json:"Flag: NoReceiptNeeded" sql:"Flag: NoReceiptNeeded"`
+	FlagOnlyExternalDomainsAreKnownFreeDomains BoolFromFloat `json:"Flag: Only External Domains are Known Free Domains" sql:"Flag: Only External Domains are Known Free Domains"`
+	FlagPOBoxAddress                           BoolFromFloat `json:"Flag: PO Box Address" sql:"Flag: PO Box Address"`
+	FlagPossibleGD43                           BoolFromFloat `json:"Flag: Possible GD43" sql:"Flag: Possible GD43"`
+	FlagPossibleSOE                            BoolFromFloat `json:"Flag: Possible SOE" sql:"Flag: Possible SOE"`
+	FlagRecentBankAccountChange                BoolFromFloat `json:"Flag: Recent Bank Account Change" sql:"Flag: Recent Bank Account Change"`
+	FlagSCP                                    bool          `json:"Flag: SCP" sql:"Flag: SCP"`
+	FlagServiceVendor                          BoolFromFloat `json:"Flag: ServiceVendor" sql:"Flag: ServiceVendor"`
+	FlagSwiftFirstTransaction                  BoolFromFloat `json:"Flag: SwiftFirstTransaction" sql:"Flag: SwiftFirstTransaction"`
+	FlagTop5BenfordDeviation                   BoolFromFloat `json:"Flag: Top5BenfordDeviation" sql:"Flag: Top5BenfordDeviation"`
+	FlagTop5ZScorevendors                      BoolFromFloat `json:"Flag: Top5 Z-ScoreVendors" sql:"Flag: Top5 Z-ScoreVendors"`
+	FlagUnblockedPurchBlock                    BoolFromFloat `json:"Flag: UnblockedPurchBlock" sql:"Flag: UnblockedPurchBlock"`
+	FlagVendorFormerEmployee                   BoolFromFloat `json:"Flag: Vendor Former Emploee" sql:"Flag: Vendor Former Emploee"`
+	FlagVendorPOSingleApproval                 BoolFromFloat `json:"Flag: VendorPOSingleApproval" sql:"Flag: VendorPOSingleApproval"`
+	FlagVendorPOsNotApproved                   BoolFromFloat `json:"Flag: VendorPOsNotApproved" sql:"Flag: VendorPOsNotApproved"`
+	FlagVendorWithoutGUIDActive                BoolFromFloat `json:"Flag: Vendor Without GUID Active" sql:"Flag: Vendor Without GUID, Active"`
 }
 
 func (vf VendorFlags) GetFlags() ICMEntity {
 	return vf
+}
+
+func (vf *VendorFlags) Scan(src interface{}) error {
+	switch v := src.(type) {
+	case string:
+		return json.Unmarshal([]byte(v), vf)
+	case []byte:
+		return json.Unmarshal(v, vf)
+	default:
+		return errors.New("invalid sql return type for Vendor Flags")
+	}
 }
