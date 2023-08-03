@@ -98,9 +98,7 @@ type Customer struct {
 	SortString     string        `json:"Search Term" sql:"Search Term"`
 }
 
-func (c *Customer) GetFlags() ICMEntity {
-	return c.Flags
-}
+func (c *Customer) IsICMEntity() bool { return true }
 
 func CustomerFromRows(rows *sql.Rows) (ICMEntity, error) {
 	var c Customer
@@ -195,9 +193,7 @@ type CustomerFlags struct {
 	FlagNoGUID                                bool `json:"Flag: No GUID" sql:"Flag: No GUID"`
 }
 
-func (cf *CustomerFlags) GetFlags() ICMEntity {
-	return cf
-}
+func (cf *CustomerFlags) IsICMEntity() bool { return true }
 
 func (cf *CustomerFlags) Scan(src interface{}) error {
 	switch v := src.(type) {

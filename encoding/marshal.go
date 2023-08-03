@@ -73,16 +73,17 @@ func MarshalToSelect(a orm.ICMEntity, database string, flatten bool) []byte {
 
 func extractFlatFields(a orm.ICMEntity) []string {
 	v := reflect.ValueOf(a)
-	i := reflect.Indirect(v)
+	ind := reflect.Indirect(v)
 	//t := reflect.TypeOf(a)
-	t := i.Type()
+	t := ind.Type()
 	var tags []string
 	var indentation = strings.Repeat("\t", 1)
 
 	for i := 0; i < t.NumField(); i++ {
 		field := t.Field(i)
 		if field.Type.Implements(reflect.TypeOf((*orm.ICMEntity)(nil)).Elem()) {
-			for _, tag := range extractFlatFields(a.GetFlags()) {
+			newEntity, _ := ind.Field(i).Interface().(orm.ICMEntity)
+			for _, tag := range extractFlatFields(newEntity) {
 				tags = append(tags, tag)
 			}
 		} else {

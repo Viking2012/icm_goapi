@@ -62,9 +62,7 @@ type Invoice struct {
 	Flags                         *InvoiceFlags `json:"flags" sql:"FLAGS"`
 }
 
-func (i *Invoice) GetFlags() ICMEntity {
-	return i.Flags
-}
+func (i *Invoice) IsICMEntity() bool { return true }
 
 func InvoiceFromRows(rows *sql.Rows) (ICMEntity, error) {
 	var i Invoice
@@ -131,9 +129,7 @@ type InvoiceFlags struct {
 	FlagServiceVendor          bool `json:"Flag: ServiceVendor" sql:"Flag: ServiceVendor"`
 }
 
-func (i *InvoiceFlags) GetFlags() ICMEntity {
-	return nil
-}
+func (i *InvoiceFlags) IsICMEntity() bool { return true }
 
 func (i *InvoiceFlags) Scan(src interface{}) error {
 	switch v := src.(type) {

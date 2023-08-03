@@ -57,9 +57,7 @@ type BusinessPartner struct {
 	Flags                    *BusinessPartnerFlags `json:"flags" sql:"FLAGS"`
 }
 
-func (bp *BusinessPartner) GetFlags() ICMEntity {
-	return bp.Flags
-}
+func (bp *BusinessPartner) IsICMEntity() bool { return true }
 
 func BusinessPartnerFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var bp BusinessPartner
@@ -138,9 +136,7 @@ type BusinessPartnerFlags struct {
 	FlagVendorOnProjectWithoutCustomer     bool `json:"Flag: Vendor On Project Without Customer" sql:"Flag: Vendor On Project Without Customer"`
 }
 
-func (bpf *BusinessPartnerFlags) GetFlags() ICMEntity {
-	return bpf
-}
+func (bpf *BusinessPartnerFlags) IsICMEntity() bool { return true }
 
 func (bpf *BusinessPartnerFlags) Scan(src interface{}) error {
 	switch v := src.(type) {

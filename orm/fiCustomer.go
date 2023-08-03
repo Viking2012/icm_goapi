@@ -150,9 +150,7 @@ type FICustomer struct {
 	IsFiInvoice                   bool         `json:"Is FI Invoice" sql:"Is FI Invoice"`
 }
 
-func (fic *FICustomer) GetFlags() ICMEntity {
-	return nil
-}
+func (fic *FICustomer) IsICMEntity() bool { return true }
 
 func FICustomerFromRows(rows *sql.Rows) (ICMEntity, error) {
 	var fic FICustomer

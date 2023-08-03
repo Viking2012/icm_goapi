@@ -132,9 +132,7 @@ type SalesOrder struct {
 	Icm_Customer_Id              string       `json:"ICM_CUSTOMER_ID" sql:"ICM_CUSTOMER_ID"`
 }
 
-func (so *SalesOrder) GetFlags() ICMEntity {
-	return nil
-}
+func (so *SalesOrder) IsICMEntity() bool { return true }
 
 func SalesOrderFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var so SalesOrder

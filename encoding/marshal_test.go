@@ -13,7 +13,7 @@ type testEntity struct {
 	Field2 string     `json:"field-2" sql:"field2"`
 }
 
-func (te *testEntity) GetFlags() orm.ICMEntity {
+func (te *testEntity) IsICMEntity() orm.ICMEntity {
 	return te.Flags
 }
 
@@ -23,7 +23,7 @@ type testFlags struct {
 	Flag3 bool `json:"flag-3" sql:"Flag: Type 3"`
 }
 
-func (tf *testFlags) GetFlags() orm.ICMEntity {
+func (tf *testFlags) IsICMEntity() orm.ICMEntity {
 	return nil
 }
 

@@ -172,9 +172,7 @@ type FIVendor struct {
 	Flags                             *FIVendorFlags `json:"flags" sql:"FLAGS"`
 }
 
-func (fiv *FIVendor) GetFlags() ICMEntity {
-	return fiv.Flags
-}
+func (fiv *FIVendor) IsICMEntity() bool { return true }
 
 func FIVendorFromRows(rows *sql.Rows) (ICMEntity, error) {
 	var v FIVendor
@@ -358,9 +356,7 @@ type FIVendorFlags struct {
 	FlagTop5BenfordDeviation   bool          `json:"Flag: Top5BenfordDeviation" sql:"Flag: Top5BenfordDeviation"`
 }
 
-func (fivf *FIVendorFlags) GetFlags() ICMEntity {
-	return fivf
-}
+func (fivf *FIVendorFlags) IsICMEntity() bool { return true }
 func (fivf *FIVendorFlags) Scan(src interface{}) error {
 	switch v := src.(type) {
 	case string:

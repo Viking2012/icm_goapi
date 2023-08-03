@@ -43,9 +43,7 @@ type BankMaster struct {
 	VendorAccountGroup  string `json:"Vendor Account Group" sql:"Vendor Account Group"`
 }
 
-func (bm *BankMaster) GetFlags() ICMEntity {
-	return bm.Flags
-}
+func (bm *BankMaster) IsICMEntity() bool { return true }
 
 func BankMasterFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var bm BankMaster
@@ -97,9 +95,7 @@ type BankMasterFlags struct {
 	FlagTop5BenfordDeviation                                    bool `json:"Flag: Top5BenfordDeviation" sql:"Flag: Top5BenfordDeviation"`
 }
 
-func (bmf *BankMasterFlags) GetFlags() ICMEntity {
-	return bmf
-}
+func (bmf *BankMasterFlags) IsICMEntity() bool { return true }
 
 func (bmf *BankMasterFlags) Scan(src interface{}) error {
 	switch v := src.(type) {

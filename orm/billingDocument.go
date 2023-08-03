@@ -155,9 +155,7 @@ type BillingDocument struct {
 	ExchangeRateToUsd    float64 `json:"Exchange Rate to USD" sql:"Exchange Rate to USD"`
 }
 
-func (bd *BillingDocument) GetFlags() ICMEntity {
-	return bd.Flags
-}
+func (bd *BillingDocument) IsICMEntity() bool { return true }
 
 func BillingDocFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var bd BillingDocument
@@ -295,9 +293,7 @@ type BillingDocumentFlags struct {
 	FlagPossibleChannelStuffing               bool `json:"FLAG: Possible Channel Stuffing" sql:"FLAG: Possible Channel Stuffing"`
 }
 
-func (bdf *BillingDocumentFlags) GetFlags() ICMEntity {
-	return bdf
-}
+func (bdf *BillingDocumentFlags) IsICMEntity() bool { return true }
 func (bdf *BillingDocumentFlags) Scan(src interface{}) error {
 	switch v := src.(type) {
 	case string:

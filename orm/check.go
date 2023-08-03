@@ -62,9 +62,7 @@ type Check struct {
 	ReplacedByCheckNumber string       `json:"Replaced By Check Number" sql:"Replaced By Check Number"`
 }
 
-func (c *Check) GetFlags() ICMEntity {
-	return nil
-}
+func (c *Check) IsICMEntity() bool { return true }
 
 func CheckFromRows(rows *sql.Rows) (ICMEntity, error) {
 	var c Check

@@ -12,11 +12,11 @@ import (
 // ICM entity type: bank, customer, project, or vendor
 // TODO(ajo): consider changing this interface to an ICMObject
 type ICMEntity interface {
-	GetFlags() ICMEntity
+	IsICMEntity() bool
 	//LoadFromRow(row *sql.Rows) error
 }
 
-func GetFields(a ICMEntity) []string {
+func GetFields(a *ICMEntity) []string {
 	t := reflect.TypeOf(a)
 	var fields []string = make([]string, t.NumField())
 	for i, field := range reflect.VisibleFields(t) {
@@ -29,7 +29,7 @@ func GetFields(a ICMEntity) []string {
 	return fields
 }
 
-func NewModel(a ICMEntity) map[string]int16 {
+func NewModel(a *ICMEntity) map[string]int16 {
 	var (
 		key   string
 		model map[string]int16 = make(map[string]int16)

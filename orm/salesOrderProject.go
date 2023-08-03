@@ -102,9 +102,7 @@ type SalesOrderProject struct {
 	Flags                                 *SalesOrderProjectFlags `json:"flags" sql:"FLAGS"`
 }
 
-func (sop *SalesOrderProject) GetFlags() ICMEntity {
-	return sop.Flags
-}
+func (sop *SalesOrderProject) IsICMEntity() bool { return true }
 
 func SalesOrderProjectFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var sop SalesOrderProject
@@ -214,9 +212,7 @@ type SalesOrderProjectFlags struct {
 	FlagCustomerOnProjectWithoutVendors bool `json:"Flag: Customer On Project Without Vendors" sql:"Flag: Customer On Project Without Vendors"`
 }
 
-func (sopf *SalesOrderProjectFlags) GetFlags() ICMEntity {
-	return sopf
-}
+func (sopf *SalesOrderProjectFlags) IsICMEntity() bool { return true }
 
 func (sopf *SalesOrderProjectFlags) Scan(src interface{}) error {
 	switch v := src.(type) {

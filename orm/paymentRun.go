@@ -133,9 +133,7 @@ type PaymentRun struct {
 	Icm_Customer_Id               string       `json:"ICM_CUSTOMER_ID" sql:"ICM_CUSTOMER_ID"`
 }
 
-func (p *PaymentRun) GetFlags() ICMEntity {
-	return nil
-}
+func (p *PaymentRun) IsICMEntity() bool { return true }
 
 func PaymentRunFromRows(rows *sql.Rows) (ICMEntity, error) {
 	var p PaymentRun

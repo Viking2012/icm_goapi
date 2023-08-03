@@ -125,9 +125,7 @@ type Requisition struct {
 	AbacusCode                  string        `json:"Abacus Code" sql:"Abacus Code"`
 }
 
-func (r *Requisition) GetFlags() ICMEntity {
-	return nil
-}
+func (r *Requisition) IsICMEntity() bool { return true }
 
 func RequisitionFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var r Requisition

@@ -85,9 +85,7 @@ type Project struct {
 	ProjectShipToLocations                string        `json:"Project Ship To Locations" sql:"Project Ship To Locations"`
 }
 
-func (p *Project) GetFlags() ICMEntity {
-	return p.Flags
-}
+func (p *Project) IsICMEntity() bool { return true }
 
 func ProjectFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var p Project
@@ -193,9 +191,7 @@ type ProjectFlags struct {
 	FlagIsSalesChannel                     bool `json:"Flag: Is Sales Channel" sql:"Flag: Is Sales Channel"`
 }
 
-func (pf *ProjectFlags) GetFlags() ICMEntity {
-	return pf
-}
+func (pf *ProjectFlags) IsICMEntity() bool { return true }
 
 func (pf *ProjectFlags) Scan(src interface{}) error {
 	switch v := src.(type) {

@@ -47,9 +47,7 @@ type PurchaseOrderProject struct {
 	Flags                              *PurchaseOrderProjectFlags `json:"flags" sql:"FLAGS"`
 }
 
-func (pop *PurchaseOrderProject) GetFlags() ICMEntity {
-	return pop.Flags
-}
+func (pop *PurchaseOrderProject) IsICMEntity() bool { return true }
 
 func PurchaseOrderProjectFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var pop PurchaseOrderProject
@@ -112,9 +110,7 @@ type PurchaseOrderProjectFlags struct {
 	FlagHasMultiSourcedMaterials       bool `json:"Flag: Has Multi-Sourced Materials" sql:"Flag: Has Multi-Sourced Materials"`
 }
 
-func (popf *PurchaseOrderProjectFlags) GetFlags() ICMEntity {
-	return popf
-}
+func (popf *PurchaseOrderProjectFlags) IsICMEntity() bool { return true }
 func (popf *PurchaseOrderProjectFlags) Scan(src interface{}) error {
 	switch v := src.(type) {
 	case string:

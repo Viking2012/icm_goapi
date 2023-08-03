@@ -159,9 +159,7 @@ type PurchaseOrder struct {
 	Flags                                             *PurchaseOrderFlags `json:"flags" sql:"FLAGS"`
 }
 
-func (po *PurchaseOrder) GetFlags() ICMEntity {
-	return po.Flags
-}
+func (po *PurchaseOrder) IsICMEntity() bool { return true }
 
 func PurchaseOrderFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var po PurchaseOrder
@@ -326,9 +324,7 @@ type PurchaseOrderFlags struct {
 	FlagNoinvoiceorreceiptneeded bool `json:"Flag: NoInvoiceOrReceiptNeeded" sql:"Flag: NoInvoiceOrReceiptNeeded"`
 }
 
-func (pof *PurchaseOrderFlags) GetFlags() ICMEntity {
-	return pof
-}
+func (pof *PurchaseOrderFlags) IsICMEntity() bool { return true }
 
 func (pof *PurchaseOrderFlags) Scan(src interface{}) error {
 	switch v := src.(type) {

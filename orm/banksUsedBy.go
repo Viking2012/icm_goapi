@@ -64,9 +64,7 @@ type BankUsedBy struct {
 	IsIntercompany bool `json:"Is Intercompany" sql:"Is Intercompany"`
 }
 
-func (bub *BankUsedBy) GetFlags() ICMEntity {
-	return bub.Flags
-}
+func (bub *BankUsedBy) IsICMEntity() bool { return true }
 
 func BankUsedByFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var bub BankUsedBy
@@ -139,9 +137,7 @@ type BanksUsedByFlags struct {
 	FlagHadActivityLastMonth                   bool `json:"Flag: Had Activity Last Month" sql:"Flag: Had Activity Last Month"`
 }
 
-func (bubf *BanksUsedByFlags) GetFlags() ICMEntity {
-	return bubf
-}
+func (bubf *BanksUsedByFlags) IsICMEntity() bool { return true }
 func (bubf *BanksUsedByFlags) Scan(src interface{}) error {
 	switch v := src.(type) {
 	case string:

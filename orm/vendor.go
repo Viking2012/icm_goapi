@@ -157,9 +157,7 @@ type Vendor struct {
 	TradingPartnerCompanyID               string        `json:"Company ID of trading partner" sql:"Company ID of trading partner"`
 }
 
-func (v *Vendor) GetFlags() ICMEntity {
-	return v.Flags
-}
+func (v *Vendor) IsICMEntity() bool { return true }
 
 func VendorFromRow(row *sql.Rows) (ICMEntity, error) {
 	var v Vendor
@@ -324,9 +322,7 @@ type VendorFlags struct {
 	FlagVendorWithoutGUIDActive                BoolFromFloat `json:"Flag: Vendor Without GUID Active" sql:"Flag: Vendor Without GUID, Active"`
 }
 
-func (vf *VendorFlags) GetFlags() ICMEntity {
-	return vf
-}
+func (vf *VendorFlags) IsICMEntity() bool { return true }
 
 func (vf *VendorFlags) Scan(src interface{}) error {
 	switch v := src.(type) {
