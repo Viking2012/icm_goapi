@@ -11,17 +11,17 @@ type SalesOrderProject struct {
 	SoldToCode                            string                  `json:"Sold To Code" sql:"Sold To Code"`
 	DocumentNumberSales                   string                  `json:"Sales Document" sql:"Sales Document"`
 	Item                                  string                  `json:"Item" sql:"Item"`
-	CreationDate                          sql.NullTime            `json:"Created On" sql:"Created On"`
+	CreationDate                          NullTime                `json:"Created On" sql:"Created On"`
 	DocumentCategoryCode                  string                  `json:"Document Category Code" sql:"Document Category Code"`
 	DocumentCategory                      string                  `json:"Document Category" sql:"Document Category"`
 	WbsElementId                          string                  `json:"WBS Element ID" sql:"WBS Element ID"`
 	NetValueItemUSD                       float64                 `json:"Net Value in USD" sql:"Net Value in USD"`
 	NetValueDocument                      float64                 `json:"Net Value" sql:"Net Value"`
-	ValidFrom                             sql.NullTime            `json:"Valid From" sql:"Valid From"`
-	ValidTo                               sql.NullTime            `json:"Valid To" sql:"Valid To"`
-	DocumentDate                          sql.NullTime            `json:"Document Date" sql:"Document Date"`
+	ValidFrom                             NullTime                `json:"Valid From" sql:"Valid From"`
+	ValidTo                               NullTime                `json:"Valid To" sql:"Valid To"`
+	DocumentDate                          NullTime                `json:"Document Date" sql:"Document Date"`
 	SalesDocumentTypeCode                 string                  `json:"Sales Document Type Code" sql:"Sales Document Type Code"`
-	RequestedDeliveryDate                 sql.NullTime            `json:"Requested Delivery Date" sql:"Requested Delivery Date"`
+	RequestedDeliveryDate                 NullTime                `json:"Requested Delivery Date" sql:"Requested Delivery Date"`
 	MaterialCode                          string                  `json:"Material Code" sql:"Material Code"`
 	Material                              string                  `json:"Material" sql:"Material"`
 	MaterialGroupCode                     string                  `json:"Material Group Code" sql:"Material Group Code"`
@@ -32,9 +32,9 @@ type SalesOrderProject struct {
 	ProjectName                           string                  `json:"Project Name" sql:"Project Name"`
 	ProjectObject                         string                  `json:"Project Object" sql:"Project Object"`
 	ProjectCreatedBy                      string                  `json:"Project Created By" sql:"Project Created By"`
-	ProjectCreatedOn                      sql.NullTime            `json:"Project Created On" sql:"Project Created On"`
+	ProjectCreatedOn                      NullTime                `json:"Project Created On" sql:"Project Created On"`
 	ProjectChangedBy                      string                  `json:"Project Changed By" sql:"Project Changed By"`
-	ProjectChangedOn                      sql.NullTime            `json:"Project Changed On" sql:"Project Changed On"`
+	ProjectChangedOn                      NullTime                `json:"Project Changed On" sql:"Project Changed On"`
 	ProjectStatusProfileCode              string                  `json:"Project Status Profile Code" sql:"Project Status Profile Code"`
 	ProjectStatusProfile                  string                  `json:"Project Status Profile" sql:"Project Status Profile"`
 	WbsStatusProfileCode                  string                  `json:"WBS Status Profile Code" sql:"WBS Status Profile Code"`
@@ -54,8 +54,8 @@ type SalesOrderProject struct {
 	ProjectAbacusCode                     string                  `json:"Project Abacus Code" sql:"Project Abacus Code"`
 	ProjectCurrency                       string                  `json:"Project Currency" sql:"Project Currency"`
 	NetworkAssignment                     string                  `json:"Network Assignment" sql:"Network Assignment"`
-	ProjectPlannedStart                   sql.NullTime            `json:"Project Planned Start" sql:"Project Planned Start"`
-	ProjectPlannedEnd                     sql.NullTime            `json:"Project Planned End" sql:"Project Planned End"`
+	ProjectPlannedStart                   NullTime                `json:"Project Planned Start" sql:"Project Planned Start"`
+	ProjectPlannedEnd                     NullTime                `json:"Project Planned End" sql:"Project Planned End"`
 	ProjectPlantCode                      string                  `json:"Project Plant Code" sql:"Project Plant Code"`
 	ProjectPlant                          string                  `json:"Project Plant" sql:"Project Plant"`
 	ProjectPlanningMethodForBasicDates    string                  `json:"Project Planning Method for Basic Dates" sql:"Project Planning Method for Basic Dates"`
@@ -78,16 +78,16 @@ type SalesOrderProject struct {
 	DistributionChannelCode               string                  `json:"Distribution Channel Code" sql:"Distribution Channel Code"`
 	DivisionCode                          string                  `json:"Division Code" sql:"Division Code"`
 	ProjectReleasedBy                     string                  `json:"Project Released By" sql:"Project Released By"`
-	ProjectReleasedOn                     sql.NullTime            `json:"Project Released On" sql:"Project Released On"`
+	ProjectReleasedOn                     NullTime                `json:"Project Released On" sql:"Project Released On"`
 	Proj_Firsttecoby                      string                  `json:"PROJ_FirstTecoBy" sql:"PROJ_FirstTecoBy"`
-	Proj_Firsttecoon                      sql.NullTime            `json:"PROJ_FirstTecoOn" sql:"PROJ_FirstTecoOn"`
+	Proj_Firsttecoon                      NullTime                `json:"PROJ_FirstTecoOn" sql:"PROJ_FirstTecoOn"`
 	ProjectTecoBy                         string                  `json:"Project TECO By" sql:"Project TECO By"`
-	ProjectTecoOn                         sql.NullTime            `json:"Project TECO On" sql:"Project TECO On"`
+	ProjectTecoOn                         NullTime                `json:"Project TECO On" sql:"Project TECO On"`
 	Proj_Tecocount                        int64                   `json:"PROJ_TecoCount" sql:"PROJ_TecoCount"`
 	Proj_Firstclsdby                      string                  `json:"PROJ_FirstClsdBy" sql:"PROJ_FirstClsdBy"`
-	Proj_Firstclsdon                      sql.NullTime            `json:"PROJ_FirstClsdOn" sql:"PROJ_FirstClsdOn"`
+	Proj_Firstclsdon                      NullTime                `json:"PROJ_FirstClsdOn" sql:"PROJ_FirstClsdOn"`
 	ProjectClsdBy                         string                  `json:"Project CLSD By" sql:"Project CLSD By"`
-	ProjectClsdOn                         sql.NullTime            `json:"Project CLSD On" sql:"Project CLSD On"`
+	ProjectClsdOn                         NullTime                `json:"Project CLSD On" sql:"Project CLSD On"`
 	Proj_Clsdcount                        int64                   `json:"PROJ_ClsdCount" sql:"PROJ_ClsdCount"`
 	ID                                    string                  `json:"ICM_ID" sql:"ICM_ID"`
 	ProjectReleaseYear                    string                  `json:"Project Release Year" sql:"Project Release Year"`

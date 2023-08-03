@@ -24,7 +24,7 @@ type PurchaseOrder struct {
 	PoDeletionIndicator                               string              `json:"PO Deletion Indicator" sql:"PO Deletion Indicator"`
 	PoStatusCode                                      string              `json:"PO Status Code" sql:"PO Status Code"`
 	PoStatus                                          string              `json:"PO Status" sql:"PO Status"`
-	PoCreationDate                                    sql.NullTime        `json:"PO Creation Date" sql:"PO Creation Date"`
+	PoCreationDate                                    NullTime            `json:"PO Creation Date" sql:"PO Creation Date"`
 	PoCreatedBy                                       string              `json:"PO Created By" sql:"PO Created By"`
 	VendorNumber                                      string              `json:"Vendor Number" sql:"Vendor Number"`
 	Vendor                                            string              `json:"Vendor" sql:"Vendor"`
@@ -43,7 +43,7 @@ type PurchaseOrder struct {
 	PurchasingGroup                                   string              `json:"Purchasing Group" sql:"Purchasing Group"`
 	PoCurrency                                        string              `json:"PO Currency" sql:"PO Currency"`
 	ExchangeRate                                      float64             `json:"Exchange Rate" sql:"Exchange Rate"`
-	PurchasingDocumentDate                            sql.NullTime        `json:"Purchasing Document Date" sql:"Purchasing Document Date"`
+	PurchasingDocumentDate                            NullTime            `json:"Purchasing Document Date" sql:"Purchasing Document Date"`
 	SupplyingVendorCode                               string              `json:"Supplying Vendor Code" sql:"Supplying Vendor Code"`
 	NumberOfPrincipalPurchaseAgreementPOHeader        string              `json:"Number of Principal Purchase Agreement (PO Header)" sql:"Number of Principal Purchase Agreement (PO Header)"`
 	IncotermsPart1PO                                  string              `json:"Incoterms part 1 (PO)" sql:"Incoterms part 1 (PO)"`
@@ -61,7 +61,7 @@ type PurchaseOrder struct {
 	VatNumber                                         string              `json:"VAT Number" sql:"VAT Number"`
 	DeletionIndicatorInPurchasingDocumentItem         string              `json:"Deletion Indicator in Purchasing Document Item" sql:"Deletion Indicator in Purchasing Document Item"`
 	RfqStatus                                         string              `json:"RFQ status" sql:"RFQ status"`
-	PurchasingDocumentItemChangeDate                  sql.NullTime        `json:"Purchasing Document Item Change Date" sql:"Purchasing Document Item Change Date"`
+	PurchasingDocumentItemChangeDate                  NullTime            `json:"Purchasing Document Item Change Date" sql:"Purchasing Document Item Change Date"`
 	ShortTextForPurchasingDocumentItem                string              `json:"Short Text for Purchasing Document Item" sql:"Short Text for Purchasing Document Item"`
 	MaterialNumber                                    string              `json:"Material Number" sql:"Material Number"`
 	Ekpo_Matnr_Concat                                 string              `json:"EKPO_MATNR_Concat" sql:"EKPO_MATNR_Concat"`
@@ -97,13 +97,13 @@ type PurchaseOrder struct {
 	PrNumber                                          string              `json:"PR Number" sql:"PR Number"`
 	PrItem                                            string              `json:"PR Item" sql:"PR Item"`
 	ReturnsItem                                       string              `json:"Returns Item" sql:"Returns Item"`
-	FirstDeliveryDate                                 sql.NullTime        `json:"First Delivery Date" sql:"First Delivery Date"`
-	LastDeliveryDate                                  sql.NullTime        `json:"Last Delivery Date" sql:"Last Delivery Date"`
-	Eket_Slfdt_Min                                    sql.NullTime        `json:"EKET_SLFDT_Min" sql:"EKET_SLFDT_Min"`
-	Eket_Slfdt_Max                                    sql.NullTime        `json:"EKET_SLFDT_Max" sql:"EKET_SLFDT_Max"`
+	FirstDeliveryDate                                 NullTime            `json:"First Delivery Date" sql:"First Delivery Date"`
+	LastDeliveryDate                                  NullTime            `json:"Last Delivery Date" sql:"Last Delivery Date"`
+	Eket_Slfdt_Min                                    NullTime            `json:"EKET_SLFDT_Min" sql:"EKET_SLFDT_Min"`
+	Eket_Slfdt_Max                                    NullTime            `json:"EKET_SLFDT_Max" sql:"EKET_SLFDT_Max"`
 	ScheduledQuantity                                 float64             `json:"Scheduled Quantity" sql:"Scheduled Quantity"`
 	AcctAssignmentDeleted                             string              `json:"Acct Assignment Deleted" sql:"Acct Assignment Deleted"`
-	AcctAssignmentCreatedOn                           sql.NullTime        `json:"Acct Assignment Created On" sql:"Acct Assignment Created On"`
+	AcctAssignmentCreatedOn                           NullTime            `json:"Acct Assignment Created On" sql:"Acct Assignment Created On"`
 	Ekkn_Vproz                                        float64             `json:"EKKN_VPROZ" sql:"EKKN_VPROZ"`
 	GlAccountId                                       string              `json:"GL Account ID" sql:"GL Account ID"`
 	CostCenter                                        string              `json:"Cost Center" sql:"Cost Center"`
@@ -138,20 +138,20 @@ type PurchaseOrder struct {
 	ReportingUnit                                     string              `json:"Reporting Unit" sql:"Reporting Unit"`
 	InvoicedQuantity                                  float64             `json:"Invoiced Quantity" sql:"Invoiced Quantity"`
 	InvoicedValueInLc                                 float64             `json:"Invoiced Value in LC" sql:"Invoiced Value in LC"`
-	FirstInvoicePostingDate                           sql.NullTime        `json:"First Invoice Posting Date" sql:"First Invoice Posting Date"`
-	FirstInvoiceCreatedOn                             sql.NullTime        `json:"First Invoice Created On" sql:"First Invoice Created On"`
-	LastInvoicePostingDate                            sql.NullTime        `json:"Last Invoice Posting Date" sql:"Last Invoice Posting Date"`
-	LastInvoiceCreatedOn                              sql.NullTime        `json:"Last Invoice Created On" sql:"Last Invoice Created On"`
-	FirstInvoiceDocDate                               sql.NullTime        `json:"First Invoice Doc Date" sql:"First Invoice Doc Date"`
-	LastInvoiceDocDate                                sql.NullTime        `json:"Last Invoice Doc Date" sql:"Last Invoice Doc Date"`
+	FirstInvoicePostingDate                           NullTime            `json:"First Invoice Posting Date" sql:"First Invoice Posting Date"`
+	FirstInvoiceCreatedOn                             NullTime            `json:"First Invoice Created On" sql:"First Invoice Created On"`
+	LastInvoicePostingDate                            NullTime            `json:"Last Invoice Posting Date" sql:"Last Invoice Posting Date"`
+	LastInvoiceCreatedOn                              NullTime            `json:"Last Invoice Created On" sql:"Last Invoice Created On"`
+	FirstInvoiceDocDate                               NullTime            `json:"First Invoice Doc Date" sql:"First Invoice Doc Date"`
+	LastInvoiceDocDate                                NullTime            `json:"Last Invoice Doc Date" sql:"Last Invoice Doc Date"`
 	ReceiptedQuantity                                 float64             `json:"Receipted Quantity" sql:"Receipted Quantity"`
 	ReceiptedValueInLc                                float64             `json:"Receipted Value in LC" sql:"Receipted Value in LC"`
-	FirstReceiptPostingDate                           sql.NullTime        `json:"First Receipt Posting Date" sql:"First Receipt Posting Date"`
-	FirstReceiptCreatedOn                             sql.NullTime        `json:"First Receipt Created On" sql:"First Receipt Created On"`
-	LastReceiptPostingDate                            sql.NullTime        `json:"Last Receipt Posting Date" sql:"Last Receipt Posting Date"`
-	LastReceiptCreatedOn                              sql.NullTime        `json:"Last Receipt Created On" sql:"Last Receipt Created On"`
-	FirstReceiptDocDate                               sql.NullTime        `json:"First Receipt Doc Date" sql:"First Receipt Doc Date"`
-	LastReceiptDocDate                                sql.NullTime        `json:"Last Receipt Doc Date" sql:"Last Receipt Doc Date"`
+	FirstReceiptPostingDate                           NullTime            `json:"First Receipt Posting Date" sql:"First Receipt Posting Date"`
+	FirstReceiptCreatedOn                             NullTime            `json:"First Receipt Created On" sql:"First Receipt Created On"`
+	LastReceiptPostingDate                            NullTime            `json:"Last Receipt Posting Date" sql:"Last Receipt Posting Date"`
+	LastReceiptCreatedOn                              NullTime            `json:"Last Receipt Created On" sql:"Last Receipt Created On"`
+	FirstReceiptDocDate                               NullTime            `json:"First Receipt Doc Date" sql:"First Receipt Doc Date"`
+	LastReceiptDocDate                                NullTime            `json:"Last Receipt Doc Date" sql:"Last Receipt Doc Date"`
 	ApprovalsRequired                                 int64               `json:"Approvals Required" sql:"Approvals Required"`
 	ID                                                string              `json:"ICM_VENDOR_ID" sql:"ICM_VENDOR_ID"`
 	AprovalDescriptive                                string              `json:"Aproval Descriptive" sql:"Aproval Descriptive"`

@@ -11,22 +11,22 @@ type BusinessPartner struct {
 	Database                 string                `json:"Database" sql:"Database"`
 	ProjectNumber            string                `json:"Project Number" sql:"Project Number"`
 	BusinesPartner           string                `json:"Busines Partner" sql:"Busines Partner"`
-	Firstpodatewbs           sql.NullTime          `json:"FirstPODateWBS" sql:"FirstPODateWBS"`
-	Firstpodate_No_Wbs       sql.NullTime          `json:"FirstPODate_NO_WBS" sql:"FirstPODate_NO_WBS"`
+	Firstpodatewbs           NullTime              `json:"FirstPODateWBS" sql:"FirstPODateWBS"`
+	Firstpodate_No_Wbs       NullTime              `json:"FirstPODate_NO_WBS" sql:"FirstPODate_NO_WBS"`
 	Wbs_Vendoronly           bool                  `json:"WBS_VendorOnly" sql:"WBS_VendorOnly"`
 	Mixwbsandnone            bool                  `json:"MixWBSandNone" sql:"MixWBSandNone"`
 	ProjectName              string                `json:"Project Name" sql:"Project Name"`
 	Name                     string                `json:"Name" sql:"Name"`
 	Value                    float64               `json:"Value" sql:"Value"`
 	BpType                   string                `json:"BP Type" sql:"BP Type"`
-	ProjectChangedOn         sql.NullTime          `json:"Project Changed On" sql:"Project Changed On"`
+	ProjectChangedOn         NullTime              `json:"Project Changed On" sql:"Project Changed On"`
 	ProjectCountry           string                `json:"Project Country" sql:"Project Country"`
 	ProjectResponsiblePerson string                `json:"Project Responsible Person" sql:"Project Responsible Person"`
 	BpName                   string                `json:"BP Name" sql:"BP Name"`
 	BpCountry                string                `json:"BP Country" sql:"BP Country"`
 	BpCity                   string                `json:"BP City" sql:"BP City"`
 	BpStreet                 string                `json:"BP Street" sql:"BP Street"`
-	BpCreatedOn              sql.NullTime          `json:"BP Created On" sql:"BP Created On"`
+	BpCreatedOn              NullTime              `json:"BP Created On" sql:"BP Created On"`
 	BpCreator                string                `json:"BP Creator" sql:"BP Creator"`
 	AccountGroup             string                `json:"Account Group" sql:"Account Group"`
 	BpOpposingSide           string                `json:"BP Opposing Side" sql:"BP Opposing Side"`
@@ -34,7 +34,7 @@ type BusinessPartner struct {
 	IsIntercompany           bool                  `json:"Is Intercompany" sql:"Is Intercompany"`
 	FirstSalesOrderYear      string                `json:"First Sales Order Year" sql:"First Sales Order Year"`
 	Maincustomer             bool                  `json:"MainCustomer" sql:"MainCustomer"`
-	ProjectReleasedOn        sql.NullTime          `json:"Project Released On" sql:"Project Released On"`
+	ProjectReleasedOn        NullTime              `json:"Project Released On" sql:"Project Released On"`
 	ProjectReleaseYear       string                `json:"Project Release Year" sql:"Project Release Year"`
 	BlockOrder               string                `json:"Order Block" sql:"Order Block"`
 	BlockDelivery            string                `json:"Delivery Block" sql:"Delivery Block"`

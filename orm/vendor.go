@@ -8,19 +8,19 @@ import (
 
 type Vendor struct {
 	// Identifiers
-	ID             string       `json:"ICM_VENDOR_ID" sql:"ICM_VENDOR_ID"`
-	Database       string       `json:"Database" sql:"Database"`
-	Code           string       `json:"Vendor Code" sql:"Vendor Code"`
-	Key            string       `json:"CMT Vendor Key" sql:"CMT Vendor Key"`
-	Name1          string       `json:"Name 1" sql:"Name 1"`
-	Name2          string       `json:"Vendor Name 2" sql:"Vendor Name 2"`
-	Name3          string       `json:"Vendor Name 3" sql:"Vendor Name 3"`
-	Name4          string       `json:"Vendor Name 4" sql:"Vendor Name 4"`
-	GUIDCommonName string       `json:"Vendor GUID Common Name" sql:"Vendor GUID Common Name"`
-	GISLegalName   string       `json:"GIS_PRLEGALNAMELOC" sql:"GIS_PRLEGALNAMELOC"`
-	CustomerCode   string       `json:"Customer ID" sql:"Customer ID"`
-	CreatedBy      string       `json:"Vendor Created By" sql:"Vendor Created By"`
-	CreationDate   sql.NullTime `json:"Vendor Creation Date" sql:"Vendor Creation Date"`
+	ID             string   `json:"ICM_VENDOR_ID" sql:"ICM_VENDOR_ID"`
+	Database       string   `json:"Database" sql:"Database"`
+	Code           string   `json:"Vendor Code" sql:"Vendor Code"`
+	Key            string   `json:"CMT Vendor Key" sql:"CMT Vendor Key"`
+	Name1          string   `json:"Name 1" sql:"Name 1"`
+	Name2          string   `json:"Vendor Name 2" sql:"Vendor Name 2"`
+	Name3          string   `json:"Vendor Name 3" sql:"Vendor Name 3"`
+	Name4          string   `json:"Vendor Name 4" sql:"Vendor Name 4"`
+	GUIDCommonName string   `json:"Vendor GUID Common Name" sql:"Vendor GUID Common Name"`
+	GISLegalName   string   `json:"GIS_PRLEGALNAMELOC" sql:"GIS_PRLEGALNAMELOC"`
+	CustomerCode   string   `json:"Customer ID" sql:"Customer ID"`
+	CreatedBy      string   `json:"Vendor Created By" sql:"Vendor Created By"`
+	CreationDate   NullTime `json:"Vendor Creation Date" sql:"Vendor Creation Date"`
 
 	// Transactional summary
 	AmountUSDLastMonth    float64 `json:"Amount USD Last Month" sql:"Amount USD Last Month"`
@@ -145,7 +145,7 @@ type Vendor struct {
 	CreditInformationNumber               string        `json:"Vendor Credit Information Number" sql:"Vendor Credit Information Number"`
 	IsIntercompany                        BoolFromFloat `json:"Is Intercompany" sql:"Is Intercompany"`
 	Language                              string        `json:"Vendor Language" sql:"Vendor Language"`
-	LastVendorExternalReview              sql.NullTime  `json:"Last Vendor External Review" sql:"Last Vendor External Review"`
+	LastVendorExternalReview              NullTime      `json:"Last Vendor External Review" sql:"Last Vendor External Review"`
 	ListMissingFields                     string        `json:"List Missing Fields" sql:"List Missing Fields"`
 	OneTimeVendorIndicator                string        `json:"One-time Vendor Indicator" sql:"One-time Vendor Indicator"`
 	PrCode6                               string        `json:"Vendor PR Code 6" sql:"Vendor PR Code 6"`

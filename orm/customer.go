@@ -8,18 +8,18 @@ import (
 
 type Customer struct {
 	// Identifiers
-	ID             string       `json:"ICM_ID" sql:"ICM_ID"`
-	Database       string       `json:"Database" sql:"Database"`
-	Code           string       `json:"Customer Code" sql:"Customer Code"`
-	Name1          string       `json:"Name 1" sql:"Name 1"`
-	Name2          string       `json:"Name 2" sql:"Name 2"`
-	Name3          string       `json:"Name 3" sql:"Name 3"`
-	Name4          string       `json:"Name 4" sql:"Name 4"`
-	GUIDCommonName string       `json:"ZCA_GIS_1_PRCOMMONNAME" sql:"ZCA_GIS_1_PRCOMMONNAME"`
-	GISLegalName   string       `json:"ZCA_GIS_1_PRLEGALNAMELOC" sql:"ZCA_GIS_1_PRLEGALNAMELOC"`
-	VendorCode     string       `json:"KNA1_LIFNR" sql:"KNA1_LIFNR"`
-	CreatedBy      string       `json:"Created By" sql:"Created By"`
-	CreationDate   sql.NullTime `json:"Created On" sql:"Created On"`
+	ID             string   `json:"ICM_ID" sql:"ICM_ID"`
+	Database       string   `json:"Database" sql:"Database"`
+	Code           string   `json:"Customer Code" sql:"Customer Code"`
+	Name1          string   `json:"Name 1" sql:"Name 1"`
+	Name2          string   `json:"Name 2" sql:"Name 2"`
+	Name3          string   `json:"Name 3" sql:"Name 3"`
+	Name4          string   `json:"Name 4" sql:"Name 4"`
+	GUIDCommonName string   `json:"ZCA_GIS_1_PRCOMMONNAME" sql:"ZCA_GIS_1_PRCOMMONNAME"`
+	GISLegalName   string   `json:"ZCA_GIS_1_PRLEGALNAMELOC" sql:"ZCA_GIS_1_PRLEGALNAMELOC"`
+	VendorCode     string   `json:"KNA1_LIFNR" sql:"KNA1_LIFNR"`
+	CreatedBy      string   `json:"Created By" sql:"Created By"`
+	CreationDate   NullTime `json:"Created On" sql:"Created On"`
 
 	// Transactional summary
 	AmountUSDLastMonth    float64 `json:"Amount USD Last Month" sql:"Amount USD Last Month"`

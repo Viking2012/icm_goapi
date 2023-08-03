@@ -12,7 +12,7 @@ type PurchaseOrderProject struct {
 	ProjectName                        string                     `json:"Project Name" sql:"Project Name"`
 	ProjectResponsiblePerson           string                     `json:"Project Responsible Person" sql:"Project Responsible Person"`
 	ProjectCountry                     string                     `json:"Project Country" sql:"Project Country"`
-	ProjectReleasedOn                  sql.NullTime               `json:"Project Released On" sql:"Project Released On"`
+	ProjectReleasedOn                  NullTime                   `json:"Project Released On" sql:"Project Released On"`
 	ProjectReleaseYear                 string                     `json:"Project Release Year" sql:"Project Release Year"`
 	Database                           string                     `json:"Database" sql:"Database"`
 	PoNumber                           string                     `json:"PO Number" sql:"PO Number"`
@@ -21,23 +21,23 @@ type PurchaseOrderProject struct {
 	CompanyCodeId                      string                     `json:"Company Code ID" sql:"Company Code ID"`
 	PoStatusCode                       string                     `json:"PO Status Code" sql:"PO Status Code"`
 	PoStatus                           string                     `json:"PO Status" sql:"PO Status"`
-	PoCreationDate                     sql.NullTime               `json:"PO Creation Date" sql:"PO Creation Date"`
+	PoCreationDate                     NullTime                   `json:"PO Creation Date" sql:"PO Creation Date"`
 	VendorNumber                       string                     `json:"Vendor Number" sql:"Vendor Number"`
 	Vendor                             string                     `json:"Vendor" sql:"Vendor"`
-	PurchasingDocumentDate             sql.NullTime               `json:"Purchasing Document Date" sql:"Purchasing Document Date"`
-	PurchasingDocumentItemChangeDate   sql.NullTime               `json:"Purchasing Document Item Change Date" sql:"Purchasing Document Item Change Date"`
+	PurchasingDocumentDate             NullTime                   `json:"Purchasing Document Date" sql:"Purchasing Document Date"`
+	PurchasingDocumentItemChangeDate   NullTime                   `json:"Purchasing Document Item Change Date" sql:"Purchasing Document Item Change Date"`
 	ShortTextForPurchasingDocumentItem string                     `json:"Short Text for Purchasing Document Item" sql:"Short Text for Purchasing Document Item"`
 	MaterialNumber                     string                     `json:"Material Number" sql:"Material Number"`
 	MaterialGroupCode                  string                     `json:"Material Group Code" sql:"Material Group Code"`
 	MaterialGroup                      string                     `json:"Material Group" sql:"Material Group"`
-	AcctAssignmentCreatedOn            sql.NullTime               `json:"Acct Assignment Created On" sql:"Acct Assignment Created On"`
+	AcctAssignmentCreatedOn            NullTime                   `json:"Acct Assignment Created On" sql:"Acct Assignment Created On"`
 	Right_Proj_Pspid                   string                     `json:"Right_PROJ_PSPID" sql:"Right_PROJ_PSPID"`
 	ValueInLc                          float64                    `json:"Value in LC" sql:"Value in LC"`
 	ValueInUsd                         float64                    `json:"Value in USD" sql:"Value in USD"`
 	InvoicedQuantity                   float64                    `json:"Invoiced Quantity" sql:"Invoiced Quantity"`
 	ReceiptedQuantity                  float64                    `json:"Receipted Quantity" sql:"Receipted Quantity"`
-	Firstpodatewbs                     sql.NullTime               `json:"FirstPODateWBS" sql:"FirstPODateWBS"`
-	Firstpodate_No_Wbs                 sql.NullTime               `json:"FirstPODate_NO_WBS" sql:"FirstPODate_NO_WBS"`
+	Firstpodatewbs                     NullTime                   `json:"FirstPODateWBS" sql:"FirstPODateWBS"`
+	Firstpodate_No_Wbs                 NullTime                   `json:"FirstPODate_NO_WBS" sql:"FirstPODate_NO_WBS"`
 	BusinesPartner                     string                     `json:"Busines Partner" sql:"Busines Partner"`
 	IsIntercompany                     bool                       `json:"Is Intercompany" sql:"Is Intercompany"`
 	Left_Left_Right_Ekko_Lifnr         string                     `json:"Left_Left_Right_EKKO_LIFNR" sql:"Left_Left_Right_EKKO_LIFNR"`

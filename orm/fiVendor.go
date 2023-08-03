@@ -20,15 +20,15 @@ type FIVendor struct {
 	AccountGroup                      string         `json:"Vendor Account Group" sql:"Vendor Account Group"`
 	SpecialGlTransactionType          string         `json:"Special GL Transaction Type" sql:"Special GL Transaction Type"`
 	SpecialGlIndicatorCode            string         `json:"Special GL Indicator Code" sql:"Special GL Indicator Code"`
-	ClearingDate                      sql.NullTime   `json:"Clearing Date" sql:"Clearing Date"`
+	ClearingDate                      NullTime       `json:"Clearing Date" sql:"Clearing Date"`
 	ClearingDocumentNumber            string         `json:"Clearing Document Number" sql:"Clearing Document Number"`
 	AssignmentNumber                  string         `json:"Assignment Number" sql:"Assignment Number"`
 	FiscalYear                        string         `json:"Fiscal Year" sql:"Fiscal Year"`
 	AccountingDocumentNumber          string         `json:"Accounting Document Number" sql:"Accounting Document Number"`
 	AccountingDocumentLineItem        string         `json:"Accounting Document Line Item" sql:"Accounting Document Line Item"`
-	PostingDateAccountingDocument     sql.NullTime   `json:"Posting Date" sql:"Posting Date"`
-	DocumentDate                      sql.NullTime   `json:"Document Date" sql:"Document Date"`
-	EntryDate                         sql.NullTime   `json:"Entry Date" sql:"Entry Date"`
+	PostingDateAccountingDocument     NullTime       `json:"Posting Date" sql:"Posting Date"`
+	DocumentDate                      NullTime       `json:"Document Date" sql:"Document Date"`
+	EntryDate                         NullTime       `json:"Entry Date" sql:"Entry Date"`
 	DocumentCurrency                  string         `json:"Document Currency" sql:"Document Currency"`
 	ReferenceDocumentNumber           string         `json:"Reference Document Number" sql:"Reference Document Number"`
 	DocumentTypeId                    string         `json:"Document Type ID" sql:"Document Type ID"`
@@ -42,7 +42,7 @@ type FIVendor struct {
 	LineItemText                      string         `json:"Line Item text" sql:"Line Item text"`
 	OrderNumber                       string         `json:"Order Number" sql:"Order Number"`
 	Bsak_Saknr                        string         `json:"BSAK_SAKNR" sql:"BSAK_SAKNR"`
-	BaselineDateForDueDateCalculation sql.NullTime   `json:"Baseline Date for Due Date Calculation" sql:"Baseline Date for Due Date Calculation"`
+	BaselineDateForDueDateCalculation NullTime       `json:"Baseline Date for Due Date Calculation" sql:"Baseline Date for Due Date Calculation"`
 	PaymentTermsKey                   string         `json:"Payment Terms Key" sql:"Payment Terms Key"`
 	CashDiscountDays1                 int64          `json:"Cash discount days 1" sql:"Cash discount days 1"`
 	CashDiscountDays2                 int64          `json:"Cash discount days 2" sql:"Cash discount days 2"`
@@ -135,7 +135,7 @@ type FIVendor struct {
 	ExchangeRateToUsd2                float64        `json:"Exchange Rate to USD2" sql:"Exchange Rate to USD2"`
 	MmDocument                        string         `json:"MM Document" sql:"MM Document"`
 	MmYear                            string         `json:"MM Year" sql:"MM Year"`
-	FinalDueDate                      sql.NullTime   `json:"Final Due Date" sql:"Final Due Date"`
+	FinalDueDate                      NullTime       `json:"Final Due Date" sql:"Final Due Date"`
 	PoCount                           int64          `json:"PO Count" sql:"PO Count"`
 	ID                                string         `json:"ICM_VENDOR_ID" sql:"ICM_VENDOR_ID"`
 	IsFiInvoice                       bool           `json:"Is FI Invoice" sql:"Is FI Invoice"`
@@ -163,7 +163,7 @@ type FIVendor struct {
 	Right_Faglflexa_Psegment          string         `json:"Right_FAGLFLEXA_PSEGMENT" sql:"Right_FAGLFLEXA_PSEGMENT"`
 	Right_Faglflexa_Rwcur             string         `json:"Right_FAGLFLEXA_RWCUR" sql:"Right_FAGLFLEXA_RWCUR"`
 	Right_Icm_Vendor_Id               string         `json:"Right_ICM_VENDOR_ID" sql:"Right_ICM_VENDOR_ID"`
-	CreationDate                      sql.NullTime   `json:"Vendor Creation Date" sql:"Vendor Creation Date"`
+	CreationDate                      NullTime       `json:"Vendor Creation Date" sql:"Vendor Creation Date"`
 	DaysSinceVendorCreation           int64          `json:"Days Since Vendor Creation" sql:"Days Since Vendor Creation"`
 	Avg_DaysSinceVendorCreation       float64        `json:"Avg_Days Since Vendor Creation" sql:"Avg_Days Since Vendor Creation"`
 	Avgdays20                         int64          `json:"20% of AvgDays" sql:"20% of AvgDays"`

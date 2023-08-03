@@ -21,8 +21,8 @@ type BankMaster struct {
 	NewBankS          string `json:"New_BANKS" sql:"New_BANKS"`
 
 	// Creation date
-	CreatedBy    string       `json:"Bank Record Created By" sql:"Bank Record Created By"`
-	CreationDate sql.NullTime `json:"Bank Record Creation Date" sql:"Bank Record Creation Date"`
+	CreatedBy    string   `json:"Bank Record Created By" sql:"Bank Record Created By"`
+	CreationDate NullTime `json:"Bank Record Creation Date" sql:"Bank Record Creation Date"`
 
 	// Flags
 	Flags                            *BankMasterFlags `json:"flags" sql:"FLAGS"`

@@ -20,8 +20,8 @@ type BankUsedBy struct {
 	Vendor            string `json:"Vendor" sql:"Vendor"`
 
 	// Creation Date
-	CreatedBy    string       `json:"Bank Record Created By" sql:"Bank Record Created By"`
-	CreationDate sql.NullTime `json:"Bank Record Creation Date" sql:"Bank Record Creation Date"`
+	CreatedBy    string   `json:"Bank Record Created By" sql:"Bank Record Created By"`
+	CreationDate NullTime `json:"Bank Record Creation Date" sql:"Bank Record Creation Date"`
 
 	// Transactional summary
 	AmountUSDLastMonth    float64 `json:"Amount USD Last Month" sql:"Amount USD Last Month"`

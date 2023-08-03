@@ -26,7 +26,7 @@ type Requisition struct {
 	PurchasingGroup             string        `json:"Purchasing Group" sql:"Purchasing Group"`
 	PurchasingGroupName         string        `json:"Purchasing Group Name" sql:"Purchasing Group Name"`
 	CreatedBy                   string        `json:"Created By" sql:"Created By"`
-	CreationDate                sql.NullTime  `json:"Created On" sql:"Created On"`
+	CreationDate                NullTime      `json:"Created On" sql:"Created On"`
 	Requisitioner               string        `json:"Requisitioner" sql:"Requisitioner"`
 	ShortText                   string        `json:"Short Text" sql:"Short Text"`
 	MaterialCode                string        `json:"Material Code" sql:"Material Code"`
@@ -44,10 +44,10 @@ type Requisition struct {
 	QtyBase                     float64       `json:"Qty Base" sql:"Qty Base"`
 	UomBase                     string        `json:"Uom Base" sql:"Uom Base"`
 	ShortageQuantity            float64       `json:"Shortage Quantity" sql:"Shortage Quantity"`
-	RequisitionDate             sql.NullTime  `json:"Requisition Date" sql:"Requisition Date"`
+	RequisitionDate             NullTime      `json:"Requisition Date" sql:"Requisition Date"`
 	DeliveryDateCategory        string        `json:"Delivery Date Category" sql:"Delivery Date Category"`
-	DeliveryDate                sql.NullTime  `json:"Delivery Date" sql:"Delivery Date"`
-	ReleaseDate                 sql.NullTime  `json:"Release Date" sql:"Release Date"`
+	DeliveryDate                NullTime      `json:"Delivery Date" sql:"Delivery Date"`
+	ReleaseDate                 NullTime      `json:"Release Date" sql:"Release Date"`
 	GrProcessingTime            float64       `json:"GR Processing Time" sql:"GR Processing Time"`
 	PriceDc                     float64       `json:"Price DC" sql:"Price DC"`
 	PriceLc                     float64       `json:"Price LC" sql:"Price LC"`
@@ -85,7 +85,7 @@ type Requisition struct {
 	PurchasingInfoRec           string        `json:"Purchasing Info Rec" sql:"Purchasing Info Rec"`
 	Ebeln                       string        `json:"EBELN" sql:"EBELN"`
 	Ebelp                       string        `json:"EBELP" sql:"EBELP"`
-	PurchaseOrderDate           sql.NullTime  `json:"Purchase Order Date" sql:"Purchase Order Date"`
+	PurchaseOrderDate           NullTime      `json:"Purchase Order Date" sql:"Purchase Order Date"`
 	QuantityOrdered             float64       `json:"Quantity Ordered" sql:"Quantity Ordered"`
 	ValuationType               string        `json:"Valuation Type" sql:"Valuation Type"`
 	Closed                      string        `json:"Closed" sql:"Closed"`

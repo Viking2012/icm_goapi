@@ -6,17 +6,17 @@ import (
 
 type Check struct {
 	// Identifiers
-	Database              string       `json:"Database" sql:"Database"`
-	RunOn                 sql.NullTime `json:"Run On" sql:"Run On"`
-	PrintDate             sql.NullTime `json:"Print Date" sql:"Print Date"`
-	PrintUser             string       `json:"Print User" sql:"Print User"`
-	ProbablePaymentDate   sql.NullTime `json:"Probable Payment Date" sql:"Probable Payment Date"`
-	PaymentDocumentNumber string       `json:"Payment Document Number" sql:"Payment Document Number"`
-	CheckIdentification   string       `json:"Identification" sql:"Identification"`
-	UpperCheckNumber      string       `json:"Upper Check Number" sql:"Upper Check Number"`
-	LowerCheckNumber      string       `json:"Lower Check Number" sql:"Lower Check Number"`
-	ManualCheck           string       `json:"Manual Check" sql:"Manual Check"`
-	PaidCheck             string       `json:"Paid Check" sql:"Paid Check"`
+	Database              string   `json:"Database" sql:"Database"`
+	RunOn                 NullTime `json:"Run On" sql:"Run On"`
+	PrintDate             NullTime `json:"Print Date" sql:"Print Date"`
+	PrintUser             string   `json:"Print User" sql:"Print User"`
+	ProbablePaymentDate   NullTime `json:"Probable Payment Date" sql:"Probable Payment Date"`
+	PaymentDocumentNumber string   `json:"Payment Document Number" sql:"Payment Document Number"`
+	CheckIdentification   string   `json:"Identification" sql:"Identification"`
+	UpperCheckNumber      string   `json:"Upper Check Number" sql:"Upper Check Number"`
+	LowerCheckNumber      string   `json:"Lower Check Number" sql:"Lower Check Number"`
+	ManualCheck           string   `json:"Manual Check" sql:"Manual Check"`
+	PaidCheck             string   `json:"Paid Check" sql:"Paid Check"`
 
 	// Assignments
 	CompanyCodeID             string `json:"Company Code ID" sql:"Company Code ID"`
@@ -56,10 +56,10 @@ type Check struct {
 	AmountPaidInUSD float64 `json:"Amount Paid in USD" sql:"Amount Paid in USD"`
 
 	// Void Details
-	VoidReasonCode        string       `json:"Void Reason Code" sql:"Void Reason Code"`
-	VoidDate              sql.NullTime `json:"Void Date" sql:"Void Date"`
-	VoidUser              string       `json:"Void User" sql:"Void User"`
-	ReplacedByCheckNumber string       `json:"Replaced By Check Number" sql:"Replaced By Check Number"`
+	VoidReasonCode        string   `json:"Void Reason Code" sql:"Void Reason Code"`
+	VoidDate              NullTime `json:"Void Date" sql:"Void Date"`
+	VoidUser              string   `json:"Void User" sql:"Void User"`
+	ReplacedByCheckNumber string   `json:"Replaced By Check Number" sql:"Replaced By Check Number"`
 }
 
 func (c *Check) IsICMEntity() bool { return true }

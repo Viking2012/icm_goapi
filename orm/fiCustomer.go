@@ -6,23 +6,23 @@ import (
 
 type FICustomer struct {
 	// Primary Keys
-	Database           string       `json:"Database" sql:"Database|pk"`
-	CompanyCode        string       `json:"Company Code" sql:"Company Code|pk"`
-	FiscalYear         string       `json:"Fiscal Year" sql:"Fiscal Year|pk"`
-	AccountingDocument string       `json:"Accounting Document" sql:"Accounting Document|pk"`
-	AccountingItem     string       `json:"Accounting Item" sql:"Accounting Item|pk"`
-	PostedOn           sql.NullTime `json:"Posted On" sql:"Posted On|pk"`
-	Ledger             string       `json:"Ledger" sql:"Ledger|pk"`
-	LedgerLine         string       `json:"Ledger Line" sql:"Ledger Line|pk"`
+	Database           string   `json:"Database" sql:"Database|pk"`
+	CompanyCode        string   `json:"Company Code" sql:"Company Code|pk"`
+	FiscalYear         string   `json:"Fiscal Year" sql:"Fiscal Year|pk"`
+	AccountingDocument string   `json:"Accounting Document" sql:"Accounting Document|pk"`
+	AccountingItem     string   `json:"Accounting Item" sql:"Accounting Item|pk"`
+	PostedOn           NullTime `json:"Posted On" sql:"Posted On|pk"`
+	Ledger             string   `json:"Ledger" sql:"Ledger|pk"`
+	LedgerLine         string   `json:"Ledger Line" sql:"Ledger Line|pk"`
 
-	CreatedOn sql.NullTime `json:"Created On" sql:"Created On"`
-	UserId    string       `json:"User ID" sql:"User ID"`
-	TCodeId   string       `json:"T-Code ID" sql:"T-Code ID"`
-	TCode     string       `json:"T-Code" sql:"T-Code"`
+	CreatedOn NullTime `json:"Created On" sql:"Created On"`
+	UserId    string   `json:"User ID" sql:"User ID"`
+	TCodeId   string   `json:"T-Code ID" sql:"T-Code ID"`
+	TCode     string   `json:"T-Code" sql:"T-Code"`
 
-	DocumentDate     sql.NullTime `json:"Document Date" sql:"Document Date"`
-	ClearedOn        sql.NullTime `json:"Cleared On" sql:"Cleared On"`
-	ClearingDocument string       `json:"Clearing Document" sql:"Clearing Document"`
+	DocumentDate     NullTime `json:"Document Date" sql:"Document Date"`
+	ClearedOn        NullTime `json:"Cleared On" sql:"Cleared On"`
+	ClearingDocument string   `json:"Clearing Document" sql:"Clearing Document"`
 
 	CustomerID               string `json:"ICM_CUSTOMER_ID" sql:"ICM_CUSTOMER_ID"`
 	CustomerCode             string `json:"Customer Code" sql:"Customer Code"`
@@ -33,23 +33,23 @@ type FICustomer struct {
 	PaymentBlockCode         string `json:"Payment Block Code" sql:"Payment Block Code"`
 	PaymentBlock             string `json:"Payment Block" sql:"Payment Block"`
 
-	CompanyCodeID            string       `json:"Company Code ID" sql:"Company Code ID"`
-	LocalCurrency            string       `json:"Local Currency" sql:"Local Currency"`
-	COA                      string       `json:"CoA" sql:"CoA"`
-	TransactionType          string       `json:"Transaction Type" sql:"Transaction Type"`
-	SpecialGlIndicator       string       `json:"Special GL Indicator" sql:"Special GL Indicator"`
-	Assignment               string       `json:"Assignment" sql:"Assignment"`
-	Currency                 string       `json:"Currency" sql:"Currency"`
-	Reference                string       `json:"Reference" sql:"Reference"`
-	DocumentTypeCode         string       `json:"Document Type Code" sql:"Document Type Code"`
-	DocumentType             string       `json:"Document Type" sql:"Document Type"`
-	Period                   string       `json:"Period" sql:"Period"`
-	TargetSpecialGlIndicator string       `json:"Target Special GL Indicator" sql:"Target Special GL Indicator"`
-	DebitCreditIndicator     string       `json:"Dr/Cr Indicator" sql:"Dr/Cr Indicator"`
-	TaxCode                  string       `json:"Tax Code" sql:"Tax Code"`
-	TaxAmountInLC            float64      `json:"Tax Amount in LC" sql:"Tax Amount in LC"`
-	TaxAmountInDC            float64      `json:"Tax Amount in DC" sql:"Tax Amount in DC"`
-	BaselineDate             sql.NullTime `json:"Baseline Date" sql:"Baseline Date"`
+	CompanyCodeID            string   `json:"Company Code ID" sql:"Company Code ID"`
+	LocalCurrency            string   `json:"Local Currency" sql:"Local Currency"`
+	COA                      string   `json:"CoA" sql:"CoA"`
+	TransactionType          string   `json:"Transaction Type" sql:"Transaction Type"`
+	SpecialGlIndicator       string   `json:"Special GL Indicator" sql:"Special GL Indicator"`
+	Assignment               string   `json:"Assignment" sql:"Assignment"`
+	Currency                 string   `json:"Currency" sql:"Currency"`
+	Reference                string   `json:"Reference" sql:"Reference"`
+	DocumentTypeCode         string   `json:"Document Type Code" sql:"Document Type Code"`
+	DocumentType             string   `json:"Document Type" sql:"Document Type"`
+	Period                   string   `json:"Period" sql:"Period"`
+	TargetSpecialGlIndicator string   `json:"Target Special GL Indicator" sql:"Target Special GL Indicator"`
+	DebitCreditIndicator     string   `json:"Dr/Cr Indicator" sql:"Dr/Cr Indicator"`
+	TaxCode                  string   `json:"Tax Code" sql:"Tax Code"`
+	TaxAmountInLC            float64  `json:"Tax Amount in LC" sql:"Tax Amount in LC"`
+	TaxAmountInDC            float64  `json:"Tax Amount in DC" sql:"Tax Amount in DC"`
+	BaselineDate             NullTime `json:"Baseline Date" sql:"Baseline Date"`
 
 	LedgerPostingKey         string `json:"Ledger Posting Key" sql:"Ledger Posting Key"`
 	PostingKeyIsSalesRelated string `json:"Posting Key Is Sales Related" sql:"Posting Key Is Sales Related"`
@@ -87,67 +87,67 @@ type FICustomer struct {
 
 	PaymentMethod string `json:"Payment Method" sql:"Payment Method"`
 
-	AddressAndBankSetIndividually string       `json:"Address and Bank Set Individually" sql:"Address and Bank Set Individually"`
-	IsPaymentTransaction          string       `json:"Is Payment Transaction" sql:"Is Payment Transaction"`
-	TradingPartnerCode            string       `json:"Trading Partner Code" sql:"Trading Partner Code"`
-	WbsElementId                  string       `json:"WBS Element ID" sql:"WBS Element ID"`
-	Bsad_Nplnr                    string       `json:"BSAD_NPLNR" sql:"BSAD_NPLNR"`
-	Archive                       string       `json:"Archive" sql:"Archive"`
-	DocumentStatus                string       `json:"Document Status" sql:"Document Status"`
-	Bsad_Auggj                    string       `json:"BSAD_AUGGJ" sql:"BSAD_AUGGJ"`
-	RecurringDocument             string       `json:"Recurring Document" sql:"Recurring Document"`
-	ReverseDocumentNumber         string       `json:"Reverse Document Number" sql:"Reverse Document Number"`
-	Bkpf_Stjah                    string       `json:"BKPF_STJAH" sql:"BKPF_STJAH"`
-	HeaderText                    string       `json:"Header Text" sql:"Header Text"`
-	AccountingDocumentStatus      string       `json:"Accounting Document Status" sql:"Accounting Document Status"`
-	BusinessTransaction           string       `json:"Business Transaction" sql:"Business Transaction"`
-	ReferenceTransaction          string       `json:"Reference Transaction" sql:"Reference Transaction"`
-	ReferenceKey                  string       `json:"Reference Key" sql:"Reference Key"`
-	ParkedBy                      string       `json:"Parked By" sql:"Parked By"`
-	LedgerTransaction             string       `json:"Ledger Transaction" sql:"Ledger Transaction"`
-	TransactionType2              string       `json:"Transaction Type2" sql:"Transaction Type2"`
-	LedgerCurrency                string       `json:"Ledger Currency" sql:"Ledger Currency"`
-	BaseUom                       string       `json:"Base UOM" sql:"Base UOM"`
-	LedgerReferenceTransaction    string       `json:"Ledger Reference Transaction" sql:"Ledger Reference Transaction"`
-	RecordType                    string       `json:"Record Type" sql:"Record Type"`
-	Version                       string       `json:"Version" sql:"Version"`
-	LogicalSystem                 string       `json:"Logical system" sql:"Logical system"`
-	GlAccountCode                 string       `json:"GL Account Code" sql:"GL Account Code"`
-	CostElement                   string       `json:"Cost Element" sql:"Cost Element"`
-	CostCenterCode                string       `json:"Cost Center Code" sql:"Cost Center Code"`
-	ProfitCenterCode              string       `json:"Profit Center Code" sql:"Profit Center Code"`
-	Faglflexa_Prctr_Org1          string       `json:"FAGLFLEXA_PRCTR_ORG1" sql:"FAGLFLEXA_PRCTR_ORG1"`
-	Faglflexa_Prctr_Org1_Concat   string       `json:"FAGLFLEXA_PRCTR_ORG1_Concat" sql:"FAGLFLEXA_PRCTR_ORG1_Concat"`
-	Faglflexa_Prctr_Org2          string       `json:"FAGLFLEXA_PRCTR_ORG2" sql:"FAGLFLEXA_PRCTR_ORG2"`
-	Faglflexa_Prctr_Org2_Concat   string       `json:"FAGLFLEXA_PRCTR_ORG2_Concat" sql:"FAGLFLEXA_PRCTR_ORG2_Concat"`
-	Faglflexa_Prctr_Org3          string       `json:"FAGLFLEXA_PRCTR_ORG3" sql:"FAGLFLEXA_PRCTR_ORG3"`
-	Faglflexa_Prctr_Org3_Concat   string       `json:"FAGLFLEXA_PRCTR_ORG3_Concat" sql:"FAGLFLEXA_PRCTR_ORG3_Concat"`
-	ProfitCenterCountryCode       string       `json:"Profit Center Country Code" sql:"Profit Center Country Code"`
-	ProfitCenterAbacusCode        string       `json:"Profit Center Abacus Code" sql:"Profit Center Abacus Code"`
-	FunctionalAreaCode            string       `json:"Functional Area Code" sql:"Functional Area Code"`
-	BusinessAreaCode              string       `json:"Business Area Code" sql:"Business Area Code"`
-	ControllingArea               string       `json:"Controlling Area" sql:"Controlling Area"`
-	Segment                       string       `json:"Segment" sql:"Segment"`
-	SenderCostCenter              string       `json:"Sender Cost Center" sql:"Sender Cost Center"`
-	PartnerProfitCenter           string       `json:"Partner Profit Center" sql:"Partner Profit Center"`
-	PartnerFunctionalArea         string       `json:"Partner Functional Area" sql:"Partner Functional Area"`
-	TradingPartnerBusinessArea    string       `json:"Trading Partner Business Area" sql:"Trading Partner Business Area"`
-	TradingPartner                string       `json:"Trading Partner" sql:"Trading Partner"`
-	PartnerSegment                string       `json:"Partner Segment" sql:"Partner Segment"`
-	Amount                        float64      `json:"Amount" sql:"Amount"`
-	AmountInLC                    float64      `json:"Amount in LC" sql:"Amount in LC"`
-	AmountInUSD                   float64      `json:"Amount in USD" sql:"Amount in USD"`
-	DebitCreditIndicatorLedger    string       `json:"Ledger Dr/Cr Indicator" sql:"Ledger Dr/Cr Indicator"`
-	LedgerPostingPeriod           string       `json:"Ledger Posting Period" sql:"Ledger Posting Period"`
-	OriginalTransactionCurrency   string       `json:"Original Transaction Currency" sql:"Original Transaction Currency"`
-	LedgerLineType                string       `json:"Ledger Line Type" sql:"Ledger Line Type"`
-	LedgerLineIsSplit             string       `json:"Ledger Line Is Split" sql:"Ledger Line Is Split"`
-	ExchangeRateToUsd             float64      `json:"Exchange Rate to USD" sql:"Exchange Rate to USD"`
-	ExchangeRateToUsd2            float64      `json:"Exchange Rate to USD2" sql:"Exchange Rate to USD2"`
-	SalesDocumentNumber           string       `json:"SD Document" sql:"SD Document"`
-	FinalDueDate                  sql.NullTime `json:"Final Due Date" sql:"Final Due Date"`
-	SalesOrderCount               int64        `json:"SO Count" sql:"SO Count"`
-	IsFiInvoice                   bool         `json:"Is FI Invoice" sql:"Is FI Invoice"`
+	AddressAndBankSetIndividually string   `json:"Address and Bank Set Individually" sql:"Address and Bank Set Individually"`
+	IsPaymentTransaction          string   `json:"Is Payment Transaction" sql:"Is Payment Transaction"`
+	TradingPartnerCode            string   `json:"Trading Partner Code" sql:"Trading Partner Code"`
+	WbsElementId                  string   `json:"WBS Element ID" sql:"WBS Element ID"`
+	Bsad_Nplnr                    string   `json:"BSAD_NPLNR" sql:"BSAD_NPLNR"`
+	Archive                       string   `json:"Archive" sql:"Archive"`
+	DocumentStatus                string   `json:"Document Status" sql:"Document Status"`
+	Bsad_Auggj                    string   `json:"BSAD_AUGGJ" sql:"BSAD_AUGGJ"`
+	RecurringDocument             string   `json:"Recurring Document" sql:"Recurring Document"`
+	ReverseDocumentNumber         string   `json:"Reverse Document Number" sql:"Reverse Document Number"`
+	Bkpf_Stjah                    string   `json:"BKPF_STJAH" sql:"BKPF_STJAH"`
+	HeaderText                    string   `json:"Header Text" sql:"Header Text"`
+	AccountingDocumentStatus      string   `json:"Accounting Document Status" sql:"Accounting Document Status"`
+	BusinessTransaction           string   `json:"Business Transaction" sql:"Business Transaction"`
+	ReferenceTransaction          string   `json:"Reference Transaction" sql:"Reference Transaction"`
+	ReferenceKey                  string   `json:"Reference Key" sql:"Reference Key"`
+	ParkedBy                      string   `json:"Parked By" sql:"Parked By"`
+	LedgerTransaction             string   `json:"Ledger Transaction" sql:"Ledger Transaction"`
+	TransactionType2              string   `json:"Transaction Type2" sql:"Transaction Type2"`
+	LedgerCurrency                string   `json:"Ledger Currency" sql:"Ledger Currency"`
+	BaseUom                       string   `json:"Base UOM" sql:"Base UOM"`
+	LedgerReferenceTransaction    string   `json:"Ledger Reference Transaction" sql:"Ledger Reference Transaction"`
+	RecordType                    string   `json:"Record Type" sql:"Record Type"`
+	Version                       string   `json:"Version" sql:"Version"`
+	LogicalSystem                 string   `json:"Logical system" sql:"Logical system"`
+	GlAccountCode                 string   `json:"GL Account Code" sql:"GL Account Code"`
+	CostElement                   string   `json:"Cost Element" sql:"Cost Element"`
+	CostCenterCode                string   `json:"Cost Center Code" sql:"Cost Center Code"`
+	ProfitCenterCode              string   `json:"Profit Center Code" sql:"Profit Center Code"`
+	Faglflexa_Prctr_Org1          string   `json:"FAGLFLEXA_PRCTR_ORG1" sql:"FAGLFLEXA_PRCTR_ORG1"`
+	Faglflexa_Prctr_Org1_Concat   string   `json:"FAGLFLEXA_PRCTR_ORG1_Concat" sql:"FAGLFLEXA_PRCTR_ORG1_Concat"`
+	Faglflexa_Prctr_Org2          string   `json:"FAGLFLEXA_PRCTR_ORG2" sql:"FAGLFLEXA_PRCTR_ORG2"`
+	Faglflexa_Prctr_Org2_Concat   string   `json:"FAGLFLEXA_PRCTR_ORG2_Concat" sql:"FAGLFLEXA_PRCTR_ORG2_Concat"`
+	Faglflexa_Prctr_Org3          string   `json:"FAGLFLEXA_PRCTR_ORG3" sql:"FAGLFLEXA_PRCTR_ORG3"`
+	Faglflexa_Prctr_Org3_Concat   string   `json:"FAGLFLEXA_PRCTR_ORG3_Concat" sql:"FAGLFLEXA_PRCTR_ORG3_Concat"`
+	ProfitCenterCountryCode       string   `json:"Profit Center Country Code" sql:"Profit Center Country Code"`
+	ProfitCenterAbacusCode        string   `json:"Profit Center Abacus Code" sql:"Profit Center Abacus Code"`
+	FunctionalAreaCode            string   `json:"Functional Area Code" sql:"Functional Area Code"`
+	BusinessAreaCode              string   `json:"Business Area Code" sql:"Business Area Code"`
+	ControllingArea               string   `json:"Controlling Area" sql:"Controlling Area"`
+	Segment                       string   `json:"Segment" sql:"Segment"`
+	SenderCostCenter              string   `json:"Sender Cost Center" sql:"Sender Cost Center"`
+	PartnerProfitCenter           string   `json:"Partner Profit Center" sql:"Partner Profit Center"`
+	PartnerFunctionalArea         string   `json:"Partner Functional Area" sql:"Partner Functional Area"`
+	TradingPartnerBusinessArea    string   `json:"Trading Partner Business Area" sql:"Trading Partner Business Area"`
+	TradingPartner                string   `json:"Trading Partner" sql:"Trading Partner"`
+	PartnerSegment                string   `json:"Partner Segment" sql:"Partner Segment"`
+	Amount                        float64  `json:"Amount" sql:"Amount"`
+	AmountInLC                    float64  `json:"Amount in LC" sql:"Amount in LC"`
+	AmountInUSD                   float64  `json:"Amount in USD" sql:"Amount in USD"`
+	DebitCreditIndicatorLedger    string   `json:"Ledger Dr/Cr Indicator" sql:"Ledger Dr/Cr Indicator"`
+	LedgerPostingPeriod           string   `json:"Ledger Posting Period" sql:"Ledger Posting Period"`
+	OriginalTransactionCurrency   string   `json:"Original Transaction Currency" sql:"Original Transaction Currency"`
+	LedgerLineType                string   `json:"Ledger Line Type" sql:"Ledger Line Type"`
+	LedgerLineIsSplit             string   `json:"Ledger Line Is Split" sql:"Ledger Line Is Split"`
+	ExchangeRateToUsd             float64  `json:"Exchange Rate to USD" sql:"Exchange Rate to USD"`
+	ExchangeRateToUsd2            float64  `json:"Exchange Rate to USD2" sql:"Exchange Rate to USD2"`
+	SalesDocumentNumber           string   `json:"SD Document" sql:"SD Document"`
+	FinalDueDate                  NullTime `json:"Final Due Date" sql:"Final Due Date"`
+	SalesOrderCount               int64    `json:"SO Count" sql:"SO Count"`
+	IsFiInvoice                   bool     `json:"Is FI Invoice" sql:"Is FI Invoice"`
 }
 
 func (fic *FICustomer) IsICMEntity() bool { return true }

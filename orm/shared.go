@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"reflect"
 	"strconv"
+	"time"
 )
 
 // ICMEntity is an interface used by the sql encoder for any
@@ -118,4 +119,30 @@ func (ci *IntFromFloat) UnmarshalJSON(data []byte) error {
 	}
 	*ci = IntFromFloat(int64(i))
 	return err
+}
+
+var nullTime = time.Time{}
+
+type NullTime struct {
+	time.Time
+}
+
+func (t *NullTime) Value() (driver.Value, error) {
+	if t.Time == nullTime {
+		return nil, nil
+	}
+	return t.Time, nil
+}
+
+func (t *NullTime) Scan(src interface{}) error {
+	if src == nil {
+		t.Time = nullTime
+		return nil
+	}
+	scannedTime, ok := src.(time.Time)
+	if !ok {
+		return errors.New(fmt.Sprintf("incompatible time value for a NullTime Scan: %s", src))
+	}
+	t.Time = scannedTime
+	return nil
 }

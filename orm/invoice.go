@@ -13,10 +13,10 @@ type Invoice struct {
 	LineItem                      string        `json:"Line item" sql:"Line item"`
 	SeqNo                         string        `json:"Seq. no." sql:"Seq. no."`
 	DocumentType                  string        `json:"Document Type" sql:"Document Type"`
-	Rbkp_Bldat                    sql.NullTime  `json:"RBKP_BLDAT" sql:"RBKP_BLDAT"`
-	PostingDateAccountingDocument sql.NullTime  `json:"Posting Date" sql:"Posting Date"`
+	Rbkp_Bldat                    NullTime      `json:"RBKP_BLDAT" sql:"RBKP_BLDAT"`
+	PostingDateAccountingDocument NullTime      `json:"Posting Date" sql:"Posting Date"`
 	Rbkp_Usnam                    string        `json:"RBKP_USNAM" sql:"RBKP_USNAM"`
-	Rbkp_Cpudt                    sql.NullTime  `json:"RBKP_CPUDT" sql:"RBKP_CPUDT"`
+	Rbkp_Cpudt                    NullTime      `json:"RBKP_CPUDT" sql:"RBKP_CPUDT"`
 	CompanyCode                   string        `json:"Company Code" sql:"Company Code"`
 	Company                       string        `json:"Company" sql:"Company"`
 	VendorNumber                  string        `json:"Vendor Number" sql:"Vendor Number"`
