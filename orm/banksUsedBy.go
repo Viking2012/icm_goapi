@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"fmt"
 )
 
 type BankUsedBy struct {
@@ -65,6 +66,9 @@ type BankUsedBy struct {
 }
 
 func (bub *BankUsedBy) IsICMEntity() bool { return true }
+func (bub *BankUsedBy) GetID() string {
+	return fmt.Sprintf("%s|%s|%s", bub.BankID, bub.Database, bub.VendorCode)
+}
 
 func BankUsedByFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var bub BankUsedBy
@@ -138,6 +142,7 @@ type BanksUsedByFlags struct {
 }
 
 func (bubf *BanksUsedByFlags) IsICMEntity() bool { return true }
+func (bubf *BanksUsedByFlags) GetID() string     { return "" }
 func (bubf *BanksUsedByFlags) Scan(src interface{}) error {
 	switch v := src.(type) {
 	case string:

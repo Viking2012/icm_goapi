@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"fmt"
 )
 
 type BusinessPartner struct {
@@ -58,6 +59,9 @@ type BusinessPartner struct {
 }
 
 func (bp *BusinessPartner) IsICMEntity() bool { return true }
+func (bp *BusinessPartner) GetID() string {
+	return fmt.Sprintf("%s|%s|%s|%s", bp.Database, bp.ProjectNumber, bp.BpType, bp.BusinesPartner)
+}
 
 func BusinessPartnerFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var bp BusinessPartner
@@ -137,6 +141,7 @@ type BusinessPartnerFlags struct {
 }
 
 func (bpf *BusinessPartnerFlags) IsICMEntity() bool { return true }
+func (bpf *BusinessPartnerFlags) GetID() string     { return "" }
 
 func (bpf *BusinessPartnerFlags) Scan(src interface{}) error {
 	switch v := src.(type) {

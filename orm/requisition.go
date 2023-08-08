@@ -2,6 +2,7 @@ package orm
 
 import (
 	"database/sql"
+	"fmt"
 )
 
 type Requisition struct {
@@ -126,6 +127,14 @@ type Requisition struct {
 }
 
 func (r *Requisition) IsICMEntity() bool { return true }
+func (r *Requisition) GetID() string {
+	return fmt.Sprintf(
+		"%s|%s|%s",
+		r.Database,
+		r.PurchaseRequisition,
+		r.ItemOfRequisition,
+	)
+}
 
 func RequisitionFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var r Requisition

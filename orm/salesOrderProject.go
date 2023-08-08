@@ -103,6 +103,7 @@ type SalesOrderProject struct {
 }
 
 func (sop *SalesOrderProject) IsICMEntity() bool { return true }
+func (sop *SalesOrderProject) GetID() string     { return sop.ID }
 
 func SalesOrderProjectFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var sop SalesOrderProject
@@ -213,6 +214,7 @@ type SalesOrderProjectFlags struct {
 }
 
 func (sopf *SalesOrderProjectFlags) IsICMEntity() bool { return true }
+func (sopf *SalesOrderProjectFlags) GetID() string     { return "" }
 
 func (sopf *SalesOrderProjectFlags) Scan(src interface{}) error {
 	switch v := src.(type) {

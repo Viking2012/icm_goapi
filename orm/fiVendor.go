@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"fmt"
 )
 
 type FIVendor struct {
@@ -173,6 +174,19 @@ type FIVendor struct {
 }
 
 func (fiv *FIVendor) IsICMEntity() bool { return true }
+func (fiv *FIVendor) GetID() string {
+	return fmt.Sprintf(
+		"%s|%s|%s|%s|%s|%s|%s|%s",
+		fiv.Database,
+		fiv.CompanyCode,
+		fiv.FiscalYear,
+		fiv.AccountingDocumentNumber,
+		fiv.AccountingDocumentLineItem,
+		fiv.PostingDateAccountingDocument.Format("2006-01-02"),
+		fiv.Ledger,
+		fiv.LedgerLine,
+	)
+}
 
 func FIVendorFromRows(rows *sql.Rows) (ICMEntity, error) {
 	var v FIVendor
@@ -357,6 +371,7 @@ type FIVendorFlags struct {
 }
 
 func (fivf *FIVendorFlags) IsICMEntity() bool { return true }
+func (fivf *FIVendorFlags) GetID() string     { return "" }
 func (fivf *FIVendorFlags) Scan(src interface{}) error {
 	switch v := src.(type) {
 	case string:

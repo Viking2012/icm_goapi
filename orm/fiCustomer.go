@@ -2,6 +2,7 @@ package orm
 
 import (
 	"database/sql"
+	"fmt"
 )
 
 type FICustomer struct {
@@ -151,6 +152,19 @@ type FICustomer struct {
 }
 
 func (fic *FICustomer) IsICMEntity() bool { return true }
+func (fic *FICustomer) GetID() string {
+	return fmt.Sprintf(
+		"%s|%s|%s|%s|%s|%s|%s|%s",
+		fic.Database,
+		fic.CompanyCode,
+		fic.FiscalYear,
+		fic.AccountingDocument,
+		fic.AccountingItem,
+		fic.PostedOn.Format("2006-01-02"),
+		fic.Ledger,
+		fic.LedgerLine,
+	)
+}
 
 func FICustomerFromRows(rows *sql.Rows) (ICMEntity, error) {
 	var fic FICustomer

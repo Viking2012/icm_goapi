@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"fmt"
 )
 
 type PurchaseOrderProject struct {
@@ -48,6 +49,16 @@ type PurchaseOrderProject struct {
 }
 
 func (pop *PurchaseOrderProject) IsICMEntity() bool { return true }
+func (pop *PurchaseOrderProject) GetID() string {
+	return fmt.Sprintf(
+		"%s|%s|%s|%s|%s",
+		pop.ProjectId,
+		pop.ProjectNumber,
+		pop.Database,
+		pop.PoNumber,
+		pop.PurchasingDocumentLineItem,
+	)
+}
 
 func PurchaseOrderProjectFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var pop PurchaseOrderProject

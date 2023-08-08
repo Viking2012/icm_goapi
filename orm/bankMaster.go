@@ -44,6 +44,7 @@ type BankMaster struct {
 }
 
 func (bm *BankMaster) IsICMEntity() bool { return true }
+func (bm *BankMaster) GetID() string     { return bm.ID }
 
 func BankMasterFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var bm BankMaster
@@ -96,6 +97,7 @@ type BankMasterFlags struct {
 }
 
 func (bmf *BankMasterFlags) IsICMEntity() bool { return true }
+func (bmf *BankMasterFlags) GetID() string     { return "" }
 
 func (bmf *BankMasterFlags) Scan(src interface{}) error {
 	switch v := src.(type) {

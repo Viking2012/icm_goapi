@@ -2,6 +2,7 @@ package orm
 
 import (
 	"database/sql"
+	"fmt"
 )
 
 type PaymentRun struct {
@@ -134,6 +135,16 @@ type PaymentRun struct {
 }
 
 func (p *PaymentRun) IsICMEntity() bool { return true }
+func (p *PaymentRun) GetID() string {
+	return fmt.Sprintf(
+		"%s|%s|%s|%s|%s",
+		p.Database,
+		p.RunDate.Format("2006-01-02"),
+		p.CheckIdentification,
+		p.OnlyProposal,
+		p.PayingCompanyCode,
+	)
+}
 
 func PaymentRunFromRows(rows *sql.Rows) (ICMEntity, error) {
 	var p PaymentRun

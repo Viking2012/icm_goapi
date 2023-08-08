@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"fmt"
 )
 
 type PurchaseOrder struct {
@@ -160,6 +161,14 @@ type PurchaseOrder struct {
 }
 
 func (po *PurchaseOrder) IsICMEntity() bool { return true }
+func (po *PurchaseOrder) GetID() string {
+	return fmt.Sprintf(
+		"%s|%s|%s",
+		po.Database,
+		po.PoNumber,
+		po.PurchasingDocumentLineItem,
+	)
+}
 
 func PurchaseOrderFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var po PurchaseOrder
@@ -325,6 +334,7 @@ type PurchaseOrderFlags struct {
 }
 
 func (pof *PurchaseOrderFlags) IsICMEntity() bool { return true }
+func (pof *PurchaseOrderFlags) GetID() string     { return "" }
 
 func (pof *PurchaseOrderFlags) Scan(src interface{}) error {
 	switch v := src.(type) {

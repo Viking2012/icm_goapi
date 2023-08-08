@@ -158,6 +158,7 @@ type Vendor struct {
 }
 
 func (v *Vendor) IsICMEntity() bool { return true }
+func (v *Vendor) GetID() string     { return v.ID }
 
 func VendorFromRow(row *sql.Rows) (ICMEntity, error) {
 	var v Vendor
@@ -323,6 +324,7 @@ type VendorFlags struct {
 }
 
 func (vf *VendorFlags) IsICMEntity() bool { return true }
+func (vf *VendorFlags) GetID() string     { return "" }
 
 func (vf *VendorFlags) Scan(src interface{}) error {
 	switch v := src.(type) {

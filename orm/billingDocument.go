@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"fmt"
 )
 
 type BillingDocument struct {
@@ -156,6 +157,9 @@ type BillingDocument struct {
 }
 
 func (bd *BillingDocument) IsICMEntity() bool { return true }
+func (bd *BillingDocument) GetID() string {
+	return fmt.Sprintf("%s|%s", bd.Database, bd.DocumentNumber)
+}
 
 func BillingDocFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var bd BillingDocument
@@ -294,6 +298,7 @@ type BillingDocumentFlags struct {
 }
 
 func (bdf *BillingDocumentFlags) IsICMEntity() bool { return true }
+func (bdf *BillingDocumentFlags) GetID() string     { return "" }
 func (bdf *BillingDocumentFlags) Scan(src interface{}) error {
 	switch v := src.(type) {
 	case string:

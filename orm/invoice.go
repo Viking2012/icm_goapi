@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"fmt"
 )
 
 type Invoice struct {
@@ -63,6 +64,15 @@ type Invoice struct {
 }
 
 func (i *Invoice) IsICMEntity() bool { return true }
+func (i *Invoice) GetID() string {
+	return fmt.Sprintf(
+		"%s|%s|%s|%s",
+		i.Database,
+		i.DocumentNumber,
+		i.FiscalYear,
+		i.LineItem,
+	)
+}
 
 func InvoiceFromRows(rows *sql.Rows) (ICMEntity, error) {
 	var i Invoice

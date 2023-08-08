@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"fmt"
 )
 
 type Project struct {
@@ -86,6 +87,13 @@ type Project struct {
 }
 
 func (p *Project) IsICMEntity() bool { return true }
+func (p *Project) GetID() string {
+	return fmt.Sprintf(
+		"%s|%s",
+		p.Database,
+		p.ProjectId,
+	)
+}
 
 func ProjectFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var p Project
@@ -192,6 +200,7 @@ type ProjectFlags struct {
 }
 
 func (pf *ProjectFlags) IsICMEntity() bool { return true }
+func (pf *ProjectFlags) GetID() string     { return "" }
 
 func (pf *ProjectFlags) Scan(src interface{}) error {
 	switch v := src.(type) {

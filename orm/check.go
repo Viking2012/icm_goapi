@@ -2,6 +2,7 @@ package orm
 
 import (
 	"database/sql"
+	"fmt"
 )
 
 type Check struct {
@@ -63,6 +64,9 @@ type Check struct {
 }
 
 func (c *Check) IsICMEntity() bool { return true }
+func (c *Check) GetID() string {
+	return fmt.Sprintf("%s|%s|%s|%s", c.Database, c.RunOn.Format("2006-01-02"), c.UpperCheckNumber, c.LowerCheckNumber)
+}
 
 func CheckFromRows(rows *sql.Rows) (ICMEntity, error) {
 	var c Check

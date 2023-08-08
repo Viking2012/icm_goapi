@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"errors"
+	"fmt"
 )
 
 type Customer struct {
@@ -99,6 +100,7 @@ type Customer struct {
 }
 
 func (c *Customer) IsICMEntity() bool { return true }
+func (c *Customer) GetID() string     { return fmt.Sprintf("%s|%s", c.Database, c.Code) }
 
 func CustomerFromRows(rows *sql.Rows) (ICMEntity, error) {
 	var c Customer
@@ -194,6 +196,7 @@ type CustomerFlags struct {
 }
 
 func (cf *CustomerFlags) IsICMEntity() bool { return true }
+func (cf *CustomerFlags) GetID() string     { return "" }
 
 func (cf *CustomerFlags) Scan(src interface{}) error {
 	switch v := src.(type) {

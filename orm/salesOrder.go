@@ -2,6 +2,7 @@ package orm
 
 import (
 	"database/sql"
+	"fmt"
 )
 
 type SalesOrder struct {
@@ -133,6 +134,14 @@ type SalesOrder struct {
 }
 
 func (so *SalesOrder) IsICMEntity() bool { return true }
+func (so *SalesOrder) GetID() string {
+	return fmt.Sprintf(
+		"%s|%s|%s",
+		so.Database,
+		so.DocumentNumberSales,
+		so.Item,
+	)
+}
 
 func SalesOrderFromRow(rows *sql.Rows) (ICMEntity, error) {
 	var so SalesOrder

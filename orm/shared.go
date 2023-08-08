@@ -14,6 +14,7 @@ import (
 // TODO(ajo): consider changing this interface to an ICMObject
 type ICMEntity interface {
 	IsICMEntity() bool
+	GetID() string
 	//LoadFromRow(row *sql.Rows) error
 }
 
