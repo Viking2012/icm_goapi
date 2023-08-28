@@ -33,7 +33,7 @@ import (
 type Entity struct {
   ID         string       `json:"icm-id" sql:"ICM_ID|pk"`
   Name       string       `json:"name-1" sql:"NAME1"`
-  Flags      NestedStruct `json:"flags" sql:"FLAGS"`
+  Flags      *NestedStruct `json:"flags" sql:"FLAGS"`
   OtherField string       `json:"other-field" sql:"OTHER_FIELD"`
 }
 type NestedStruct struct {
