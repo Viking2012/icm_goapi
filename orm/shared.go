@@ -13,9 +13,12 @@ import (
 // ICM entity type: bank, customer, project, or vendor
 // TODO(ajo): consider changing this interface to an ICMObject
 type ICMEntity interface {
+	// IsICMEntity tags a struct as officially conforming to the ICMEntity interface
+	// this just helps to prevent collisions with other interfaces which accidentally
+	// satisfy this interface but would have unintended consequences
 	IsICMEntity() bool
+	// GetID returns the unique identifier (within the context of ICM) for each record
 	GetID() string
-	//LoadFromRow(row *sql.Rows) error
 }
 
 func GetFields(a *ICMEntity) []string {
