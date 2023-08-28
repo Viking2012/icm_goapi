@@ -155,7 +155,7 @@ type PurchaseOrder struct {
 	LastReceiptDocDate                                NullTime            `json:"Last Receipt Doc Date" sql:"Last Receipt Doc Date"`
 	ApprovalsRequired                                 int64               `json:"Approvals Required" sql:"Approvals Required"`
 	ID                                                string              `json:"ICM_VENDOR_ID" sql:"ICM_VENDOR_ID"`
-	AprovalDescriptive                                string              `json:"Aproval Descriptive" sql:"Aproval Descriptive"`
+	ApprovalDescriptive                               string              `json:"Approval Descriptive" sql:"Aproval Descriptive"`
 	TotalApprovals                                    int64               `json:"Total Approvals" sql:"Total Approvals"`
 	Flags                                             *PurchaseOrderFlags `json:"flags" sql:"FLAGS"`
 }
