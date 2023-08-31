@@ -320,7 +320,7 @@ func PurchaseOrderFromRow(rows *sql.Rows) (ICMEntity, error) {
 		&po.LastReceiptDocDate,
 		&po.ApprovalsRequired,
 		&po.ID,
-		&po.AprovalDescriptive,
+		&po.ApprovalDescriptive,
 		&po.TotalApprovals,
 		&po.Flags,
 	)
